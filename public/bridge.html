@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#F8F9FA" />
+<title>The Bridge — LHS Enterprise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg: #F8F9FA;
+  --bg-elev: #FFFFFF;
+  --card: #FFFFFF;
+  --card-subtle: #F9FAFB;
+  --primary: #2563EB;
+  --primary-soft: #EFF6FF;
+  --primary-strong: #1D4ED8;
+  --success: #16A34A;
+  --success-soft: #F0FDF4;
+  --warning: #D97706;
+  --warning-soft: #FFFBEB;
+  --danger: #DC2626;
+  --danger-soft: #FEF2F2;
+  --purple: #7C3AED;
+  --purple-soft: #F5F3FF;
+  --text: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --border: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
+  --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0B0F17;
+  --bg-elev: #121823;
+  --card: #121823;
+  --card-subtle: #161D2A;
+  --primary: #3B82F6;
+  --primary-soft: rgba(59, 130, 246, 0.12);
+  --primary-strong: #60A5FA;
+  --success: #22C55E;
+  --success-soft: rgba(34, 197, 94, 0.12);
+  --warning: #F59E0B;
+  --warning-soft: rgba(245, 158, 11, 0.12);
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.12);
+  --purple: #A78BFA;
+  --purple-soft: rgba(167, 139, 250, 0.12);
+  --text: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --border: #1F2A3A;
+  --border-strong: #2A3A4F;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+  --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -2px rgba(0,0,0,0.35);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -4px rgba(0,0,0,0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.55), 0 8px 10px -6px rgba(0,0,0,0.4);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-slow), color var(--transition-slow);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; color: inherit; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4, h5, h6 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.app { max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 32px) 48px; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+.brand-mark {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  border-radius: 10px;
+  font-size: 22px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-text .primary { color: var(--text); }
+.brand-text .secondary {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.clock {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--card);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-sm);
+}
+.clock .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+.clock-day { color: var(--text-secondary); font-weight: 500; }
+
+.theme-toggle {
+  width: 40px; height: 40px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.theme-toggle:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.theme-toggle svg { width: 18px; height: 18px; stroke: var(--text); fill: none; stroke-width: 2; }
+[data-theme="dark"] .theme-toggle .sun { display: block; }
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+.theme-toggle .sun { display: none; }
+.theme-toggle .moon { display: block; }
+
+/* ============================================================
+   TABS
+   ============================================================ */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--card);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  box-shadow: var(--shadow-sm);
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: all var(--transition);
+  position: relative;
+}
+.tab:hover { color: var(--text); background: var(--card-subtle); }
+.tab.is-active {
+  color: var(--text);
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+}
+[data-theme="dark"] .tab.is-active { background: var(--bg-elev); }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 16px;
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title-lg {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   GRID
+   ============================================================ */
+.grid { display: grid; gap: 16px; }
+.grid-stats { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.grid-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.grid-kanban {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(280px, 1fr));
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+@media (max-width: 1100px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   STAT CARDS
+   ============================================================ */
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent, var(--primary)), transparent);
+  opacity: 0.8;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 6px;
+}
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.stat-trend {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex; align-items: center; gap: 6px;
+}
+.stat-trend .up { color: var(--success); font-weight: 600; }
+.stat-trend .down { color: var(--danger); font-weight: 600; }
+
+/* ============================================================
+   AGENTIC ADOPTION METER
+   ============================================================ */
+.meter-card {
+  background: linear-gradient(135deg, var(--card) 0%, var(--card-subtle) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.meter-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.meter-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.meter-big {
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.meter-big span { font-size: 28px; color: var(--text-secondary); font-weight: 600; }
+.meter-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.meter-target {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 999px;
+}
+.bar-track {
+  position: relative;
+  height: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+[data-theme="dark"] .bar-track { background: rgba(0,0,0,0.2); }
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+  background-size: 143% 100%;
+  transition: width var(--transition-slow);
+}
+.bar-mark {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--text);
+  opacity: 0.5;
+}
+.bar-mark::after {
+  content: attr(data-label);
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.systems {
+  margin-top: 24px;
+  display: grid;
+  gap: 10px;
+}
+.system-row {
+  display: grid;
+  grid-template-columns: 170px 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+.system-row:hover { background: var(--card-subtle); }
+.system-name {
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 500; font-size: 13.5px;
+}
+.system-emoji { font-size: 16px; }
+.mini-track {
+  height: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+[data-theme="dark"] .mini-track { background: rgba(0,0,0,0.2); }
+.mini-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width var(--transition-slow);
+}
+.system-count { font-size: 12px; color: var(--text-secondary); font-variant-numeric: tabular-nums; min-width: 70px; text-align: right; }
+.system-pct { font-weight: 700; font-size: 13px; min-width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+.projected {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.projected strong { color: var(--text); font-weight: 600; }
+@media (max-width: 700px) {
+  .meter-big { font-size: 40px; }
+  .system-row { grid-template-columns: 120px 1fr auto; gap: 10px; }
+  .system-count { display: none; }
+}
+
+/* ============================================================
+   COWORK STATUS CARD
+   ============================================================ */
+.cowork-card {
+  background: linear-gradient(135deg, var(--purple-soft), var(--primary-soft));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.cowork-card::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -10%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.15), transparent 70%);
+  pointer-events: none;
+}
+.cowork-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.cowork-title {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+}
+.cowork-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-weight: 500;
+}
+.cowork-stats { display: flex; gap: 20px; flex-wrap: wrap; }
+.cowork-stat { font-size: 13px; }
+.cowork-stat strong { display: block; color: var(--text); font-weight: 700; }
+.cowork-stat span { color: var(--text-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+.cowork-queue {
+  margin-top: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.cowork-queue-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 4px;
+}
+.cowork-queue-item + .cowork-queue-item { border-top: 1px solid var(--border); }
+.q-num {
+  width: 24px; height: 24px;
+  display: grid; place-items: center;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-weight: 700;
+  font-size: 12px;
+  border-radius: 6px;
+}
+.q-title { flex: 1; font-size: 13px; font-weight: 500; }
+.q-status {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--card-subtle);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* ============================================================
+   ALERT SECTIONS & TASK CARDS
+   ============================================================ */
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px;
+  letter-spacing: -0.01em;
+}
+.section-title .pill {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.pill-red { background: var(--danger-soft); color: var(--danger); }
+.pill-yellow { background: var(--warning-soft); color: var(--warning); }
+.pill-green { background: var(--success-soft); color: var(--success); }
+.pill-blue { background: var(--primary-soft); color: var(--primary-strong); }
+.pill-purple { background: var(--purple-soft); color: var(--purple); }
+
+.task-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent, var(--border));
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+}
+.task-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.task-card.done {
+  opacity: 0.55;
+  text-decoration: line-through;
+  text-decoration-color: var(--text-secondary);
+  text-decoration-thickness: 1.5px;
+}
+.task-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.task-title { font-weight: 600; font-size: 14px; letter-spacing: -0.01em; }
+.task-meta {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 8px;
+  font-size: 12px; color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+.task-meta .chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px;
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-weight: 500;
+}
+.chip-auto { color: var(--primary-strong); background: var(--primary-soft); border-color: transparent; }
+.chip-human { color: var(--text-secondary); }
+.chip-save { color: var(--success); background: var(--success-soft); border-color: transparent; font-weight: 600; }
+.task-actions { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px; font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  transition: all var(--transition);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--card-subtle); border-color: var(--border-strong); }
+.btn-primary { background: var(--primary); color: #fff; border-color: transparent; }
+.btn-primary:hover { background: var(--primary-strong); }
+.btn-success { background: var(--success); color: #fff; border-color: transparent; }
+.btn-success:hover { filter: brightness(1.05); }
+.btn-danger-ghost { color: var(--danger); }
+.btn-danger-ghost:hover { background: var(--danger-soft); border-color: transparent; }
+.btn-sm { padding: 4px 8px; font-size: 11px; }
+.btn-icon {
+  padding: 6px;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+}
+.select-assign {
+  padding: 6px 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 500;
+}
+.select-assign:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+/* ============================================================
+   FINANCIAL / CREW / LIST CARDS
+   ============================================================ */
+.info-list { display: flex; flex-direction: column; gap: 10px; }
+.info-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: var(--card-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.info-label { font-weight: 600; font-size: 13.5px; }
+.info-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.info-value { font-weight: 700; font-size: 14px; }
+.info-value-lg { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--card-subtle);
+  color: var(--text-secondary);
+}
+.badge-red { background: var(--danger-soft); color: var(--danger); }
+.badge-yellow { background: var(--warning-soft); color: var(--warning); }
+.badge-green { background: var(--success-soft); color: var(--success); }
+.badge-blue { background: var(--primary-soft); color: var(--primary-strong); }
+
+/* ============================================================
+   KANBAN
+   ============================================================ */
+.kanban-col {
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  min-height: 300px;
+  display: flex; flex-direction: column;
+}
+.kanban-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 4px 6px;
+}
+.kanban-name {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.kanban-count {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.kanban-list { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.cand-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  cursor: pointer;
+  position: relative;
+}
+.cand-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--border-strong); }
+.cand-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.cand-name { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+.cand-contact { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; }
+.cand-score {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+.cand-score.high { background: var(--success-soft); color: var(--success); }
+.cand-score.mid { background: var(--warning-soft); color: var(--warning); }
+.cand-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.cand-actions { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+.cand-note { margin-top: 8px; font-size: 12px; color: var(--text-secondary); }
+.cand-note.urgent { color: var(--danger); font-weight: 600; }
+.cand-log {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   APPROVAL QUEUE BANNER
+   ============================================================ */
+.approval-queue {
+  background: linear-gradient(135deg, var(--warning-soft), var(--danger-soft));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.approval-queue.empty { display: none; }
+.approval-head {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; font-size: 14px; margin-bottom: 12px;
+}
+.approval-head .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--warning);
+  box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.5);
+  animation: pulse 2s infinite;
+}
+
+/* ============================================================
+   ARIA OPS — TRAFFIC LIGHTS, ACTIVITY FEED
+   ============================================================ */
+.aria-systems {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+.aria-light {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.aria-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.aria-dot-success { background: var(--success); box-shadow: 0 0 12px rgba(22, 163, 74, 0.5); }
+.aria-dot-warning { background: var(--warning); box-shadow: 0 0 12px rgba(217, 119, 6, 0.5); }
+.aria-dot-danger { background: var(--danger); box-shadow: 0 0 12px rgba(220, 38, 38, 0.5); }
+.aria-system-name { font-weight: 600; font-size: 13.5px; flex: 1; }
+.aria-system-status { font-size: 12px; color: var(--text-secondary); }
+
+.feed {
+  display: flex; flex-direction: column; gap: 0;
+  max-height: 280px; overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card-subtle);
+}
+.feed-item {
+  display: flex; gap: 12px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  border-bottom: 1px solid var(--border);
+}
+.feed-item:last-child { border-bottom: none; }
+.feed-time {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 11px;
+  flex-shrink: 0;
+  min-width: 60px;
+}
+.feed-text { color: var(--text); line-height: 1.4; }
+.feed-text strong { color: var(--primary-strong); font-weight: 600; }
+
+/* ============================================================
+   CHECKLIST (VA)
+   ============================================================ */
+.hour-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.hour-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 700; font-size: 13.5px;
+  margin-bottom: 12px;
+}
+.hour-time { font-size: 11px; color: var(--text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+.check-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 4px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+.check-item:hover { background: var(--card-subtle); padding-left: 8px; padding-right: 8px; }
+.check-item input {
+  width: 18px; height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+.check-item.done label { text-decoration: line-through; color: var(--text-muted); }
+
+/* ============================================================
+   TEXTAREA
+   ============================================================ */
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+/* ============================================================
+   SCHEDULE (KAREN)
+   ============================================================ */
+.schedule {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.sched-item {
+  display: flex; gap: 14px;
+  padding: 12px;
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+.sched-item:hover { border-color: var(--border-strong); }
+.sched-time {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 56px;
+  color: var(--text);
+}
+.sched-body { flex: 1; }
+.sched-title { font-weight: 600; font-size: 13.5px; }
+.sched-note { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.sched-priority-high { border-left: 3px solid var(--danger); }
+.sched-priority-medium { border-left: 3px solid var(--warning); }
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .header { padding: 16px 0 12px; gap: 10px; }
+  .brand { font-size: 16px; }
+  .brand-mark { width: 36px; height: 36px; font-size: 20px; }
+  .clock { font-size: 12px; padding: 8px 12px; }
+  .clock-day { display: none; }
+  .tabs { padding: 3px; }
+  .tab { padding: 8px 12px; font-size: 12.5px; }
+  .card { padding: 16px; }
+  .stat-value { font-size: 26px; }
+  .meter-big { font-size: 36px; }
+  .meter-big span { font-size: 20px; }
+  .section-title { font-size: 14px; }
+  .grid-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-card { padding: 14px; }
+  .grid-kanban { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   UTIL
+   ============================================================ */
+.hidden { display: none !important; }
+.text-secondary { color: var(--text-secondary); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.spacer-16 { height: 16px; }
+.spacer-24 { height: 24px; }
+.flex-col { display: flex; flex-direction: column; gap: 16px; }
+.row-between { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark">🌉</div>
+      <div class="brand-text">
+        <span class="primary">THE BRIDGE</span>
+        <span class="secondary">LHS Enterprise</span>
+      </div>
+    </div>
+    <div class="clock" id="clock" aria-live="polite">
+      <span class="pulse" aria-hidden="true"></span>
+      <span class="clock-day" id="clock-day">Saturday</span>
+      <span id="clock-time">--:-- PT</span>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+      <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </header>
+
+  <!-- ============================================================
+       TABS
+       ============================================================ -->
+  <nav class="tabs" role="tablist" id="tabs">
+    <button class="tab is-active" data-view="command" role="tab">⚡ Command</button>
+    <button class="tab" data-view="karen" role="tab">👩 Karen</button>
+    <button class="tab" data-view="va" role="tab">📋 VA</button>
+    <button class="tab" data-view="hiring" role="tab">🧑 Hiring</button>
+    <button class="tab" data-view="aria" role="tab">🤖 Aria Ops</button>
+  </nav>
+
+  <!-- ============================================================
+       VIEW HOSTS — populated by JS
+       ============================================================ -->
+  <main id="view-host"></main>
+
+</div>
+
+<script>
+/* ============================================================
+   STATE & SEED DATA
+   ============================================================ */
+const SEED = {
+  agenticAdoption: {
+    current: 69,
+    target: 80,
+    projectedDate: 'May 8, 2026',
+    systems: [
+      { emoji: '🗨️', name: 'Aria SMS',     tasks: 46, percent: 46, color: 'var(--primary)' },
+      { emoji: '🏠', name: 'HCP Auto',     tasks: 24, percent: 24, color: 'var(--success)' },
+      { emoji: '🖥️', name: 'Cowork',       tasks: 12, percent: 12, color: 'var(--purple)' },
+      { emoji: '⏰', name: 'Routines',     tasks: 6,  percent: 6,  color: 'var(--warning)' },
+      { emoji: '👤', name: 'VA Assisted',  tasks: 4,  percent: 4,  color: '#06B6D4' },
+      { emoji: '🧑', name: 'Human Only',   tasks: 8,  percent: 8,  color: 'var(--text-secondary)' }
+    ]
+  },
+  cowork: {
+    online: true,
+    status: 'Ready',
+    lastAction: 'Processing Indeed candidates',
+    queue: [
+      { id: 1, title: 'Process 13 Indeed candidates', status: 'queued', est: '12 min' },
+      { id: 2, title: 'Meeting prep email — Karen Corrie 3 pm', status: 'running', est: '2 min' },
+      { id: 3, title: 'Update hiring pipeline', status: 'pending', est: '5 min' }
+    ],
+    todayCompleted: 6,
+    todaySaved: 47,
+    todayDollars: 19.58
+  },
+  stats: {
+    activeCleaners: 12,
+    openPositions: 3,
+    candidates: 6,
+    arOutstanding: 13092
+  },
+  redAlerts: [
+    { id: 'r1', title: 'Website feedback to agency', assignedTo: 'Michael', mode: 'Human', est: 15, saveIfAuto: 12 },
+    { id: 'r2', title: 'Indeed — review 3 positions', assignedTo: 'Cowork', mode: 'Automated', est: 30, saveIfAuto: 25 },
+    { id: 'r3', title: 'Contact Sarah Campbell', assignedTo: 'Michael', mode: 'Human', est: 5, saveIfAuto: 3 },
+    { id: 'r4', title: 'Verify Ester phone number', assignedTo: 'Michael', mode: 'Human', est: 2, saveIfAuto: 1 }
+  ],
+  yellowAlerts: [
+    { id: 'y1', title: 'Karen meeting — Fri/Sat/Mon' },
+    { id: 'y2', title: 'Alissa modified role conversation' },
+    { id: 'y3', title: 'Cowork HCP test confirmation' },
+    { id: 'y4', title: 'Claude Routines setup — Monday' },
+    { id: 'y5', title: 'VA final selection — Monday' }
+  ],
+  financial: {
+    westbow: { amount: 13092, dueBy: 'end of May', lastContact: 'April 16', contactPerson: 'Amanda Bosma', followUp: 'April 23' },
+    billGee: { task: '2025 taxes', followUp: 'April 23' }
+  },
+  crew: {
+    active: 12,
+    openRoles: [
+      { name: 'Lorissa W', date: 'March 26' },
+      { name: 'Julieta S', date: 'March 26' },
+      { name: 'Paula',     date: 'April 16 — no notice' }
+    ],
+    modified: [{ name: 'Alissa', reason: 'hospital' }]
+  },
+  reminders: [
+    { date: 'April 19', task: 'Trish employer response' },
+    { date: 'April 23', task: 'Westbow follow-up' },
+    { date: 'April 23', task: 'Bill Gee follow-up' },
+    { date: 'May 1',    task: 'Hiring goal — 3 hires' }
+  ],
+  timeSavings: {
+    today: { label: 'Today',  hours: 3,  min: 45, dollars: 93.75 },
+    week:  { label: 'Week',   hours: 18, min: 30, dollars: 462.50 },
+    month: { label: 'Month',  hours: 78, min: 0,  dollars: 1950.00 }
+  },
+  karenSchedule: [
+    { time: '3:00 PM', title: 'Karen Corrie — discovery call',
+      note: 'Prep email ✅ sent by Michael',
+      priority: 'high' }
+  ],
+  candidates: [
+    { id: 'nicole',  name: 'Nicole Bryson',   stage: 'applied',         score: null, contact: 'Housekeeping • Chilliwack, BC',
+      flags: ['No vehicle'], highlights: [], decision: 'HOLD',
+      note: 'Confirmed: no transportation available', log: 'Applied — Apr 16' },
+    { id: 'alisha',  name: 'Alisha Chumber',  stage: 'applied',         score: null, contact: 'Abbotsford, BC',
+      flags: ['Location mismatch', 'Thin cleaning history'],
+      highlights: ['Trilingual', 'Meets all screeners'], decision: null,
+      note: 'Cowork assessed — awaiting Michael decision', log: 'Applied — Apr 16, 3:57 PM PT' },
+    { id: 'ester',   name: 'Ester Manigbas',  stage: 'aria-review',     score: 8,    contact: 'Phone ⚠️ incomplete',
+      flags: ['Phone incomplete', 'Vehicle unconfirmed'],
+      highlights: ['11 years experience', 'Food Safe', '100% travel'],
+      decision: null, note: '', log: 'Aria reviewed — pending Michael' },
+    { id: 'sarah',   name: 'Sarah Campbell',  stage: 'aria-review',     score: 7,    contact: 'No contact made yet',
+      flags: ['Overqualification risk'],
+      highlights: ['Team Lead potential'],
+      decision: null, note: '', log: 'No contact yet' },
+    { id: 'karen-c', name: 'Karen Corrie',    stage: 'calendly-booked', score: 9,    contact: 'Discovery call — Today 3 PM PT',
+      flags: [],
+      highlights: ['Enhanced criminal check', 'Driver abstract', 'Elder care potential'],
+      decision: null, note: 'Screen TODAY 3 pm 🔴', urgent: true,
+      log: 'SMS sent 11:14 AM • Booked discovery call' },
+    { id: 'trish',   name: 'Trish Beekman',   stage: 'trial-offer',     score: 7,    contact: 'Awaiting trial confirmation',
+      flags: [],
+      highlights: ['Follow-up Apr 19', 'Est. start May 5 2026'],
+      decision: null, note: 'Trial window open', log: 'Offer extended — awaiting response' }
+  ],
+  pendingApprovals: [
+    { id: 'pa1', candidate: 'Alisha Chumber', summary: 'Cowork recommends phone screen before interview — location discrepancy needs clarification.', action: 'contact' }
+  ],
+  aria: {
+    systems: [
+      { name: 'SMS 778-200-6517',   status: 'Live',              color: 'success' },
+      { name: 'Voice line',         status: 'Pending ElevenLabs', color: 'warning' },
+      { name: 'HCP write ops',      status: 'All 6 live',         color: 'success' },
+      { name: 'Fuzzy matching',     status: '7/7 passing',        color: 'success' },
+      { name: 'Payroll reminder',   status: 'Tuesday 9 AM',       color: 'success' },
+      { name: 'Webhook receiver',   status: 'Not built',          color: 'danger'  },
+      { name: 'Cowork HCP routine', status: 'In progress',        color: 'warning' }
+    ]
+  },
+  activityLogs: {
+    aria: [
+      { t: '12:58', text: '<strong>Aria SMS</strong> sent confirmation to Karen Corrie — discovery call at 3 PM' },
+      { t: '12:41', text: '<strong>Aria</strong> parsed 3 new Indeed applicants, scored Ester 8/10' },
+      { t: '12:19', text: '<strong>Aria</strong> ran fuzzy-match on Alisha vs existing candidate list — no dup' },
+      { t: '11:14', text: '<strong>Aria SMS</strong> sent discovery-call booking link to Karen Corrie' },
+      { t: '10:50', text: '<strong>HCP write</strong> updated client note — 24 Primrose Ln (Prokey intake)' },
+      { t: '09:30', text: '<strong>Aria</strong> flagged Paula role as vacant (no-notice resignation)' }
+    ],
+    cowork: [
+      { t: '12:52', text: '<strong>Cowork</strong> completed Gmail review — 1 Indeed candidate analyzed' },
+      { t: '12:14', text: '<strong>Cowork</strong> opened Indeed portal — read Alisha Alisha resume' },
+      { t: '11:48', text: '<strong>Cowork</strong> queued meeting-prep email for 3 PM discovery' },
+      { t: '10:30', text: '<strong>Cowork</strong> drafted VA checklist template — awaiting VA assignment' },
+      { t: '09:15', text: '<strong>Cowork</strong> processed overnight Indeed batch — 4 candidates triaged' }
+    ],
+    routines: [
+      { t: '09:00', text: '<strong>Routine: Morning Standup</strong> fired — VA inbox seeded' },
+      { t: '08:30', text: '<strong>Routine: AR Check</strong> reviewed Westbow aging — Amanda Bosma logged' },
+      { t: '08:00', text: '<strong>Routine: Crew Status</strong> confirmed 12 active / 3 open / 1 modified' }
+    ]
+  },
+  va: {
+    standup: '',
+    messages: [
+      { from: 'Michael', time: '9:02 AM', text: 'Morning — please prioritize Indeed triage first hour. Decline anyone with no vehicle.' },
+      { from: 'Karen',   time: '11:40 AM', text: 'Can you send Karen Corrie the intake form link before her 3 PM call? Thanks.' }
+    ],
+    checklists: {
+      h1: [
+        'Check The Bridge red alerts',
+        'Review Gmail — flag urgent items',
+        'Review HCP schedule for gaps',
+        'Review Indeed — decline unqualified',
+        'Send morning standup'
+      ],
+      h2: [
+        'Process new Prokey intake emails',
+        'Process new Westbow intake forms',
+        'Update client notes — top 30 list',
+        'Flag jobs with missing information'
+      ],
+      h3: [
+        'Check outstanding invoices',
+        'Send approved AR follow-up emails',
+        'Draft client communications',
+        'Log all activity with timestamps'
+      ],
+      h4: [
+        'Update task statuses',
+        'Flag escalations',
+        'Queue tomorrow priorities',
+        'Send end-of-day summary to Michael'
+      ]
+    }
+  }
+};
+
+/* In-memory runtime state (mutable) — replaced by fetch */
+let state = JSON.parse(JSON.stringify(SEED));
+let currentView = 'command';
+const ASSIGNABLE = ['Michael', 'Karen', 'VA', 'Aria', 'Cowork', 'Routine'];
+const STAGES = [
+  { id: 'applied',          label: 'Applied' },
+  { id: 'aria-review',      label: 'Aria Review' },
+  { id: 'jotform-sent',     label: 'Jotform Sent' },
+  { id: 'calendly-booked',  label: 'Calendly Booked' },
+  { id: 'trial-offer',      label: 'Trial & Offer' }
+];
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $  = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const el = (tag, attrs = {}, ...kids) => {
+  const node = document.createElement(tag);
+  Object.entries(attrs || {}).forEach(([k, v]) => {
+    if (v === null || v === undefined || v === false) return;
+    if (k === 'class') node.className = v;
+    else if (k === 'html') node.innerHTML = v;
+    else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2), v);
+    else if (k === 'dataset') Object.entries(v).forEach(([dk, dv]) => { node.dataset[dk] = dv; });
+    else node.setAttribute(k, v);
+  });
+  kids.flat().forEach(k => {
+    if (k === null || k === undefined || k === false) return;
+    if (typeof k === 'string' || typeof k === 'number') node.appendChild(document.createTextNode(k));
+    else node.appendChild(k);
+  });
+  return node;
+};
+const money = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const moneyInt = (n) => '$' + Math.round(n).toLocaleString('en-US');
+const hm = (h, m) => `${h}h ${String(m).padStart(2, '0')}m`;
+const escape = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ============================================================
+   HEADER — CLOCK
+   ============================================================ */
+function tickClock() {
+  const now = new Date();
+  // Pacific Time regardless of viewer's tz
+  const time = now.toLocaleTimeString('en-US', {
+    timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true
+  });
+  const day = now.toLocaleDateString('en-US', {
+    timeZone: 'America/Los_Angeles', weekday: 'long', month: 'short', day: 'numeric'
+  });
+  $('#clock-time').textContent = time + ' PT';
+  $('#clock-day').textContent  = day;
+}
+setInterval(tickClock, 1000); tickClock();
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0B0F17' : '#F8F9FA');
+  try { localStorage.setItem('bridge-theme', t); } catch (_) {}
+}
+(function initTheme() {
+  let saved; try { saved = localStorage.getItem('bridge-theme'); } catch (_) {}
+  const sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  applyTheme(saved || sys);
+})();
+document.addEventListener('click', (e) => {
+  if (e.target.closest('#theme-toggle')) {
+    applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+  }
+});
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+$('#tabs').addEventListener('click', (e) => {
+  const t = e.target.closest('.tab');
+  if (!t) return;
+  $$('.tab').forEach(x => x.classList.toggle('is-active', x === t));
+  currentView = t.dataset.view;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ============================================================
+   SHARED: ADOPTION METER
+   ============================================================ */
+function renderMeter() {
+  const m = state.agenticAdoption;
+  const color = m.current < 30 ? 'var(--danger)'
+               : m.current < 55 ? 'var(--warning)'
+               : m.current < 75 ? '#CA8A04'
+               : 'var(--success)';
+  const card = el('div', { class: 'meter-card' });
+  card.appendChild(el('div', { class: 'meter-head' },
+    el('div', {},
+      el('div', { class: 'meter-title' }, '⚡ Agentic Adoption'),
+      el('div', { class: 'meter-big', style: `color:${color}` }, String(m.current), el('span', {}, '%')),
+      el('div', { class: 'meter-sub' }, 'Share of work routed through automation')
+    ),
+    el('div', { class: 'meter-target' }, 'Target: ', el('strong', {}, m.target + '%'))
+  ));
+  const track = el('div', { class: 'bar-track' });
+  track.appendChild(el('div', { class: 'bar-fill', style: `width:${m.current}%` }));
+  track.appendChild(el('div', { class: 'bar-mark', style: `left:${m.target}%`, 'data-label': `Target ${m.target}%` }));
+  card.appendChild(track);
+
+  const systems = el('div', { class: 'systems' });
+  m.systems.forEach(s => {
+    const row = el('div', { class: 'system-row' });
+    row.appendChild(el('div', { class: 'system-name' },
+      el('span', { class: 'system-emoji' }, s.emoji),
+      el('span', {}, s.name)
+    ));
+    const mini = el('div', { class: 'mini-track' });
+    mini.appendChild(el('div', { class: 'mini-fill', style: `width:${s.percent}%; background:${s.color}` }));
+    row.appendChild(mini);
+    row.appendChild(el('div', { class: 'system-count' }, `${s.tasks} tasks`));
+    row.appendChild(el('div', { class: 'system-pct' }, `${s.percent}%`));
+    systems.appendChild(row);
+  });
+  card.appendChild(systems);
+
+  card.appendChild(el('div', { class: 'projected' },
+    '🎯 Projected to hit ',
+    el('strong', {}, `${m.target}%`),
+    ` by `,
+    el('strong', {}, m.projectedDate)
+  ));
+  return card;
+}
+
+/* ============================================================
+   SHARED: COWORK WIDGET
+   ============================================================ */
+function renderCoworkWidget() {
+  const c = state.cowork;
+  const card = el('div', { class: 'cowork-card' });
+  card.appendChild(el('div', { class: 'cowork-head' },
+    el('div', {},
+      el('div', { class: 'cowork-title' }, '🖥️ Cowork — Primary Executor'),
+      el('div', { class: 'cowork-subtitle' },
+        `Karen's Mac: ${c.online ? '✅ Online' : '❌ Offline'} • Status: ${c.status} • Last action: ${c.lastAction}`
+      )
+    ),
+    el('div', { class: 'cowork-stats' },
+      el('div', { class: 'cowork-stat' }, el('span', {}, 'Today'), el('strong', {}, `${c.todaySaved} min · ${money(c.todayDollars)}`)),
+      el('div', { class: 'cowork-stat' }, el('span', {}, 'Completed'), el('strong', {}, `${c.todayCompleted} tasks`))
+    )
+  ));
+  const queue = el('div', { class: 'cowork-queue' });
+  c.queue.forEach((q, i) => {
+    const row = el('div', { class: 'cowork-queue-item' });
+    row.appendChild(el('div', { class: 'q-num' }, String(i + 1)));
+    row.appendChild(el('div', { class: 'q-title' }, q.title));
+    row.appendChild(el('div', { class: 'q-status' }, q.status));
+    queue.appendChild(row);
+  });
+  card.appendChild(queue);
+  return card;
+}
+
+/* ============================================================
+   COMMAND VIEW
+   ============================================================ */
+function renderCommand() {
+  const host = el('div');
+  host.appendChild(renderMeter());
+  host.appendChild(renderCoworkWidget());
+
+  // Row 1 — stat cards
+  const s = state.stats;
+  const stats = el('div', { class: 'grid grid-stats', style: 'margin-bottom:16px;' });
+  stats.appendChild(buildStat('Active Cleaners', s.activeCleaners, 'var(--success)',   '👥', '+0 since yesterday'));
+  stats.appendChild(buildStat('Positions Open', s.openPositions,  'var(--danger)',    '🔴', '3 roles vacant'));
+  stats.appendChild(buildStat('Candidates',     s.candidates,      'var(--primary)',   '🧑', 'in pipeline'));
+  stats.appendChild(buildStat('AR Outstanding', moneyInt(s.arOutstanding), 'var(--warning)', '💰', 'Westbow due May'));
+  host.appendChild(stats);
+
+  // Row 2 — two columns
+  const row = el('div', { class: 'grid grid-2' });
+  row.appendChild(renderAlertColumn());
+  row.appendChild(renderRightColumn());
+  host.appendChild(row);
+  return host;
+}
+function buildStat(label, value, accent, icon, trend) {
+  return el('div', { class: 'stat-card', style: `--accent:${accent}` },
+    el('div', { class: 'stat-label' }, el('span', {}, icon), el('span', {}, label)),
+    el('div', { class: 'stat-value' }, String(value)),
+    el('div', { class: 'stat-trend' }, el('span', { class: 'text-secondary' }, trend))
+  );
+}
+function renderAlertColumn() {
+  const col = el('div', { class: 'flex-col' });
+
+  // Red alerts
+  const red = el('div', { class: 'card', style: '--accent: var(--danger)' });
+  red.appendChild(el('div', { class: 'section-title' },
+    '🔴 Red Alert',
+    el('span', { class: 'pill pill-red' }, `${state.redAlerts.length} tasks`)
+  ));
+  state.redAlerts.forEach(t => red.appendChild(buildTaskCard(t, 'var(--danger)')));
+  col.appendChild(red);
+
+  // Yellow alerts
+  const yel = el('div', { class: 'card' });
+  yel.appendChild(el('div', { class: 'section-title' },
+    '🟡 Yellow Alert',
+    el('span', { class: 'pill pill-yellow' }, `${state.yellowAlerts.length} tasks`)
+  ));
+  state.yellowAlerts.forEach(t => {
+    const c = el('div', { class: 'task-card', style: '--accent: var(--warning)' });
+    c.appendChild(el('div', { class: 'task-head' },
+      el('div', { class: 'task-title' }, t.title)
+    ));
+    yel.appendChild(c);
+  });
+  col.appendChild(yel);
+
+  return col;
+}
+function buildTaskCard(t, accent) {
+  const card = el('div', { class: 'task-card', style: `--accent:${accent}`, dataset: { id: t.id } });
+  card.appendChild(el('div', { class: 'task-head' },
+    el('div', { class: 'task-title' }, t.title)
+  ));
+  const meta = el('div', { class: 'task-meta' });
+  meta.appendChild(el('span', { class: 'chip' }, `👤 ${t.assignedTo}`));
+  meta.appendChild(el('span', { class: t.mode === 'Automated' ? 'chip chip-auto' : 'chip chip-human' }, (t.mode === 'Automated' ? '⚡ ' : '🧑 ') + t.mode));
+  meta.appendChild(el('span', { class: 'chip' }, `⏱️ ${t.est} min`));
+  if (t.saveIfAuto) meta.appendChild(el('span', { class: 'chip chip-save' }, `↑ save ${t.saveIfAuto}m if auto`));
+  card.appendChild(meta);
+
+  const actions = el('div', { class: 'task-actions' });
+  const assign = el('select', { class: 'select-assign', onchange: (e) => reassignTask(t.id, e.target.value) });
+  assign.appendChild(el('option', { value: '', disabled: 'disabled' }, 'Reassign…'));
+  ASSIGNABLE.forEach(p => assign.appendChild(el('option', { value: p, selected: p === t.assignedTo.split(' ')[0] ? 'selected' : null }, p)));
+  actions.appendChild(assign);
+  actions.appendChild(el('button', { class: 'btn btn-success btn-sm', onclick: () => completeTask(t.id, card) }, '✓ Complete'));
+  actions.appendChild(el('button', { class: 'btn btn-sm', onclick: () => toast('Notes panel coming in v2') }, 'Notes'));
+  card.appendChild(actions);
+  return card;
+}
+function renderRightColumn() {
+  const col = el('div', { class: 'flex-col' });
+
+  // Financial
+  const fin = el('div', { class: 'card' });
+  fin.appendChild(el('div', { class: 'section-title' }, '💰 Financial Watch'));
+  const wb = state.financial.westbow;
+  const westbow = el('div', { class: 'info-row' });
+  westbow.appendChild(el('div', {},
+    el('div', { class: 'info-label' }, 'Westbow'),
+    el('div', { class: 'info-sub' }, `Due ${wb.dueBy} • Last contact ${wb.lastContact} — ${wb.contactPerson}`),
+    el('div', { class: 'info-sub' }, `⏰ Follow-up ${wb.followUp}`)
+  ));
+  westbow.appendChild(el('div', { class: 'info-value-lg', style: 'color: var(--warning)' }, moneyInt(wb.amount)));
+  fin.appendChild(westbow);
+  fin.appendChild(el('div', { class: 'spacer-16' }));
+  const bg = state.financial.billGee;
+  const bill = el('div', { class: 'info-row' });
+  bill.appendChild(el('div', {},
+    el('div', { class: 'info-label' }, 'Bill Gee'),
+    el('div', { class: 'info-sub' }, bg.task + ' • ⏰ Follow-up ' + bg.followUp)
+  ));
+  fin.appendChild(bill);
+  col.appendChild(fin);
+
+  // Crew
+  const crew = el('div', { class: 'card' });
+  crew.appendChild(el('div', { class: 'section-title' }, '👥 Crew Status'));
+  const crewList = el('div', { class: 'info-list' });
+  crewList.appendChild(infoRow('Active cleaners', `${state.crew.active} crew ✅`, null, 'var(--success)'));
+  state.crew.openRoles.forEach(r => {
+    crewList.appendChild(infoRow(r.name, r.date, el('span', { class: 'badge badge-red' }, 'Open'), null));
+  });
+  state.crew.modified.forEach(m => {
+    crewList.appendChild(infoRow(m.name, 'Modified: ' + m.reason + ' 🏥', el('span', { class: 'badge badge-yellow' }, 'Modified'), null));
+  });
+  crew.appendChild(crewList);
+  col.appendChild(crew);
+
+  // Hiring mini
+  const hire = el('div', { class: 'card' });
+  hire.appendChild(el('div', { class: 'row-between' },
+    el('div', { class: 'section-title', style: 'margin:0' }, '🧑 Hiring Summary'),
+    el('button', { class: 'btn btn-sm', onclick: () => switchTo('hiring') }, 'Open pipeline →')
+  ));
+  hire.appendChild(el('div', { class: 'spacer-16' }));
+  hire.appendChild(el('div', { class: 'info-list' },
+    infoRow('6 candidates', 'Active in pipeline', el('span', { class: 'badge badge-blue' }, 'Hiring'), null),
+    infoRow('Karen Corrie', 'Screen TODAY 3 pm 🔴', el('span', { class: 'badge badge-red' }, 'Today'), null),
+    infoRow('Trish Beekman', 'Trial pending — follow-up Apr 19', el('span', { class: 'badge badge-yellow' }, 'Pending'), null),
+    infoRow('Alisha Chumber', 'Location mismatch — awaiting decision', el('span', { class: 'badge badge-yellow' }, 'Review'), null)
+  ));
+  col.appendChild(hire);
+
+  // Do Not Forget
+  const dnf = el('div', { class: 'card' });
+  dnf.appendChild(el('div', { class: 'section-title' }, '📅 Do Not Forget'));
+  const dnfList = el('div', { class: 'info-list' });
+  state.reminders.forEach(r => {
+    dnfList.appendChild(infoRow(r.task, r.date,
+      el('span', { class: 'badge badge-blue' }, r.date), null));
+  });
+  dnf.appendChild(dnfList);
+  col.appendChild(dnf);
+
+  // Time savings compact
+  const ts = el('div', { class: 'card' });
+  ts.appendChild(el('div', { class: 'section-title' }, '⏱️ Time Savings'));
+  const tsGrid = el('div', { class: 'grid grid-3' });
+  ['today', 'week', 'month'].forEach(key => {
+    const t = state.timeSavings[key];
+    tsGrid.appendChild(el('div', { class: 'stat-card', style: '--accent: var(--success)' },
+      el('div', { class: 'stat-label' }, t.label),
+      el('div', { class: 'stat-value', style: 'font-size: 22px' }, hm(t.hours, t.min)),
+      el('div', { class: 'stat-trend' }, el('span', { class: 'up' }, money(t.dollars)))
+    ));
+  });
+  ts.appendChild(tsGrid);
+  col.appendChild(ts);
+
+  return col;
+}
+function infoRow(label, sub, right, valueColor) {
+  const left = el('div', {}, el('div', { class: 'info-label' }, label));
+  if (sub) left.appendChild(el('div', { class: 'info-sub' }, sub));
+  const row = el('div', { class: 'info-row' }, left);
+  if (right) row.appendChild(right);
+  if (valueColor) row.style.borderLeft = `3px solid ${valueColor}`;
+  return row;
+}
+
+/* ============================================================
+   KAREN VIEW
+   ============================================================ */
+function renderKaren() {
+  const host = el('div');
+  host.appendChild(renderMeter());
+
+  // Today's schedule up top
+  const sched = el('div', { class: 'card', style: 'margin-bottom:16px;' });
+  sched.appendChild(el('div', { class: 'section-title' }, '📅 Today\'s Schedule — Saturday, April 17'));
+  const list = el('div', { class: 'schedule' });
+  state.karenSchedule.forEach(s => {
+    const cls = 'sched-item ' + (s.priority === 'high' ? 'sched-priority-high' : 'sched-priority-medium');
+    list.appendChild(el('div', { class: cls },
+      el('div', { class: 'sched-time' }, s.time),
+      el('div', { class: 'sched-body' },
+        el('div', { class: 'sched-title' }, s.title),
+        el('div', { class: 'sched-note' }, s.note)
+      ),
+      el('span', { class: 'badge badge-red' }, 'Screen')
+    ));
+  });
+  sched.appendChild(list);
+  host.appendChild(sched);
+
+  // Two-column similar to command but field-ops focus
+  const row = el('div', { class: 'grid grid-2' });
+
+  // Left: Crew focus
+  const left = el('div', { class: 'flex-col' });
+  const crew = el('div', { class: 'card' });
+  crew.appendChild(el('div', { class: 'section-title' }, '👥 Crew Status — Active'));
+  const crewList = el('div', { class: 'info-list' });
+  crewList.appendChild(infoRow('Active cleaners', `${state.crew.active} on the road today ✅`, null, 'var(--success)'));
+  state.crew.openRoles.forEach(r => {
+    crewList.appendChild(infoRow(r.name + ' — VACANT', r.date, el('span', { class: 'badge badge-red' }, 'Fill urgently'), null));
+  });
+  state.crew.modified.forEach(m => {
+    crewList.appendChild(infoRow(m.name + ' — Modified', m.reason, el('span', { class: 'badge badge-yellow' }, 'Check-in'), null));
+  });
+  crew.appendChild(crewList);
+  left.appendChild(crew);
+
+  const notes = el('div', { class: 'card' });
+  notes.appendChild(el('div', { class: 'section-title' }, '📝 Client Notes Reminders'));
+  notes.appendChild(el('div', { class: 'info-list' },
+    infoRow('Prokey (Westbow)', 'Review new intake emails this week', el('span', { class: 'badge badge-blue' }, 'Weekly'), null),
+    infoRow('Top-30 client list', 'Refresh notes — last update 7 days ago', el('span', { class: 'badge badge-yellow' }, 'Soon'), null),
+    infoRow('Housecall Pro', 'Check job gaps — drift alerts', el('span', { class: 'badge badge-green' }, 'Daily'), null)
+  ));
+  left.appendChild(notes);
+  row.appendChild(left);
+
+  // Right: Red alerts + hiring quick
+  const right = el('div', { class: 'flex-col' });
+  const red = el('div', { class: 'card', style: '--accent: var(--danger)' });
+  red.appendChild(el('div', { class: 'section-title' },
+    '🔴 Red Alerts for Karen',
+    el('span', { class: 'pill pill-red' }, `${state.redAlerts.length} tasks`)
+  ));
+  state.redAlerts.forEach(t => red.appendChild(buildTaskCard(t, 'var(--danger)')));
+  right.appendChild(red);
+
+  const hire = el('div', { class: 'card' });
+  hire.appendChild(el('div', { class: 'row-between' },
+    el('div', { class: 'section-title', style: 'margin:0' }, '🧑 Hiring Quick View'),
+    el('button', { class: 'btn btn-sm', onclick: () => switchTo('hiring') }, 'Full pipeline →')
+  ));
+  hire.appendChild(el('div', { class: 'spacer-16' }));
+  hire.appendChild(el('div', { class: 'info-list' },
+    infoRow('Karen Corrie', '3 PM discovery call TODAY', el('span', { class: 'badge badge-red' }, 'Today'), null),
+    infoRow('Trish Beekman', 'Trial pending — Apr 19 follow-up', el('span', { class: 'badge badge-yellow' }, 'Pending'), null)
+  ));
+  right.appendChild(hire);
+  row.appendChild(right);
+
+  host.appendChild(row);
+  return host;
+}
+
+/* ============================================================
+   VA VIEW
+   ============================================================ */
+function renderVA() {
+  const host = el('div');
+  host.appendChild(renderMeter());
+
+  // Standup
+  const stand = el('div', { class: 'card', style: 'margin-bottom:16px;' });
+  stand.appendChild(el('div', { class: 'row-between' },
+    el('div', { class: 'section-title', style: 'margin:0' }, '📝 Today\'s Standup'),
+    el('span', { class: 'badge badge-blue', id: 'standup-ts' }, 'Not submitted')
+  ));
+  stand.appendChild(el('div', { class: 'spacer-16' }));
+  const ta = el('textarea', { class: 'textarea', placeholder: 'Type your standup — visible to Michael and Karen. Yesterday, today, blockers.' });
+  ta.value = state.va.standup || '';
+  stand.appendChild(ta);
+  stand.appendChild(el('div', { class: 'spacer-16' }));
+  stand.appendChild(el('button', { class: 'btn btn-primary', onclick: () => {
+    state.va.standup = ta.value;
+    const now = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit' });
+    $('#standup-ts').textContent = 'Submitted ' + now + ' PT';
+    $('#standup-ts').classList.remove('badge-blue');
+    $('#standup-ts').classList.add('badge-green');
+    toast('Standup submitted');
+  }}, 'Submit standup'));
+  host.appendChild(stand);
+
+  // Checklist
+  const list = el('div', { class: 'card', style: 'margin-bottom:16px;' });
+  list.appendChild(el('div', { class: 'section-title' }, '✅ My Daily Checklist'));
+  list.appendChild(buildHourBlock('Hour 1 — Morning Triage', '8–9 am PT', state.va.checklists.h1, 'h1'));
+  list.appendChild(buildHourBlock('Hour 2 — HCP Operations', '9–10 am PT', state.va.checklists.h2, 'h2'));
+  list.appendChild(buildHourBlock('Hour 3 — AR & Communications', '10–11 am PT', state.va.checklists.h3, 'h3'));
+  list.appendChild(buildHourBlock('Hour 4 — Wrap Up', '11 am – 12 pm PT', state.va.checklists.h4, 'h4'));
+  host.appendChild(list);
+
+  // Row: shared tasks + messages
+  const row = el('div', { class: 'grid grid-2' });
+
+  const shared = el('div', { class: 'card' });
+  shared.appendChild(el('div', { class: 'section-title' }, '📋 Shared Task List'));
+  const sharedList = el('div', { class: 'info-list' });
+  const vaTasks = state.redAlerts.concat(state.yellowAlerts)
+    .filter(t => (t.assignedTo || '').toLowerCase().includes('va'));
+  if (!vaTasks.length) sharedList.appendChild(el('div', { class: 'info-sub' }, 'No tasks currently assigned to VA. Tasks appear here when Michael, Karen, Aria, or Cowork route them your way.'));
+  vaTasks.forEach(t => sharedList.appendChild(infoRow(t.title, t.assignedTo || '—', el('span', { class: 'badge badge-blue' }, 'VA'), null)));
+  shared.appendChild(sharedList);
+  row.appendChild(shared);
+
+  const msgs = el('div', { class: 'card' });
+  msgs.appendChild(el('div', { class: 'section-title' }, '💬 Messages from Michael / Karen'));
+  const thread = el('div', { class: 'info-list' });
+  state.va.messages.forEach(m => {
+    const msg = el('div', { class: 'info-row' });
+    msg.appendChild(el('div', {},
+      el('div', { class: 'info-label' }, m.from + ' — ' + m.time),
+      el('div', { class: 'info-sub', style: 'color: var(--text)' }, m.text)
+    ));
+    thread.appendChild(msg);
+  });
+  msgs.appendChild(thread);
+  row.appendChild(msgs);
+
+  host.appendChild(row);
+
+  // Cowork activity today
+  const cowork = el('div', { class: 'card', style: 'margin-top:16px' });
+  cowork.appendChild(el('div', { class: 'section-title' }, '🖥️ Cowork Activity Today — do not duplicate this work'));
+  const feed = el('div', { class: 'feed' });
+  state.activityLogs.cowork.forEach(f => {
+    const item = el('div', { class: 'feed-item' });
+    item.appendChild(el('div', { class: 'feed-time' }, f.t));
+    item.appendChild(el('div', { class: 'feed-text', html: f.text }));
+    feed.appendChild(item);
+  });
+  cowork.appendChild(feed);
+  host.appendChild(cowork);
+
+  return host;
+}
+function buildHourBlock(title, time, items, key) {
+  const block = el('div', { class: 'hour-block' });
+  block.appendChild(el('div', { class: 'hour-head' },
+    el('div', {}, title),
+    el('div', { class: 'hour-time' }, time)
+  ));
+  items.forEach((txt, i) => {
+    const id = `chk-${key}-${i}`;
+    const item = el('label', { class: 'check-item', for: id });
+    const cb = el('input', { type: 'checkbox', id, onchange: (e) => {
+      item.classList.toggle('done', e.target.checked);
+    }});
+    item.appendChild(cb);
+    item.appendChild(el('span', {}, txt));
+    block.appendChild(item);
+  });
+  return block;
+}
+
+/* ============================================================
+   HIRING PIPELINE VIEW
+   ============================================================ */
+function renderHiring() {
+  const host = el('div');
+  host.appendChild(renderMeter());
+
+  // Approval queue
+  if (state.pendingApprovals && state.pendingApprovals.length) {
+    const aq = el('div', { class: 'approval-queue' });
+    aq.appendChild(el('div', { class: 'approval-head' },
+      el('span', { class: 'dot' }),
+      `⚠️ Approval Queue — ${state.pendingApprovals.length} awaiting Michael`
+    ));
+    state.pendingApprovals.forEach(a => {
+      const card = el('div', { class: 'task-card', style: '--accent: var(--warning); margin-bottom: 8px;' });
+      card.appendChild(el('div', { class: 'task-head' },
+        el('div', { class: 'task-title' }, a.candidate)
+      ));
+      card.appendChild(el('div', { class: 'task-meta' }, el('span', {}, a.summary)));
+      const actions = el('div', { class: 'task-actions' });
+      actions.appendChild(el('button', { class: 'btn btn-success btn-sm', onclick: () => { decideApproval(a.id, 'yes'); } }, '✅ YES'));
+      actions.appendChild(el('button', { class: 'btn btn-sm', onclick: () => { decideApproval(a.id, 'no'); } }, '❌ NO'));
+      actions.appendChild(el('button', { class: 'btn btn-sm', onclick: () => { decideApproval(a.id, 'hold'); } }, '⏸️ HOLD'));
+      card.appendChild(actions);
+      aq.appendChild(card);
+    });
+    host.appendChild(aq);
+  }
+
+  // Kanban
+  const board = el('div', { class: 'grid-kanban' });
+  STAGES.forEach(stage => {
+    const col = el('div', { class: 'kanban-col' });
+    const cands = state.candidates.filter(c => c.stage === stage.id);
+    col.appendChild(el('div', { class: 'kanban-head' },
+      el('div', { class: 'kanban-name' }, stage.label),
+      el('div', { class: 'kanban-count' }, String(cands.length))
+    ));
+    const list = el('div', { class: 'kanban-list' });
+    cands.forEach(c => list.appendChild(buildCandidateCard(c)));
+    col.appendChild(list);
+    board.appendChild(col);
+  });
+  host.appendChild(board);
+
+  // Communications log
+  const comms = el('div', { class: 'card', style: 'margin-top:16px;' });
+  comms.appendChild(el('div', { class: 'section-title' }, '📨 Communications Log'));
+  const feed = el('div', { class: 'feed' });
+  state.candidates.filter(c => c.log).forEach(c => {
+    const item = el('div', { class: 'feed-item' });
+    item.appendChild(el('div', { class: 'feed-time' }, c.stage.toUpperCase().slice(0,6)));
+    item.appendChild(el('div', { class: 'feed-text' },
+      el('strong', {}, c.name), ' — ', c.log
+    ));
+    feed.appendChild(item);
+  });
+  comms.appendChild(feed);
+  host.appendChild(comms);
+
+  return host;
+}
+function buildCandidateCard(c) {
+  const card = el('div', { class: 'cand-card', dataset: { id: c.id } });
+
+  const head = el('div', { class: 'cand-head' });
+  const left = el('div', {},
+    el('div', { class: 'cand-name' }, c.name),
+    c.contact ? el('div', { class: 'cand-contact' }, c.contact) : null
+  );
+  head.appendChild(left);
+  if (typeof c.score === 'number') {
+    const scoreCls = c.score >= 8 ? 'high' : c.score >= 7 ? 'mid' : '';
+    head.appendChild(el('div', { class: 'cand-score ' + scoreCls }, `${c.score}/10`));
+  }
+  card.appendChild(head);
+
+  if (c.flags.length || c.highlights.length) {
+    const badges = el('div', { class: 'cand-badges' });
+    c.flags.forEach(f => badges.appendChild(el('span', { class: 'badge badge-red' }, '⚠️ ' + f)));
+    c.highlights.forEach(h => badges.appendChild(el('span', { class: 'badge badge-green' }, '⭐ ' + h)));
+    card.appendChild(badges);
+  }
+
+  if (c.note) {
+    card.appendChild(el('div', { class: 'cand-note ' + (c.urgent ? 'urgent' : '') }, c.note));
+  }
+
+  if (c.log) card.appendChild(el('div', { class: 'cand-log' }, c.log));
+
+  const actions = el('div', { class: 'cand-actions' });
+  actions.appendChild(el('button', { class: 'btn btn-success btn-sm', onclick: (e) => { e.stopPropagation(); decideCandidate(c.id, 'yes'); } }, '✅ YES'));
+  actions.appendChild(el('button', { class: 'btn btn-sm btn-danger-ghost', onclick: (e) => { e.stopPropagation(); decideCandidate(c.id, 'no'); } }, '❌ NO'));
+  actions.appendChild(el('button', { class: 'btn btn-sm', onclick: (e) => { e.stopPropagation(); decideCandidate(c.id, 'hold'); } }, '⏸️ HOLD'));
+  actions.appendChild(el('button', { class: 'btn btn-sm', onclick: (e) => { e.stopPropagation(); advanceStage(c.id); } }, 'Advance →'));
+  actions.appendChild(el('button', { class: 'btn btn-sm', onclick: (e) => { e.stopPropagation(); toast('Full profile coming — deep-link to Indeed next pass'); } }, 'Profile'));
+  card.appendChild(actions);
+
+  return card;
+}
+
+/* ============================================================
+   ARIA OPS VIEW
+   ============================================================ */
+function renderAria() {
+  const host = el('div');
+  host.appendChild(renderMeter());
+  host.appendChild(renderCoworkWidget());
+
+  // Traffic lights
+  const sys = el('div', { class: 'card', style: 'margin-bottom:16px' });
+  sys.appendChild(el('div', { class: 'section-title' }, '🚦 Aria Live Status'));
+  const lights = el('div', { class: 'aria-systems' });
+  state.aria.systems.forEach(s => {
+    lights.appendChild(el('div', { class: 'aria-light' },
+      el('span', { class: `aria-dot aria-dot-${s.color}` }),
+      el('span', { class: 'aria-system-name' }, s.name),
+      el('span', { class: 'aria-system-status' }, s.status)
+    ));
+  });
+  sys.appendChild(lights);
+  host.appendChild(sys);
+
+  // Cowork queue with run-now
+  const queue = el('div', { class: 'card', style: 'margin-bottom:16px' });
+  queue.appendChild(el('div', { class: 'section-title' }, '🖥️ Cowork Task Queue'));
+  const qList = el('div', { class: 'info-list' });
+  state.cowork.queue.forEach((q, i) => {
+    const row = el('div', { class: 'info-row' });
+    row.appendChild(el('div', {},
+      el('div', { class: 'info-label' }, (i + 1) + '. ' + q.title),
+      el('div', { class: 'info-sub' }, `Status: ${q.status} • Est. ${q.est}`)
+    ));
+    row.appendChild(el('button', { class: 'btn btn-primary btn-sm', onclick: () => { toast('Cowork: run-now queued for "' + q.title + '"'); } }, '▶ Run Now'));
+    qList.appendChild(row);
+  });
+  queue.appendChild(qList);
+  host.appendChild(queue);
+
+  // Time savings trio
+  const ts = el('div', { class: 'card', style: 'margin-bottom:16px' });
+  ts.appendChild(el('div', { class: 'section-title' }, '⏱️ Time Savings Tracker'));
+  const tsGrid = el('div', { class: 'grid grid-3' });
+  ['today', 'week', 'month'].forEach(key => {
+    const t = state.timeSavings[key];
+    tsGrid.appendChild(el('div', { class: 'stat-card', style: '--accent: var(--success)' },
+      el('div', { class: 'stat-label' }, t.label),
+      el('div', { class: 'stat-value' }, hm(t.hours, t.min)),
+      el('div', { class: 'stat-trend' }, el('span', { class: 'up' }, money(t.dollars) + ' saved'))
+    ));
+  });
+  ts.appendChild(tsGrid);
+  host.appendChild(ts);
+
+  // Activity feeds — 3 columns
+  const feeds = el('div', { class: 'grid grid-3', style: 'margin-bottom:16px' });
+  feeds.appendChild(buildFeed('🤖 Aria Activity', state.activityLogs.aria));
+  feeds.appendChild(buildFeed('🖥️ Cowork Activity', state.activityLogs.cowork));
+  feeds.appendChild(buildFeed('⏰ Routines', state.activityLogs.routines));
+  host.appendChild(feeds);
+
+  // Pending approvals
+  const pa = el('div', { class: 'card' });
+  pa.appendChild(el('div', { class: 'section-title' }, '⚠️ Pending Approvals'));
+  if (!state.pendingApprovals.length) {
+    pa.appendChild(el('div', { class: 'info-sub' }, 'Nothing waiting — Aria is operating within its auto-approval envelope.'));
+  } else {
+    state.pendingApprovals.forEach(a => {
+      const card = el('div', { class: 'task-card', style: '--accent: var(--warning)' });
+      card.appendChild(el('div', { class: 'task-head' },
+        el('div', { class: 'task-title' }, a.candidate)
+      ));
+      card.appendChild(el('div', { class: 'task-meta' }, el('span', {}, a.summary)));
+      const actions = el('div', { class: 'task-actions' });
+      actions.appendChild(el('button', { class: 'btn btn-success btn-sm', onclick: () => decideApproval(a.id, 'yes') }, '✅ YES'));
+      actions.appendChild(el('button', { class: 'btn btn-sm', onclick: () => decideApproval(a.id, 'no') }, '❌ NO'));
+      actions.appendChild(el('button', { class: 'btn btn-sm', onclick: () => decideApproval(a.id, 'hold') }, '⏸️ HOLD'));
+      card.appendChild(actions);
+      pa.appendChild(card);
+    });
+  }
+  host.appendChild(pa);
+  return host;
+}
+function buildFeed(title, items) {
+  const card = el('div', { class: 'card' });
+  card.appendChild(el('div', { class: 'section-title' }, title));
+  const feed = el('div', { class: 'feed' });
+  items.forEach(it => {
+    feed.appendChild(el('div', { class: 'feed-item' },
+      el('div', { class: 'feed-time' }, it.t),
+      el('div', { class: 'feed-text', html: it.text })
+    ));
+  });
+  card.appendChild(feed);
+  return card;
+}
+
+/* ============================================================
+   ACTION HANDLERS
+   ============================================================ */
+function completeTask(id, cardEl) {
+  cardEl.classList.add('done');
+  state.redAlerts = state.redAlerts.filter(t => t.id !== id);
+  state.yellowAlerts = state.yellowAlerts.filter(t => t.id !== id);
+  toast('Task completed');
+  setTimeout(render, 500);
+  postUpdate('task.complete', { id });
+}
+function reassignTask(id, to) {
+  const t = state.redAlerts.find(x => x.id === id) || state.yellowAlerts.find(x => x.id === id);
+  if (t) { t.assignedTo = to; toast(`Reassigned to ${to}`); render(); }
+  postUpdate('task.reassign', { id, to });
+}
+function decideCandidate(id, decision) {
+  const c = state.candidates.find(x => x.id === id);
+  if (!c) return;
+  c.decision = decision.toUpperCase();
+  if (decision === 'yes') {
+    const i = STAGES.findIndex(s => s.id === c.stage);
+    if (i >= 0 && i < STAGES.length - 1) c.stage = STAGES[i + 1].id;
+    toast(`${c.name}: YES — advanced to ${STAGES.find(s => s.id === c.stage).label}`);
+  } else if (decision === 'no') {
+    toast(`${c.name}: declined`);
+    state.candidates = state.candidates.filter(x => x.id !== id);
+  } else {
+    toast(`${c.name}: held`);
+  }
+  render();
+  postUpdate('candidate.decision', { id, decision });
+}
+function advanceStage(id) {
+  const c = state.candidates.find(x => x.id === id);
+  if (!c) return;
+  const i = STAGES.findIndex(s => s.id === c.stage);
+  if (i >= 0 && i < STAGES.length - 1) {
+    c.stage = STAGES[i + 1].id;
+    toast(`${c.name} → ${STAGES[i + 1].label}`);
+    render();
+    postUpdate('candidate.advance', { id, stage: c.stage });
+  }
+}
+function decideApproval(id, decision) {
+  state.pendingApprovals = state.pendingApprovals.filter(a => a.id !== id);
+  toast(`Approval ${decision.toUpperCase()} recorded`);
+  render();
+  postUpdate('approval.decision', { id, decision });
+}
+function switchTo(view) {
+  $$('.tab').forEach(t => t.classList.toggle('is-active', t.dataset.view === view));
+  currentView = view;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:var(--shadow-xl);z-index:9999;opacity:0;transition:all 250ms ease;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(() => {
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  clearTimeout(t._hide);
+  t._hide = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 1800);
+}
+
+/* ============================================================
+   FETCH — /api/bridge-data with graceful fallback
+   ============================================================ */
+async function loadData() {
+  try {
+    const res = await fetch('/api/bridge-data', { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    // Merge shallow; preserve seed structure for any missing keys
+    state = { ...state, ...data };
+    toast('Live data loaded');
+  } catch (err) {
+    console.info('[bridge] using seed data —', err.message);
+  }
+  render();
+}
+async function postUpdate(kind, payload) {
+  try {
+    await fetch('/api/bridge-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ kind, payload, at: new Date().toISOString() })
+    });
+  } catch (_) { /* silent — optimistic UI */ }
+}
+
+/* ============================================================
+   RENDER DISPATCH
+   ============================================================ */
+function render() {
+  const host = $('#view-host');
+  host.innerHTML = '';
+  let view;
+  switch (currentView) {
+    case 'karen':  view = renderKaren();  break;
+    case 'va':     view = renderVA();     break;
+    case 'hiring': view = renderHiring(); break;
+    case 'aria':   view = renderAria();   break;
+    default:       view = renderCommand();
+  }
+  host.appendChild(view);
+}
+
+/* Boot */
+loadData();
+</script>
+</body>
+</html>
