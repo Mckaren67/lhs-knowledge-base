@@ -554,23 +554,90 @@ ul { margin: 0; padding: 0; list-style: none; }
   border: 1px solid var(--border);
   border-left: 3px solid var(--accent, var(--border));
   border-radius: var(--radius);
-  padding: 14px 16px;
+  padding: 16px;
   margin-bottom: 10px;
   box-shadow: var(--shadow-sm);
   transition: all var(--transition);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  position: relative;
+  overflow: hidden;
 }
 .task-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .task-card.done {
   opacity: 0.55;
-  text-decoration: line-through;
-  text-decoration-color: var(--text-secondary);
-  text-decoration-thickness: 1.5px;
 }
-.task-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.task-title { font-weight: 600; font-size: 14px; letter-spacing: -0.01em; }
+.task-card.done .task-title { text-decoration: line-through; text-decoration-thickness: 1.5px; color: var(--text-secondary); }
+.task-card.flash::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(22, 163, 74, 0.45), rgba(22, 163, 74, 0) 70%);
+  pointer-events: none;
+  animation: greenFlash 900ms ease-out forwards;
+}
+@keyframes greenFlash {
+  0%   { opacity: 0; transform: scale(0.9); }
+  35%  { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+/* --- Big Complete checkbox on the left --- */
+.task-check {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  border: 2px solid var(--border-strong);
+  background: var(--card);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  color: transparent;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: var(--shadow-sm);
+}
+.task-check:hover {
+  border-color: var(--success);
+  background: var(--success-soft);
+  color: var(--success);
+  transform: scale(1.06);
+  box-shadow: 0 0 0 6px rgba(22,163,74,0.08);
+}
+.task-check:active { transform: scale(0.96); }
+.task-check.is-checked {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+.task-check-label {
+  position: absolute;
+  left: -9999px;
+}
+
+.task-body { min-width: 0; }
+.task-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.task-title { font-weight: 600; font-size: 14.5px; letter-spacing: -0.01em; line-height: 1.35; }
+
+/* --- Note preview under title --- */
+.task-note-preview {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  padding: 6px 10px;
+  background: var(--card-subtle);
+  border-left: 2px solid var(--border-strong);
+  border-radius: 0 6px 6px 0;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
 .task-meta {
-  display: flex; align-items: center; gap: 10px;
-  margin-top: 8px;
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 10px;
   font-size: 12px; color: var(--text-secondary);
   flex-wrap: wrap;
 }
@@ -585,7 +652,184 @@ ul { margin: 0; padding: 0; list-style: none; }
 .chip-auto { color: var(--primary-strong); background: var(--primary-soft); border-color: transparent; }
 .chip-human { color: var(--text-secondary); }
 .chip-save { color: var(--success); background: var(--success-soft); border-color: transparent; font-weight: 600; }
-.task-actions { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.chip-due { color: var(--warning); background: var(--warning-soft); border-color: transparent; font-weight: 600; }
+.chip-overdue { color: var(--danger); background: var(--danger-soft); border-color: transparent; font-weight: 700; }
+
+/* --- Category chip (colored dot + label) --- */
+.cat-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: color-mix(in srgb, var(--cat-color) 12%, transparent);
+  color: var(--cat-color);
+  border: 1px solid color-mix(in srgb, var(--cat-color) 25%, transparent);
+}
+.cat-chip::before {
+  content: '';
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--cat-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cat-color) 18%, transparent);
+}
+
+/* --- 3-button row, color-coded --- */
+.task-actions {
+  margin-top: 12px;
+  display: flex; gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.btn-complete {
+  background: var(--success);
+  color: #fff;
+  border-color: transparent;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(22,163,74,0.25);
+}
+.btn-complete:hover { filter: brightness(1.05); box-shadow: 0 2px 6px rgba(22,163,74,0.35); }
+.btn-reassign {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(37,99,235,0.2);
+}
+.btn-reassign:hover { background: var(--primary-strong); box-shadow: 0 2px 6px rgba(37,99,235,0.3); }
+.btn-notes {
+  background: var(--card-subtle);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  padding: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  position: relative;
+}
+.btn-notes:hover { background: var(--border); }
+.btn-notes .notes-badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  min-width: 18px; height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+  display: grid; place-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* --- Reassign dropdown popover --- */
+.reassign-panel, .notes-panel {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  animation: expand 220ms ease;
+}
+@keyframes expand {
+  from { opacity: 0; transform: translateY(-6px); max-height: 0; }
+  to   { opacity: 1; transform: translateY(0); max-height: 400px; }
+}
+.reassign-panel .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.reassign-panel label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.notes-panel textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color var(--transition);
+}
+.notes-panel textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.notes-panel .actions {
+  margin-top: 10px;
+  display: flex; gap: 8px;
+  justify-content: flex-end;
+}
+
+/* --- Completed Today section --- */
+.completed-card {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: var(--success-soft);
+  border: 1px dashed color-mix(in srgb, var(--success) 30%, var(--border));
+  border-radius: var(--radius);
+}
+.completed-head {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--success);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.completed-list { display: flex; flex-direction: column; gap: 6px; }
+.completed-item {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--card);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+.completed-item .strike { text-decoration: line-through; color: var(--text-secondary); }
+.completed-item .done-time { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+.completed-item .undo-btn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.completed-item .undo-btn:hover { color: var(--text); border-color: var(--border-strong); }
+
+/* --- Mini task (no checkbox variant for yellow if desired; currently we use full card) --- */
+.my-tasks-card {
+  background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.05));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.my-tasks-head {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  margin-bottom: 12px;
+}
+.my-tasks-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.my-tasks-title .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger) 18%, transparent);
+  animation: pulse 2s infinite;
+}
+.my-tasks-sub { font-size: 12.5px; color: var(--text-secondary); margin-top: 4px; }
+
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px;
@@ -953,6 +1197,22 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 <script>
 /* ============================================================
+   CATEGORIES — 9 total, Accountant Tasks uses the spec purple
+   ============================================================ */
+const CATEGORIES = [
+  { id: 'hiring',       name: 'Hiring',             color: '#2563EB' },
+  { id: 'field-ops',    name: 'Field Operations',   color: '#16A34A' },
+  { id: 'client-mgmt',  name: 'Client Management',  color: '#0891B2' },
+  { id: 'admin',        name: 'Admin',              color: '#6B7280' },
+  { id: 'marketing',    name: 'Marketing',          color: '#DB2777' },
+  { id: 'financial',    name: 'Financial',          color: '#D97706' },
+  { id: 'automation',   name: 'Automation',         color: '#6366F1' },
+  { id: 'website',      name: 'Website',            color: '#0EA5E9' },
+  { id: 'accountant',   name: 'Accountant Tasks',   color: '#7C3AED' }
+];
+const CAT_BY_ID = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
+
+/* ============================================================
    STATE & SEED DATA
    ============================================================ */
 const SEED = {
@@ -989,18 +1249,34 @@ const SEED = {
     arOutstanding: 13092
   },
   redAlerts: [
-    { id: 'r1', title: 'Website feedback to agency', assignedTo: 'Michael', mode: 'Human', est: 15, saveIfAuto: 12 },
-    { id: 'r2', title: 'Indeed — review 3 positions', assignedTo: 'Cowork', mode: 'Automated', est: 30, saveIfAuto: 25 },
-    { id: 'r3', title: 'Contact Sarah Campbell', assignedTo: 'Michael', mode: 'Human', est: 5, saveIfAuto: 3 },
-    { id: 'r4', title: 'Verify Ester phone number', assignedTo: 'Michael', mode: 'Human', est: 2, saveIfAuto: 1 }
+    // ─── Michael / shared red alerts ───
+    { id: 'r1', title: 'Website feedback to agency',    assignedTo: 'Michael', category: 'website',    mode: 'Human',     est: 15, saveIfAuto: 12 },
+    { id: 'r2', title: 'Indeed — review 3 positions',   assignedTo: 'Cowork',  category: 'hiring',     mode: 'Automated', est: 30, saveIfAuto: 25 },
+    { id: 'r3', title: 'Contact Sarah Campbell',        assignedTo: 'Michael', category: 'hiring',     mode: 'Human',     est: 5,  saveIfAuto: 3  },
+    { id: 'r4', title: 'Verify Ester phone number',     assignedTo: 'Michael', category: 'hiring',     mode: 'Human',     est: 2,  saveIfAuto: 1  },
+    // ─── Karen's red alerts (today) ───
+    { id: 'k-red-1', title: 'Karen Corrie screen — 3 pm TODAY',   assignedTo: 'Karen', category: 'hiring',      mode: 'Human', est: 15, due: 'Today 3 pm' },
+    { id: 'k-red-2', title: 'Score Karen Corrie — text Michael',  assignedTo: 'Karen', category: 'hiring',      mode: 'Human', est: 5,  due: 'After screen', note: 'Score out of 25 + gut feel' },
+    { id: 'k-red-3', title: 'Paula client list — pull from HCP',  assignedTo: 'Karen', category: 'field-ops',   mode: 'Human', est: 10, due: 'Today' },
+    { id: 'k-red-4', title: 'Hélène Brassard — DO NOT contact yet', assignedTo: 'Karen', category: 'client-mgmt', mode: 'Human', est: 20, note: 'Wait until replacement found' }
   ],
   yellowAlerts: [
-    { id: 'y1', title: 'Karen meeting — Fri/Sat/Mon' },
-    { id: 'y2', title: 'Alissa modified role conversation' },
-    { id: 'y3', title: 'Cowork HCP test confirmation' },
-    { id: 'y4', title: 'Claude Routines setup — Monday' },
-    { id: 'y5', title: 'VA final selection — Monday' }
+    // ─── Shared yellow alerts ───
+    { id: 'y1', title: 'Karen meeting — Fri/Sat/Mon',    assignedTo: 'Michael',          category: 'hiring',    mode: 'Human', est: 20 },
+    { id: 'y3', title: 'Cowork HCP test confirmation',   assignedTo: 'Michael',          category: 'automation', mode: 'Automated', est: 15 },
+    { id: 'y4', title: 'Claude Routines setup — Monday', assignedTo: 'Michael',          category: 'automation', mode: 'Human', est: 45 },
+    { id: 'y5', title: 'VA final selection — Monday',    assignedTo: 'Michael + Karen',  category: 'hiring',    mode: 'Human', est: 30 },
+    // ─── Karen's yellow alerts ───
+    { id: 'k-yel-5', title: 'Alissa modified role — gentle conversation', assignedTo: 'Karen',           category: 'field-ops', mode: 'Human', est: 20 },
+    { id: 'k-yel-6', title: 'Client notes session — top 30 clients',      assignedTo: 'Karen + Michael', category: 'admin',     mode: 'Human', est: 120 },
+    { id: 'k-yel-7', title: 'Team Lead selection',                         assignedTo: 'Karen + Michael', category: 'hiring',    mode: 'Human', est: 30 },
+    { id: 'k-yel-8', title: 'Review new website draft',                    assignedTo: 'Karen',           category: 'marketing', mode: 'Human', est: 30 },
+    // ─── Karen's Accountant Tasks (yellow, 2 overdue) ───
+    { id: 'k-acc-9',  title: 'ROE for Lorissa W — email Bill Gee', assignedTo: 'Karen', category: 'accountant', mode: 'Human', est: 10, overdue: true, due: 'Overdue' },
+    { id: 'k-acc-10', title: 'ROE for Julieta S — email Bill Gee', assignedTo: 'Karen', category: 'accountant', mode: 'Human', est: 10, overdue: true, due: 'Overdue' },
+    { id: 'k-acc-11', title: 'ROE for Paula — email Bill Gee',     assignedTo: 'Karen', category: 'accountant', mode: 'Human', est: 10 }
   ],
+  completedToday: [],
   financial: {
     westbow: { amount: 13092, dueBy: 'end of May', lastContact: 'April 16', contactPerson: 'Amanda Bosma', followUp: 'April 23' },
     billGee: { task: '2025 taxes', followUp: 'April 23' }
@@ -1327,52 +1603,115 @@ function buildStat(label, value, accent, icon, trend) {
 function renderAlertColumn() {
   const col = el('div', { class: 'flex-col' });
 
-  // Red alerts
+  // Red alerts (exclude completed)
+  const redItems = state.redAlerts.filter(t => !t.completed);
   const red = el('div', { class: 'card', style: '--accent: var(--danger)' });
   red.appendChild(el('div', { class: 'section-title' },
     '🔴 Red Alert',
-    el('span', { class: 'pill pill-red' }, `${state.redAlerts.length} tasks`)
+    el('span', { class: 'pill pill-red' }, `${redItems.length} task${redItems.length === 1 ? '' : 's'}`)
   ));
-  state.redAlerts.forEach(t => red.appendChild(buildTaskCard(t, 'var(--danger)')));
+  redItems.forEach(t => red.appendChild(buildTaskCard(t, 'var(--danger)')));
+  if (!redItems.length) red.appendChild(el('div', { class: 'info-sub', style: 'padding: 8px 4px;' }, 'No red alerts remaining. ✨'));
   col.appendChild(red);
 
-  // Yellow alerts
+  // Yellow alerts (exclude completed)
+  const yelItems = state.yellowAlerts.filter(t => !t.completed);
   const yel = el('div', { class: 'card' });
   yel.appendChild(el('div', { class: 'section-title' },
     '🟡 Yellow Alert',
-    el('span', { class: 'pill pill-yellow' }, `${state.yellowAlerts.length} tasks`)
+    el('span', { class: 'pill pill-yellow' }, `${yelItems.length} task${yelItems.length === 1 ? '' : 's'}`)
   ));
-  state.yellowAlerts.forEach(t => {
-    const c = el('div', { class: 'task-card', style: '--accent: var(--warning)' });
-    c.appendChild(el('div', { class: 'task-head' },
-      el('div', { class: 'task-title' }, t.title)
-    ));
-    yel.appendChild(c);
-  });
+  yelItems.forEach(t => yel.appendChild(buildTaskCard(t, 'var(--warning)')));
+  if (!yelItems.length) yel.appendChild(el('div', { class: 'info-sub', style: 'padding: 8px 4px;' }, 'Yellow queue clear.'));
   col.appendChild(yel);
+
+  // Completed Today
+  col.appendChild(renderCompletedToday());
 
   return col;
 }
-function buildTaskCard(t, accent) {
-  const card = el('div', { class: 'task-card', style: `--accent:${accent}`, dataset: { id: t.id } });
-  card.appendChild(el('div', { class: 'task-head' },
-    el('div', { class: 'task-title' }, t.title)
+
+function renderCompletedToday() {
+  const card = el('div', { class: 'completed-card' });
+  card.appendChild(el('div', { class: 'completed-head' },
+    '✅ Completed Today',
+    el('span', { class: 'pill pill-green' }, `${state.completedToday.length} done`)
   ));
+  const list = el('div', { class: 'completed-list' });
+  if (!state.completedToday.length) {
+    list.appendChild(el('div', { class: 'info-sub', style: 'font-style: italic;' }, 'Nothing completed yet. Check one off to see it here.'));
+  } else {
+    // Most recent first
+    [...state.completedToday].reverse().forEach(t => {
+      const item = el('div', { class: 'completed-item' });
+      item.appendChild(el('div', { class: 'strike' }, t.title));
+      item.appendChild(el('div', { style: 'display:flex;gap:8px;align-items:center;' },
+        el('span', { class: 'done-time' }, t.completedAt || ''),
+        el('button', { class: 'undo-btn', onclick: () => undoComplete(t.id) }, '↶ Undo')
+      ));
+      list.appendChild(item);
+    });
+  }
+  card.appendChild(list);
+  return card;
+}
+function buildTaskCard(t, accent) {
+  const cat = CAT_BY_ID[t.category] || { name: 'Uncategorized', color: 'var(--text-secondary)' };
+  const note = getNote(t.id);
+  const card = el('div', { class: 'task-card', style: `--accent:${accent}`, dataset: { id: t.id } });
+
+  // Left: big green checkbox (primary CTA)
+  const check = el('button', {
+    class: 'task-check',
+    title: 'Mark complete',
+    'aria-label': 'Mark complete',
+    onclick: (e) => { e.stopPropagation(); completeTask(t.id, card); }
+  }, '✓');
+  card.appendChild(check);
+
+  // Right: body
+  const body = el('div', { class: 'task-body' });
+
+  const head = el('div', { class: 'task-head' });
+  const titleWrap = el('div', { style: 'display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;' },
+    el('div', { class: 'task-title' }, t.title)
+  );
+  // Inline note (hard-coded or saved) shown in grey under title
+  const previewText = note || t.note || '';
+  const preview = el('div', { class: 'task-note-preview' + (previewText ? '' : ' hidden'), dataset: { role: 'note-preview' } }, previewText);
+  titleWrap.appendChild(preview);
+  head.appendChild(titleWrap);
+  head.appendChild(el('span', { class: 'cat-chip', style: `--cat-color: ${cat.color};`, title: 'Category' }, cat.name));
+  body.appendChild(head);
+
   const meta = el('div', { class: 'task-meta' });
   meta.appendChild(el('span', { class: 'chip' }, `👤 ${t.assignedTo}`));
   meta.appendChild(el('span', { class: t.mode === 'Automated' ? 'chip chip-auto' : 'chip chip-human' }, (t.mode === 'Automated' ? '⚡ ' : '🧑 ') + t.mode));
-  meta.appendChild(el('span', { class: 'chip' }, `⏱️ ${t.est} min`));
+  if (t.est) meta.appendChild(el('span', { class: 'chip' }, `⏱️ ${t.est} min`));
   if (t.saveIfAuto) meta.appendChild(el('span', { class: 'chip chip-save' }, `↑ save ${t.saveIfAuto}m if auto`));
-  card.appendChild(meta);
+  if (t.overdue) meta.appendChild(el('span', { class: 'chip chip-overdue' }, '⚠️ Overdue'));
+  else if (t.due)  meta.appendChild(el('span', { class: 'chip chip-due' }, `📅 ${t.due}`));
+  body.appendChild(meta);
 
+  // 3 labeled buttons
   const actions = el('div', { class: 'task-actions' });
-  const assign = el('select', { class: 'select-assign', onchange: (e) => reassignTask(t.id, e.target.value) });
-  assign.appendChild(el('option', { value: '', disabled: 'disabled' }, 'Reassign…'));
-  ASSIGNABLE.forEach(p => assign.appendChild(el('option', { value: p, selected: p === t.assignedTo.split(' ')[0] ? 'selected' : null }, p)));
-  actions.appendChild(assign);
-  actions.appendChild(el('button', { class: 'btn btn-success btn-sm', onclick: () => completeTask(t.id, card) }, '✓ Complete'));
-  actions.appendChild(el('button', { class: 'btn btn-sm', onclick: () => toast('Notes panel coming in v2') }, 'Notes'));
-  card.appendChild(actions);
+  actions.appendChild(el('button', {
+    class: 'btn btn-complete',
+    onclick: (e) => { e.stopPropagation(); completeTask(t.id, card); }
+  }, '✅ Complete'));
+  actions.appendChild(el('button', {
+    class: 'btn btn-reassign',
+    onclick: (e) => { e.stopPropagation(); toggleReassignPanel(card, t.id); }
+  }, '👤 Reassign'));
+  const notesBtn = el('button', {
+    class: 'btn btn-notes',
+    onclick: (e) => { e.stopPropagation(); toggleNotesPanel(card, t.id); }
+  }, '📝 Notes');
+  if (note) notesBtn.appendChild(el('span', { class: 'notes-badge' }, '1'));
+  actions.appendChild(notesBtn);
+  body.appendChild(actions);
+
+  card.appendChild(body);
   return card;
 }
 function renderRightColumn() {
@@ -1473,7 +1812,82 @@ function renderKaren() {
   const host = el('div');
   host.appendChild(renderMeter());
 
-  // Today's schedule up top
+  // ============================================================
+  // MY TASKS — Karen's tasks only, right at the top
+  // ============================================================
+  const isKaren = (t) => (t.assignedTo || '').toLowerCase().includes('karen');
+  const karenRed = state.redAlerts.filter(t => isKaren(t) && !t.completed);
+  const karenYel = state.yellowAlerts.filter(t => isKaren(t) && !t.completed);
+  const karenDone = state.completedToday.filter(t => isKaren(t));
+
+  const myTasks = el('div', { class: 'my-tasks-card' });
+  myTasks.appendChild(el('div', { class: 'my-tasks-head' },
+    el('div', {},
+      el('div', { class: 'my-tasks-title' },
+        el('span', { class: 'dot' }),
+        el('span', {}, '👩 MY TASKS'),
+        el('span', { class: 'pill pill-red' }, `${karenRed.length} red`),
+        el('span', { class: 'pill pill-yellow' }, `${karenYel.length} yellow`)
+      ),
+      el('div', { class: 'my-tasks-sub' }, `Tasks assigned to Karen — separate from Michael's. ${karenDone.length} completed today.`)
+    )
+  ));
+
+  // My red tasks
+  const myRedCard = el('div', { class: 'card', style: '--accent: var(--danger); margin-bottom: 14px;' });
+  myRedCard.appendChild(el('div', { class: 'section-title' },
+    '🔴 My Red Alerts',
+    el('span', { class: 'pill pill-red' }, `${karenRed.length} task${karenRed.length === 1 ? '' : 's'}`)
+  ));
+  if (!karenRed.length) myRedCard.appendChild(el('div', { class: 'info-sub', style: 'padding:4px;' }, 'Clear for now — nothing urgent on Karen.'));
+  karenRed.forEach(t => myRedCard.appendChild(buildTaskCard(t, 'var(--danger)')));
+  myTasks.appendChild(myRedCard);
+
+  // My yellow tasks (grouped with accountant tasks called out)
+  const myYelCard = el('div', { class: 'card' });
+  myYelCard.appendChild(el('div', { class: 'section-title' },
+    '🟡 My Yellow Alerts',
+    el('span', { class: 'pill pill-yellow' }, `${karenYel.length} task${karenYel.length === 1 ? '' : 's'}`)
+  ));
+  // Split accountant tasks to the top within the yellow card
+  const accountantFirst = karenYel.slice().sort((a, b) => {
+    const ax = a.category === 'accountant' ? 0 : 1;
+    const bx = b.category === 'accountant' ? 0 : 1;
+    if (ax !== bx) return ax - bx;
+    return (a.overdue ? 0 : 1) - (b.overdue ? 0 : 1);
+  });
+  if (!accountantFirst.length) myYelCard.appendChild(el('div', { class: 'info-sub', style: 'padding:4px;' }, 'Yellow queue clear.'));
+  accountantFirst.forEach(t => myYelCard.appendChild(buildTaskCard(t, 'var(--warning)')));
+  myTasks.appendChild(myYelCard);
+
+  // Completed today (Karen's only)
+  const karenCompletedCard = el('div', { class: 'completed-card', style: 'margin-top:14px;' });
+  karenCompletedCard.appendChild(el('div', { class: 'completed-head' },
+    '✅ My Completed Today',
+    el('span', { class: 'pill pill-green' }, `${karenDone.length} done`)
+  ));
+  const kList = el('div', { class: 'completed-list' });
+  if (!karenDone.length) {
+    kList.appendChild(el('div', { class: 'info-sub', style: 'font-style: italic;' }, 'Check something off to see it here.'));
+  } else {
+    [...karenDone].reverse().forEach(t => {
+      const item = el('div', { class: 'completed-item' });
+      item.appendChild(el('div', { class: 'strike' }, t.title));
+      item.appendChild(el('div', { style: 'display:flex;gap:8px;align-items:center;' },
+        el('span', { class: 'done-time' }, t.completedAt || ''),
+        el('button', { class: 'undo-btn', onclick: () => undoComplete(t.id) }, '↶ Undo')
+      ));
+      kList.appendChild(item);
+    });
+  }
+  karenCompletedCard.appendChild(kList);
+  myTasks.appendChild(karenCompletedCard);
+
+  host.appendChild(myTasks);
+
+  // ============================================================
+  // Today's schedule
+  // ============================================================
   const sched = el('div', { class: 'card', style: 'margin-bottom:16px;' });
   sched.appendChild(el('div', { class: 'section-title' }, '📅 Today\'s Schedule — Saturday, April 17'));
   const list = el('div', { class: 'schedule' });
@@ -1491,10 +1905,12 @@ function renderKaren() {
   sched.appendChild(list);
   host.appendChild(sched);
 
-  // Two-column similar to command but field-ops focus
+  // ============================================================
+  // Two-column lower sections — field ops focus
+  // ============================================================
   const row = el('div', { class: 'grid grid-2' });
 
-  // Left: Crew focus
+  // Left: Crew focus + client notes reminders
   const left = el('div', { class: 'flex-col' });
   const crew = el('div', { class: 'card' });
   crew.appendChild(el('div', { class: 'section-title' }, '👥 Crew Status — Active'));
@@ -1519,15 +1935,18 @@ function renderKaren() {
   left.appendChild(notes);
   row.appendChild(left);
 
-  // Right: Red alerts + hiring quick
+  // Right: shared team alerts (not only Karen's) + hiring quick
   const right = el('div', { class: 'flex-col' });
-  const red = el('div', { class: 'card', style: '--accent: var(--danger)' });
-  red.appendChild(el('div', { class: 'section-title' },
-    '🔴 Red Alerts for Karen',
-    el('span', { class: 'pill pill-red' }, `${state.redAlerts.length} tasks`)
-  ));
-  state.redAlerts.forEach(t => red.appendChild(buildTaskCard(t, 'var(--danger)')));
-  right.appendChild(red);
+  const sharedRed = state.redAlerts.filter(t => !isKaren(t) && !t.completed);
+  if (sharedRed.length) {
+    const teamRed = el('div', { class: 'card', style: '--accent: var(--danger)' });
+    teamRed.appendChild(el('div', { class: 'section-title' },
+      '🔴 Team Red Alerts',
+      el('span', { class: 'pill pill-red' }, `${sharedRed.length} task${sharedRed.length === 1 ? '' : 's'}`)
+    ));
+    sharedRed.forEach(t => teamRed.appendChild(buildTaskCard(t, 'var(--danger)')));
+    right.appendChild(teamRed);
+  }
 
   const hire = el('div', { class: 'card' });
   hire.appendChild(el('div', { class: 'row-between' },
@@ -1848,18 +2267,130 @@ function buildFeed(title, items) {
 /* ============================================================
    ACTION HANDLERS
    ============================================================ */
+function findTask(id) {
+  return state.redAlerts.find(x => x.id === id) || state.yellowAlerts.find(x => x.id === id) || state.completedToday.find(x => x.id === id);
+}
 function completeTask(id, cardEl) {
-  cardEl.classList.add('done');
-  state.redAlerts = state.redAlerts.filter(t => t.id !== id);
-  state.yellowAlerts = state.yellowAlerts.filter(t => t.id !== id);
-  toast('Task completed');
-  setTimeout(render, 500);
+  const t = findTask(id);
+  if (!t || t.completed) return;
+  // Mark complete + record time
+  t.completed = true;
+  t.completedAt = new Date().toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit' }) + ' PT';
+  // Visual: flash + strike, then re-render (moves to Completed Today)
+  if (cardEl) {
+    cardEl.classList.add('done', 'flash');
+    const chk = cardEl.querySelector('.task-check');
+    if (chk) { chk.classList.add('is-checked'); chk.textContent = '✓'; }
+    const btn = cardEl.querySelector('.btn-complete');
+    if (btn) { btn.disabled = true; btn.textContent = '✅ Completed'; }
+  }
+  // Track in completedToday list for display (without removing from source arrays so undo works)
+  if (!state.completedToday.some(x => x.id === id)) state.completedToday.push(t);
+  toast('✅ ' + t.title.slice(0, 40) + (t.title.length > 40 ? '…' : ''));
+  setTimeout(render, 700);
   postUpdate('task.complete', { id });
 }
+function undoComplete(id) {
+  const t = findTask(id);
+  if (!t) return;
+  t.completed = false;
+  delete t.completedAt;
+  state.completedToday = state.completedToday.filter(x => x.id !== id);
+  toast('↶ Restored');
+  render();
+  postUpdate('task.undo', { id });
+}
 function reassignTask(id, to) {
-  const t = state.redAlerts.find(x => x.id === id) || state.yellowAlerts.find(x => x.id === id);
+  const t = findTask(id);
   if (t) { t.assignedTo = to; toast(`Reassigned to ${to}`); render(); }
   postUpdate('task.reassign', { id, to });
+}
+
+/* ============================================================
+   NOTES (localStorage) + REASSIGN PANEL
+   ============================================================ */
+function getNote(taskId) {
+  try { return localStorage.getItem('bridge-note-' + taskId) || ''; }
+  catch (_) { return ''; }
+}
+function setNote(taskId, value) {
+  try {
+    if (value && value.trim()) localStorage.setItem('bridge-note-' + taskId, value.trim());
+    else localStorage.removeItem('bridge-note-' + taskId);
+  } catch (_) {}
+}
+function toggleNotesPanel(cardEl, taskId) {
+  // Remove other open panels on the same card
+  const existing = cardEl.querySelector('.notes-panel');
+  if (existing) { existing.remove(); return; }
+  closePanels(cardEl);
+
+  const panel = el('div', { class: 'notes-panel' });
+  const ta = el('textarea', { placeholder: 'Add a note — saved to this device only.' });
+  ta.value = getNote(taskId);
+  const actions = el('div', { class: 'actions' });
+  const cancel = el('button', { class: 'btn btn-sm', onclick: () => panel.remove() }, 'Cancel');
+  const clear = el('button', { class: 'btn btn-sm btn-danger-ghost', onclick: () => {
+    setNote(taskId, '');
+    ta.value = '';
+    updateNotePreview(cardEl, '');
+    updateNotesBadge(cardEl, 0);
+    toast('Note cleared');
+  }}, 'Clear');
+  const save = el('button', { class: 'btn btn-primary btn-sm', onclick: () => {
+    setNote(taskId, ta.value);
+    updateNotePreview(cardEl, ta.value);
+    updateNotesBadge(cardEl, ta.value.trim() ? 1 : 0);
+    toast('Note saved');
+    panel.remove();
+    postUpdate('task.note', { id: taskId, note: ta.value });
+  }}, 'Save note');
+  actions.appendChild(cancel);
+  actions.appendChild(clear);
+  actions.appendChild(save);
+  panel.appendChild(ta);
+  panel.appendChild(actions);
+  cardEl.appendChild(panel);
+  ta.focus();
+}
+function toggleReassignPanel(cardEl, taskId) {
+  const existing = cardEl.querySelector('.reassign-panel');
+  if (existing) { existing.remove(); return; }
+  closePanels(cardEl);
+
+  const panel = el('div', { class: 'reassign-panel' });
+  const row = el('div', { class: 'row' });
+  row.appendChild(el('label', {}, 'Reassign to:'));
+  ASSIGNABLE.forEach(owner => {
+    row.appendChild(el('button', {
+      class: 'btn btn-sm',
+      onclick: () => {
+        reassignTask(taskId, owner);
+      }
+    }, owner));
+  });
+  panel.appendChild(row);
+  cardEl.appendChild(panel);
+}
+function closePanels(cardEl) {
+  cardEl.querySelectorAll('.notes-panel, .reassign-panel').forEach(p => p.remove());
+}
+function updateNotePreview(cardEl, text) {
+  const p = cardEl.querySelector('[data-role="note-preview"]');
+  if (!p) return;
+  p.textContent = text || '';
+  p.classList.toggle('hidden', !text || !text.trim());
+}
+function updateNotesBadge(cardEl, count) {
+  const btn = cardEl.querySelector('.btn-notes');
+  if (!btn) return;
+  const existing = btn.querySelector('.notes-badge');
+  if (count > 0) {
+    if (existing) existing.textContent = String(count);
+    else btn.appendChild(el('span', { class: 'notes-badge' }, String(count)));
+  } else if (existing) {
+    existing.remove();
+  }
 }
 function decideCandidate(id, decision) {
   const c = state.candidates.find(x => x.id === id);
