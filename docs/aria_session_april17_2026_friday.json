@@ -1,0 +1,178 @@
+{
+  "key": "aria_session_april17_2026_friday",
+  "session": {
+    "id": "aria_session_april17_2026_friday",
+    "date": "2026-04-17",
+    "dayOfWeek": "Friday",
+    "timezone": "America/Los_Angeles",
+    "correctedFrom": "aria_session_april17_2026 (previously labeled Saturday in error)",
+    "correctionNote": "April 17, 2026 is a Friday, not a Saturday. All documentation updated.",
+    "correctedAt": "2026-04-17T14:45:00-07:00"
+  },
+  "hiringProject": {
+    "name": "HIRING_PROJECT_APRIL2026",
+    "owner": "Karen McLaren + Michael McLaren",
+    "goal": {
+      "hiresNeeded": 3,
+      "deadline": "2026-05-01",
+      "role": "Residential House Cleaner",
+      "location": "Chilliwack, BC V2R 1A1"
+    },
+    "openRoles": [
+      { "vacatedBy": "Lorissa W", "date": "2026-03-26", "priority": "urgent" },
+      { "vacatedBy": "Julieta S", "date": "2026-03-26", "priority": "urgent" },
+      { "vacatedBy": "Paula",     "date": "2026-04-16", "priority": "urgent", "note": "no notice" }
+    ],
+    "modifiedRole": { "name": "Alissa", "status": "hospital leave" }
+  },
+  "candidates": [
+    {
+      "id": "karen-corrie",
+      "name": "Karen Corrie",
+      "stage": "calendly-booked",
+      "score": 9,
+      "highlights": ["Enhanced criminal check", "Driver abstract", "Elder care potential"],
+      "flags": [],
+      "nextAction": {
+        "type": "discovery-call",
+        "when": "2026-04-17T15:00:00-07:00",
+        "owner": "Karen",
+        "urgent": true
+      }
+    },
+    {
+      "id": "trish-beekman",
+      "name": "Trish Beekman",
+      "stage": "trial-offer",
+      "score": 7,
+      "highlights": ["Follow-up Apr 19", "Est. start May 5 2026"],
+      "flags": [],
+      "nextAction": {
+        "type": "follow-up",
+        "when": "2026-04-19",
+        "owner": "Karen"
+      }
+    },
+    {
+      "id": "ester-manigbas",
+      "name": "Ester Manigbas",
+      "stage": "aria-review",
+      "score": 8,
+      "highlights": ["11 years experience", "Food Safe", "100% travel"],
+      "flags": ["Phone incomplete", "Vehicle unconfirmed"],
+      "nextAction": {
+        "type": "verify-phone",
+        "owner": "Michael",
+        "priority": "red"
+      }
+    },
+    {
+      "id": "sarah-campbell",
+      "name": "Sarah Campbell",
+      "stage": "aria-review",
+      "score": 7,
+      "highlights": ["Team Lead potential"],
+      "flags": ["Overqualification risk"],
+      "nextAction": {
+        "type": "first-contact",
+        "owner": "Michael",
+        "priority": "red"
+      }
+    },
+    {
+      "id": "alisha-chumber",
+      "name": "Alisha Chumber",
+      "stage": "applied",
+      "score": null,
+      "highlights": ["Trilingual", "Meets all screeners"],
+      "flags": ["Location mismatch", "Thin cleaning history"],
+      "appliedAt": "2026-04-16T15:57:00-07:00",
+      "nextAction": {
+        "type": "michael-decision",
+        "owner": "Michael",
+        "reason": "Cowork assessed — awaiting decision to phone-screen or decline"
+      }
+    },
+    {
+      "id": "nicole-bryson",
+      "name": "Nicole Bryson",
+      "stage": "applied",
+      "score": null,
+      "decision": "HOLD",
+      "highlights": [],
+      "flags": ["No vehicle"],
+      "nextAction": null
+    },
+    {
+      "id": "louise-savoie",
+      "name": "Louise Savoie",
+      "stage": "applied",
+      "score": null,
+      "highlights": [],
+      "flags": [],
+      "communicationLog": [
+        {
+          "date": "2026-04-17",
+          "time": "14:40",
+          "timezone": "Pacific",
+          "dayOfWeek": "Friday",
+          "channel": "phone",
+          "actor": "Michael",
+          "summary": "Michael called — left voicemail",
+          "autoFollowUp": {
+            "scheduledFor": "2026-04-18T14:40:00-07:00",
+            "dayOfWeek": "Saturday",
+            "condition": "if no callback received"
+          }
+        }
+      ],
+      "nextAction": {
+        "type": "auto-follow-up",
+        "when": "2026-04-18T14:40:00-07:00",
+        "owner": "Michael",
+        "reason": "No callback window"
+      }
+    }
+  ],
+  "agenticAdoption": {
+    "current": 69,
+    "target": 80,
+    "projectedDate": "2026-05-08",
+    "systems": [
+      { "name": "Aria SMS",     "tasks": 46, "percent": 46 },
+      { "name": "HCP Auto",     "tasks": 24, "percent": 24 },
+      { "name": "Cowork",       "tasks": 12, "percent": 12 },
+      { "name": "Routines",     "tasks": 6,  "percent": 6  },
+      { "name": "VA Assisted",  "tasks": 4,  "percent": 4  },
+      { "name": "Human Only",   "tasks": 8,  "percent": 8  }
+    ]
+  },
+  "redAlerts": [
+    { "id": "r1", "title": "Website feedback to agency",      "owner": "Michael" },
+    { "id": "r2", "title": "Indeed — review 3 positions",     "owner": "Cowork"  },
+    { "id": "r3", "title": "Contact Sarah Campbell",          "owner": "Michael" },
+    { "id": "r4", "title": "Verify Ester phone number",       "owner": "Michael" },
+    { "id": "k-red-1", "title": "Karen Corrie screen — 3 pm TODAY", "owner": "Karen" },
+    { "id": "k-red-2", "title": "Score Karen Corrie — text Michael", "owner": "Karen" },
+    { "id": "k-red-3", "title": "Paula client list — pull from HCP", "owner": "Karen" },
+    { "id": "k-red-4", "title": "Hélène Brassard — DO NOT contact yet", "owner": "Karen" }
+  ],
+  "yellowAlerts": [
+    { "id": "y1", "title": "Karen meeting — Fri/Sat/Mon",     "owner": "Michael" },
+    { "id": "y3", "title": "Cowork HCP test confirmation",    "owner": "Michael" },
+    { "id": "y4", "title": "Claude Routines setup — Monday",  "owner": "Michael" },
+    { "id": "y5", "title": "VA final selection — Monday",     "owner": "Michael + Karen" },
+    { "id": "k-yel-5", "title": "Alissa modified role — gentle conversation", "owner": "Karen" },
+    { "id": "k-yel-6", "title": "Client notes session — top 30 clients",      "owner": "Karen + Michael" },
+    { "id": "k-yel-7", "title": "Team Lead selection",                         "owner": "Karen + Michael" },
+    { "id": "k-yel-8", "title": "Review new website draft",                    "owner": "Karen" },
+    { "id": "k-acc-9",  "title": "ROE for Lorissa W — email Bill Gee", "owner": "Karen", "overdue": true },
+    { "id": "k-acc-10", "title": "ROE for Julieta S — email Bill Gee", "owner": "Karen", "overdue": true },
+    { "id": "k-acc-11", "title": "ROE for Paula — email Bill Gee",     "owner": "Karen" }
+  ],
+  "redisInstructions": {
+    "howToWrite": "SET aria_session_april17_2026_friday '<stringified-json-of-session-and-payload>'",
+    "suggestedClient": "Upstash REST API or Vercel KV",
+    "exampleCurl": "curl -X POST \"${UPSTASH_REDIS_URL}/set/aria_session_april17_2026_friday\" -H \"Authorization: Bearer ${UPSTASH_REDIS_TOKEN}\" --data-binary @docs/aria_session_april17_2026_friday.json"
+  }
+}

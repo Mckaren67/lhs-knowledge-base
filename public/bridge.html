@@ -1889,7 +1889,7 @@ function renderKaren() {
   // Today's schedule
   // ============================================================
   const sched = el('div', { class: 'card', style: 'margin-bottom:16px;' });
-  sched.appendChild(el('div', { class: 'section-title' }, '📅 Today\'s Schedule — Saturday, April 17'));
+  sched.appendChild(el('div', { class: 'section-title' }, '📅 Today\'s Schedule — Friday, April 17'));
   const list = el('div', { class: 'schedule' });
   state.karenSchedule.forEach(s => {
     const cls = 'sched-item ' + (s.priority === 'high' ? 'sched-priority-high' : 'sched-priority-medium');
