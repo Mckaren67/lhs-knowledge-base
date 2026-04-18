@@ -3,7 +3,7 @@
 **Project owner:** Karen McLaren + Michael McLaren
 **Created:** Friday, April 17, 2026
 **Last updated:** Saturday, April 18, 2026 (morning updates)
-**Status:** Active — 3 roles open, 10 candidates ranked, 2 advancing to trial this week
+**Status:** Active — 3 roles open, 11 candidates ranked, 2 advancing to trial this week
 
 ---
 
@@ -89,15 +89,31 @@ Active modified role: **Alissa** — on hospital leave; handling with care.
 
 ---
 
-## Pipeline snapshot — Friday evening, April 17, 2026
+## Pipeline snapshot — Saturday morning, April 18, 2026
 
 | Stage | Count | Names |
 |---|---|---|
-| Applied | 4 | Nicole Bryson (HOLD), Alisha Chumber, Louise Savoie, Rachael Szilasy |
+| Applied | 5 | Nicole Bryson (HOLD), Alisha Chumber, Louise Savoie, Rachael Szilasy, **Haley Edworthy (#010 — HOT LIST, screen today)** |
 | Aria Review | 2 | Ester Manigbas (29/30) — *verify phone*, Sarah Campbell (27/30) — *no contact yet* |
-| Jotform Sent | 0 | — |
+| Jotform Sent | 1 | **Samantha Sylvester (#011 — HOLD, awaiting JotForm return)** |
 | Calendly Booked | 0 | — |
 | Trial & Offer | 3 | Karen Corrie (21/25 screen — advance Monday), Felicia Wilson (28/35 — advance this week), Trish Beekman (waiting on employer) |
+
+### New candidates added Saturday April 18, 2026
+
+**Candidate #010 — Haley Edworthy** — HOT LIST — screen today
+- Score: **26/35**
+- Phone: **604-765-0756**
+- Key: Stand-in cleaning experience — local (Chilliwack V2P)
+- Stage: **Phone screen needed urgently**
+- Detail: `candidates/HALEY_EDWORTHY.md`
+
+**Candidate #011 — Samantha Sylvester** — HOLD — JotForm sent, awaiting response
+- Score: **14/35** (lowest in pool)
+- Phone: **431-304-8030** — Manitoba area code
+- Key concern: Claims 10 years cleaning — zero cleaning roles on resume
+- Stage: **Awaiting JotForm — do not screen yet**
+- Detail: `candidates/SAMANTHA_SYLVESTER.md`
 
 **See:** `docs/projects/candidates/CANDIDATE_INDEX.md` for ranked list with next actions.
 
@@ -168,12 +184,25 @@ Flags that automatically escalate to Michael's approval queue:
 - Score: **26/35**
 - Status: **Phone screen needed today urgently**
 
-### Felicia Wilson decision framework
+### Felicia Wilson — Complete Decision Framework
 
-Hire Felicia only if:
-- Louise Savoie fails screen
+**HIRE FELICIA IF:**
+- Louise Savoie fails phone screen today
+- Haley Edworthy has no vehicle or fails screen
+- No better full-year candidate emerges by **April 25** (end of next week)
+- She remains best available for positions 2 or 3
 
-_[Framework incomplete — remaining criteria to be added.]_
+**DO NOT HIRE FELICIA IF:**
+- Louise Savoie passes screen today
+- Haley Edworthy confirms vehicle and passes screen
+- Ester Manigbas phone verified and available
+- Any strong full-year candidate emerges by April 25
+
+**CONDITIONS IF HIRED:**
+- Be transparent with Felicia about June 20 availability end
+- Keep hiring running in parallel for her replacement
+- Target **Ester Manigbas** as June replacement
+- Felicia could potentially return September
 
 ---
 
