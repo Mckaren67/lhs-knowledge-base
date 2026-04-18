@@ -1525,34 +1525,95 @@ const SEED = {
     arOutstanding: 13092
   },
   redAlerts: [
-    // ─── Michael / shared red alerts ───
+    // Michael / team red alerts (Karen's tasks now live in state.karenTasks)
     { id: 'r1', title: 'Website feedback to agency',    assignedTo: 'Michael', category: 'website',    mode: 'Human',     est: 15, saveIfAuto: 12 },
     { id: 'r2', title: 'Indeed — review 3 positions',   assignedTo: 'Cowork',  category: 'hiring',     mode: 'Automated', est: 30, saveIfAuto: 25 },
     { id: 'r3', title: 'Contact Sarah Campbell',        assignedTo: 'Michael', category: 'hiring',     mode: 'Human',     est: 5,  saveIfAuto: 3  },
-    { id: 'r4', title: 'Verify Ester phone number',     assignedTo: 'Michael', category: 'hiring',     mode: 'Human',     est: 2,  saveIfAuto: 1  },
-    // ─── Karen's red alerts (today) ───
-    { id: 'k-red-1', title: 'Karen Corrie screen — 3 pm TODAY',   assignedTo: 'Karen', category: 'hiring',      mode: 'Human', est: 15, due: 'Today 3 pm' },
-    { id: 'k-red-2', title: 'Score Karen Corrie — text Michael',  assignedTo: 'Karen', category: 'hiring',      mode: 'Human', est: 5,  due: 'After screen', note: 'Score out of 25 + gut feel' },
-    { id: 'k-red-3', title: 'Paula client list — pull from HCP',  assignedTo: 'Karen', category: 'field-ops',   mode: 'Human', est: 10, due: 'Today' },
-    { id: 'k-red-4', title: 'Hélène Brassard — DO NOT contact yet', assignedTo: 'Karen', category: 'client-mgmt', mode: 'Human', est: 20, note: 'Wait until replacement found' }
+    { id: 'r4', title: 'Verify Ester phone number',     assignedTo: 'Michael', category: 'hiring',     mode: 'Human',     est: 2,  saveIfAuto: 1  }
   ],
   yellowAlerts: [
-    // ─── Shared yellow alerts ───
+    // Michael / team yellow alerts
     { id: 'y1', title: 'Karen meeting — Fri/Sat/Mon',    assignedTo: 'Michael',          category: 'hiring',    mode: 'Human', est: 20 },
     { id: 'y3', title: 'Cowork HCP test confirmation',   assignedTo: 'Michael',          category: 'automation', mode: 'Automated', est: 15 },
     { id: 'y4', title: 'Claude Routines setup — Monday', assignedTo: 'Michael',          category: 'automation', mode: 'Human', est: 45 },
-    { id: 'y5', title: 'VA final selection — Monday',    assignedTo: 'Michael + Karen',  category: 'hiring',    mode: 'Human', est: 30 },
-    // ─── Karen's yellow alerts ───
-    { id: 'k-yel-5', title: 'Alissa modified role — gentle conversation', assignedTo: 'Karen',           category: 'field-ops', mode: 'Human', est: 20 },
-    { id: 'k-yel-6', title: 'Client notes session — top 30 clients',      assignedTo: 'Karen + Michael', category: 'admin',     mode: 'Human', est: 120 },
-    { id: 'k-yel-7', title: 'Team Lead selection',                         assignedTo: 'Karen + Michael', category: 'hiring',    mode: 'Human', est: 30 },
-    { id: 'k-yel-8', title: 'Review new website draft',                    assignedTo: 'Karen',           category: 'marketing', mode: 'Human', est: 30 },
-    // ─── Karen's Accountant Tasks (yellow, 2 overdue) ───
-    { id: 'k-acc-9',  title: 'ROE for Lorissa W — email Bill Gee', assignedTo: 'Karen', category: 'accountant', mode: 'Human', est: 10, overdue: true, due: 'Overdue' },
-    { id: 'k-acc-10', title: 'ROE for Julieta S — email Bill Gee', assignedTo: 'Karen', category: 'accountant', mode: 'Human', est: 10, overdue: true, due: 'Overdue' },
-    { id: 'k-acc-11', title: 'ROE for Paula — email Bill Gee',     assignedTo: 'Karen', category: 'accountant', mode: 'Human', est: 10 }
+    { id: 'y5', title: 'VA final selection — Monday',    assignedTo: 'Michael + Karen',  category: 'hiring',    mode: 'Human', est: 30 }
   ],
   completedToday: [],
+  /* ============================================================
+     KAREN'S 57 TASKS — Friday April 17 2026 (see docs/projects/KAREN_TASKS_APRIL17_2026.md)
+     Buckets: urgent-tonight (2) · urgent-today (10) · this-week (20) · next-week (12) · strategic (13)
+     ============================================================ */
+  karenTasks: [
+    // 🔴 URGENT TONIGHT
+    { id: 'k1',  bucket: 'urgent-tonight', title: 'Text Karen Corrie — 778-552-0807 — trial invite Mon or Tue', category: 'hiring',     assignedTo: 'Karen',            mode: 'Human', est: 5  },
+    { id: 'k2',  bucket: 'urgent-tonight', title: 'Text Felicia Wilson — 604-798-1933 — trial invite Mon or Tue', category: 'hiring',   assignedTo: 'Karen',            mode: 'Human', est: 5  },
+    // 🔴 URGENT TODAY
+    { id: 'k3',  bucket: 'urgent-today', title: 'Karen Corrie phone screen — 3 pm', category: 'hiring',     assignedTo: 'Karen',            mode: 'Human', est: 15, completed: true, completedAt: '3:05 PM PT', note: 'Score 21/25 — advance to trial' },
+    { id: 'k4',  bucket: 'urgent-today', title: 'Alissa — modified-role conversation (collapsed lung, 6-mo pregnant)', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 20, note: 'Options: job check-ins, team photos, light admin from home' },
+    { id: 'k5',  bucket: 'urgent-today', title: 'Check Rebecca Monday block status (cancelled vacation or ongoing?)', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 10 },
+    { id: 'k6',  bucket: 'urgent-today', title: "Proactive reassurance calls — Paula's two ongoing clients", category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human', est: 20 },
+    { id: 'k7',  bucket: 'urgent-today', title: 'Schedule two new ProKey commercial cleans — before EOD', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 30 },
+    { id: 'k8',  bucket: 'urgent-today', title: 'Check email for Red Cross commercial-cleaning inquiry + respond', category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human', est: 15, note: 'Set up walk-through ASAP' },
+    { id: 'k9',  bucket: 'urgent-today', title: "Brandi's missing drive time on payroll — with Michael + Bill Gee", category: 'accountant', assignedTo: 'Karen + Michael', mode: 'Human', est: 20 },
+    { id: 'k10', bucket: 'urgent-today', title: 'Reach out to Paula — Myriad Tech Wed office clean before she leaves?', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 10 },
+    { id: 'k11', bucket: 'urgent-today', title: 'Monday contingency — decide by Sunday 6 PM (no-candidate path)', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 20, due: 'Sunday Apr 19 at 6 PM PT', note: 'Cancel Tatiana (call, no voicemail) · Anna solo on Trevor Bryan · proactive message to Paula\'s 2nd client' },
+    { id: 'k12', bucket: 'urgent-today', title: 'Monday contingency — pair new hire with Nicole on Shane Rutley move-out', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 10, due: 'Monday Apr 20', note: 'If candidate confirmed' },
+    // 🟡 THIS WEEK
+    { id: 'k13', bucket: 'this-week', title: 'Update Tanis job notes — 50276 Kensington Drive V4Z 0C4', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 10, due: 'Before April 24' },
+    { id: 'k14', bucket: 'this-week', title: 'Reschedule Colette McDermott April 24 residential clean (Holly off)', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 15 },
+    { id: 'k15', bucket: 'this-week', title: 'Block Holly May availability in HCP', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 10, note: 'Mon all · Wed all · Thu 9-2 · Fri 9-2 · unavailable Tue' },
+    { id: 'k16', bucket: 'this-week', title: 'Block Holly June availability in HCP', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 10, note: 'Mon all · Wed all · Fri 9-12 · unavailable Tue + Thu' },
+    { id: 'k17', bucket: 'this-week', title: 'Review May 18 statutory holiday schedule', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 30 },
+    { id: 'k18', bucket: 'this-week', title: 'Send Myriad Technologies — LHS liability insurance + WorkSafe BC docs', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 10 },
+    { id: 'k19', bucket: 'this-week', title: 'Obtain work scope from Myriad Technologies + add to HCP job notes', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 15 },
+    { id: 'k20', bucket: 'this-week', title: 'Set up Jen at Kauri Chiropractic — office clean 4 hrs wk, early May', category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human', est: 30, note: 'Sundays w/ Terry · 250-899-0478 · jen.operations@kaurichiropractic.com' },
+    { id: 'k21', bucket: 'this-week', title: 'Plan Jen at Kauri Chiropractic home clean — 4 hrs weekly, start June', category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human', est: 15 },
+    { id: 'k22', bucket: 'this-week', title: 'Request invoice amounts from Jeremy at Evolve Carpet Cleaning — referral fee', category: 'accountant', assignedTo: 'Karen', mode: 'Human', est: 15 },
+    { id: 'k23', bucket: 'this-week', title: 'Pick up supplies from Nikki (step stool · window squeegee · flat mop · yellow squeegee tote)', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 30 },
+    { id: 'k24', bucket: 'this-week', title: 'Pick up extra vacuum from Paula', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 20 },
+    { id: 'k25', bucket: 'this-week', title: 'Pick up vacuum from client — April 24', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 20, due: 'April 24' },
+    { id: 'k26', bucket: 'this-week', title: 'Pick up supplies from Lada (flat mop · red sweater · foam charger · extended spider duster)', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 20 },
+    { id: 'k27', bucket: 'this-week', title: 'Cleaner note — No Comet in bathtubs; pink solution or Vim cream only; rinse thoroughly', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 5 },
+    { id: 'k28', bucket: 'this-week', title: 'Cleaner note — No Pinesol at regular cleanings (move-outs + deep cleans only)', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 5 },
+    { id: 'k29', bucket: 'this-week', title: 'Cleaner note — When doubled on ongoing cleans, rotate areas every other visit', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 5 },
+    { id: 'k30', bucket: 'this-week', title: "Update HCP with new cleaner headshots — add Terry's", category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 15 },
+    { id: 'k31', bucket: 'this-week', title: "Confirm Marella's clean option (A: 12 hrs wk Apr 20, 2 cleaners × 6 / B: 8 hrs Sat Apr 25 w/ Kristen)", category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human', est: 15, due: 'Week of April 20', note: '8413 #4 Midtown Way · 604-240-1092' },
+    { id: 'k32', bucket: 'this-week', title: 'Tanis RV clean — schedule next week or the following (likely full day, one person)', category: 'field-ops', assignedTo: 'Karen', mode: 'Human', est: 15 },
+    // 🟡 NEXT WEEK
+    { id: 'k33', bucket: 'next-week', title: 'Finish onboarding — Vanessa, Margaret, Anna', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 90 },
+    { id: 'k34', bucket: 'next-week', title: "Obtain Terry's criminal record check", category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 15 },
+    { id: 'k35', bucket: 'next-week', title: "Follow up Terry's clients — confirm quality on cleans to date", category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human', est: 30 },
+    { id: 'k36', bucket: 'next-week', title: 'Google review cleanup — 1-star client now happy 7 months — ask to update/remove', category: 'marketing', assignedTo: 'Karen', mode: 'Human', est: 20 },
+    { id: 'k37', bucket: 'next-week', title: 'Identify 4-star review client (school-teacher philosophy) — ask to update to 5', category: 'marketing', assignedTo: 'Karen', mode: 'Human', est: 20 },
+    { id: 'k38', bucket: 'next-week', title: 'Track probationary end dates — Danielle 4/21 · Vanessa 4/26 · Margaret 5/12 · Terry + 3-mo', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 10 },
+    { id: 'k39', bucket: 'next-week', title: 'Update job notes from Brandi + Rebecca — Madeline Penner + Marjorie Brown', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 20 },
+    { id: 'k40', bucket: 'next-week', title: 'Implement cleaner-tips visibility on payroll reports', category: 'financial', assignedTo: 'Karen + Michael', mode: 'Human', est: 60 },
+    { id: 'k41', bucket: 'next-week', title: 'Order pink labels for product + spray bottles', category: 'admin', assignedTo: 'Karen', mode: 'Human', est: 10 },
+    { id: 'k42', bucket: 'next-week', title: 'Policy change — probationary period 3 mo → 6 mo going forward', category: 'admin', assignedTo: 'Karen + Michael', mode: 'Human', est: 30 },
+    { id: 'k43', bucket: 'next-week', title: 'Follow up Jazz + Indeed applicants — hire/training-ready by Monday', category: 'hiring', assignedTo: 'Karen + Michael', mode: 'Human', est: 60 },
+    { id: 'k44', bucket: 'next-week', title: 'Saturday morning — confirm Karen Corrie + Felicia trial responses', category: 'hiring', assignedTo: 'Karen', mode: 'Human', est: 15, due: 'Saturday Apr 18 morning', note: 'Trigger Monday plan or fallback' },
+    // 🟢 STRATEGIC
+    { id: 'k45', bucket: 'strategic', title: 'Bruce Usher + Gail estate clean — HOLD (POA will reach out)', category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human' },
+    { id: 'k46', bucket: 'strategic', title: 'Chilliwack dementia-care prospect — 604-939-8547 — bundled services scope', category: 'client-mgmt', assignedTo: 'Karen + Michael', mode: 'Human', note: 'Weekly 2-3 hrs for 90+87 yr cousins · carpet + laundry + beds + dishes + meal prep · scope?' },
+    { id: 'k47', bucket: 'strategic', title: 'Niki Wiersema (Google Guaranteed, Agassiz) — pending capacity', category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human', note: 'Customer ID 572-019-6844 · weekly 2-3 hr standard clean for in-laws' },
+    { id: 'k48', bucket: 'strategic', title: 'Allie Van Cleide — 4-hr sunroom clean with Nicole (capacity pending)', category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human' },
+    { id: 'k49', bucket: 'strategic', title: 'Patrick Mac Faden — quarterly 6-hr clean with April + Margaret', category: 'client-mgmt', assignedTo: 'Karen', mode: 'Human' },
+    { id: 'k50', bucket: 'strategic', title: 'Cathy Kolmansburger — move July 27 → July 20 with Nicole if rotation allows', category: 'field-ops', assignedTo: 'Karen', mode: 'Human' },
+    { id: 'k51', bucket: 'strategic', title: 'Sandra Farand — write back $480.90 zeroed family invoice into scheduled event (tax write-off)', category: 'accountant', assignedTo: 'Karen + Michael', mode: 'Human' },
+    { id: 'k52', bucket: 'strategic', title: 'Shane Rutley family clean — 6/8 hrs Apr 20 — write into scheduled event (tax write-off)', category: 'accountant', assignedTo: 'Karen + Michael', mode: 'Human' },
+    { id: 'k53', bucket: 'strategic', title: 'Investigate geographical placement of cleans + cleaners (gas-cost optimization)', category: 'financial', assignedTo: 'Michael + Karen', mode: 'Human', note: 'In a couple of weeks when capacity allows' },
+    { id: 'k54', bucket: 'strategic', title: 'Residential pricing — +$5 per session (gas cost increases)', category: 'financial', assignedTo: 'Karen + Michael', mode: 'Human' },
+    { id: 'k55', bucket: 'strategic', title: 'Update clients still on old pricing to current rates', category: 'financial', assignedTo: 'Karen + Michael', mode: 'Human' },
+    { id: 'k56', bucket: 'strategic', title: 'Review + update commercial client pricing (not updated 3–4 yrs)', category: 'financial', assignedTo: 'Karen + Michael', mode: 'Human' },
+    { id: 'k57', bucket: 'strategic', title: 'Build 10–15% scheduling buffer as hiring progresses (one-absence resilience)', category: 'field-ops', assignedTo: 'Michael + Karen', mode: 'Human' }
+  ],
+  karenBuckets: [
+    { id: 'urgent-tonight', label: 'Urgent Tonight', accent: 'var(--danger)',  pill: 'pill-red',    icon: '🔴' },
+    { id: 'urgent-today',   label: 'Urgent Today',   accent: 'var(--danger)',  pill: 'pill-red',    icon: '🔴' },
+    { id: 'this-week',      label: 'This Week',      accent: 'var(--warning)', pill: 'pill-yellow', icon: '🟡' },
+    { id: 'next-week',      label: 'Next Week',      accent: 'var(--warning)', pill: 'pill-yellow', icon: '🟡' },
+    { id: 'strategic',      label: 'Strategic',      accent: 'var(--success)', pill: 'pill-green',  icon: '🟢' }
+  ],
   financial: {
     westbow: { amount: 13092, dueBy: 'end of May', lastContact: 'April 16', contactPerson: 'Amanda Bosma', followUp: 'April 23' },
     billGee: { task: '2025 taxes', followUp: 'April 23' }
@@ -1953,12 +2014,48 @@ function renderCommand() {
   stats.appendChild(buildStat('AR Outstanding', moneyInt(s.arOutstanding), 'var(--warning)', '💰', 'Westbow due May'));
   host.appendChild(stats);
 
+  // Karen's Tasks Summary — visible to Michael on Command view
+  host.appendChild(renderKarenSummary());
+
   // Row 2 — two columns
   const row = el('div', { class: 'grid grid-2' });
   row.appendChild(renderAlertColumn());
   row.appendChild(renderRightColumn());
   host.appendChild(row);
   return host;
+}
+
+function renderKarenSummary() {
+  const karenAll = (state.karenTasks || []);
+  const counts = state.karenBuckets.map(b => ({
+    ...b,
+    open: karenAll.filter(t => t.bucket === b.id && !t.completed).length
+  }));
+  const totalOpen = karenAll.filter(t => !t.completed).length;
+  const totalDone = karenAll.filter(t => t.completed).length;
+  const card = el('div', { class: 'card', style: 'margin-bottom:16px; --accent: var(--primary)' });
+  card.appendChild(el('div', { class: 'row-between' },
+    el('div', { class: 'section-title', style: 'margin:0' },
+      "👩 Karen's Tasks Summary",
+      el('span', { class: 'pill pill-blue' }, `${totalOpen} open · ${totalDone} done · ${karenAll.length} total`)
+    ),
+    el('button', { class: 'btn btn-primary btn-sm', onclick: () => switchTo('karen') }, 'View all Karen tasks →')
+  ));
+  card.appendChild(el('div', { class: 'spacer-16' }));
+  const grid = el('div', { class: 'grid grid-stats' });
+  counts.forEach(b => {
+    const accent = b.accent;
+    const stat = el('div', { class: 'stat-card', style: `--accent: ${accent};` },
+      el('div', { class: 'stat-label' }, el('span', {}, b.icon), el('span', {}, b.label)),
+      el('div', { class: 'stat-value' }, String(b.open)),
+      el('div', { class: 'stat-trend' }, el('span', { class: 'text-secondary' }, `tasks in ${b.id.replace('-', ' ')}`))
+    );
+    stat.style.cursor = 'pointer';
+    stat.addEventListener('click', () => switchTo('karen'));
+    grid.appendChild(stat);
+  });
+  card.appendChild(grid);
+  return card;
 }
 function buildStat(label, value, accent, icon, trend) {
   return el('div', { class: 'stat-card', style: `--accent:${accent}` },
@@ -2182,54 +2279,49 @@ function renderKaren() {
   host.appendChild(buildContactRow(['michael']));
 
   // ============================================================
-  // MY TASKS — Karen's tasks only, right at the top
+  // MY TASKS — Karen's 57 tasks grouped by 5 priority buckets
   // ============================================================
   const isKaren = (t) => (t.assignedTo || '').toLowerCase().includes('karen');
-  const karenRed = state.redAlerts.filter(t => isKaren(t) && !t.completed);
-  const karenYel = state.yellowAlerts.filter(t => isKaren(t) && !t.completed);
-  const karenDone = state.completedToday.filter(t => isKaren(t));
+  const karenAll = (state.karenTasks || []);
+  const karenOpen = karenAll.filter(t => !t.completed);
+  const karenDone = state.completedToday.filter(t => isKaren(t) || (state.karenTasks || []).some(k => k.id === t.id));
+  const bucketCounts = state.karenBuckets.map(b => ({
+    ...b,
+    open: karenAll.filter(t => t.bucket === b.id && !t.completed).length
+  }));
 
   const myTasks = el('div', { class: 'my-tasks-card' });
+  const headChips = el('div', { style: 'display:flex; gap:6px; flex-wrap:wrap;' });
+  bucketCounts.forEach(b => headChips.appendChild(el('span', { class: 'pill ' + b.pill }, `${b.icon} ${b.label}: ${b.open}`)));
   myTasks.appendChild(el('div', { class: 'my-tasks-head' },
-    el('div', {},
+    el('div', { style: 'flex:1; min-width:0;' },
       el('div', { class: 'my-tasks-title' },
         el('span', { class: 'dot' }),
-        el('span', {}, '👩 MY TASKS'),
-        el('span', { class: 'pill pill-red' }, `${karenRed.length} red`),
-        el('span', { class: 'pill pill-yellow' }, `${karenYel.length} yellow`)
+        el('span', {}, '👩 MY TASKS — Karen'),
+        el('span', { class: 'pill pill-blue' }, `${karenOpen.length} open / ${karenAll.length} total`)
       ),
-      el('div', { class: 'my-tasks-sub' }, `Tasks assigned to Karen — separate from Michael's. ${karenDone.length} completed today.`)
+      el('div', { class: 'my-tasks-sub' }, `Friday April 17 — full task list. ${karenDone.length} completed today.`),
+      el('div', { style: 'margin-top:10px;' }, headChips)
     )
   ));
 
-  // My red tasks
-  const myRedCard = el('div', { class: 'card', style: '--accent: var(--danger); margin-bottom: 14px;' });
-  myRedCard.appendChild(el('div', { class: 'section-title' },
-    '🔴 My Red Alerts',
-    el('span', { class: 'pill pill-red' }, `${karenRed.length} task${karenRed.length === 1 ? '' : 's'}`)
-  ));
-  if (!karenRed.length) myRedCard.appendChild(el('div', { class: 'info-sub', style: 'padding:4px;' }, 'Clear for now — nothing urgent on Karen.'));
-  karenRed.forEach(t => myRedCard.appendChild(buildTaskCard(t, 'var(--danger)')));
-  myTasks.appendChild(myRedCard);
-
-  // My yellow tasks (grouped with accountant tasks called out)
-  const myYelCard = el('div', { class: 'card' });
-  myYelCard.appendChild(el('div', { class: 'section-title' },
-    '🟡 My Yellow Alerts',
-    el('span', { class: 'pill pill-yellow' }, `${karenYel.length} task${karenYel.length === 1 ? '' : 's'}`)
-  ));
-  // Split accountant tasks to the top within the yellow card
-  const accountantFirst = karenYel.slice().sort((a, b) => {
-    const ax = a.category === 'accountant' ? 0 : 1;
-    const bx = b.category === 'accountant' ? 0 : 1;
-    if (ax !== bx) return ax - bx;
-    return (a.overdue ? 0 : 1) - (b.overdue ? 0 : 1);
+  // Render each bucket as its own card
+  state.karenBuckets.forEach(bucket => {
+    const tasks = karenAll.filter(t => t.bucket === bucket.id && !t.completed);
+    const card = el('div', { class: 'card', style: `--accent: ${bucket.accent}; margin-bottom: 14px;` });
+    card.appendChild(el('div', { class: 'section-title' },
+      `${bucket.icon} ${bucket.label}`,
+      el('span', { class: 'pill ' + bucket.pill }, `${tasks.length} task${tasks.length === 1 ? '' : 's'}`)
+    ));
+    if (!tasks.length) {
+      card.appendChild(el('div', { class: 'info-sub', style: 'padding:4px;' }, 'Clear.'));
+    } else {
+      tasks.forEach(t => card.appendChild(buildTaskCard(t, bucket.accent)));
+    }
+    myTasks.appendChild(card);
   });
-  if (!accountantFirst.length) myYelCard.appendChild(el('div', { class: 'info-sub', style: 'padding:4px;' }, 'Yellow queue clear.'));
-  accountantFirst.forEach(t => myYelCard.appendChild(buildTaskCard(t, 'var(--warning)')));
-  myTasks.appendChild(myYelCard);
 
-  // Completed today (Karen's only)
+  // Completed today — Karen's only
   const karenCompletedCard = el('div', { class: 'completed-card', style: 'margin-top:14px;' });
   karenCompletedCard.appendChild(el('div', { class: 'completed-head' },
     '✅ My Completed Today',
@@ -2692,8 +2784,17 @@ function buildFeed(title, items) {
    ACTION HANDLERS
    ============================================================ */
 function findTask(id) {
-  return state.redAlerts.find(x => x.id === id) || state.yellowAlerts.find(x => x.id === id) || state.completedToday.find(x => x.id === id);
+  return state.redAlerts.find(x => x.id === id)
+      || state.yellowAlerts.find(x => x.id === id)
+      || (state.karenTasks || []).find(x => x.id === id)
+      || state.completedToday.find(x => x.id === id);
 }
+/* Seed completedToday with any tasks that start flagged completed: true */
+(function seedCompletedFromKaren() {
+  (state.karenTasks || []).forEach(t => {
+    if (t.completed && !state.completedToday.some(x => x.id === t.id)) state.completedToday.push(t);
+  });
+})();
 function completeTask(id, cardEl) {
   const t = findTask(id);
   if (!t || t.completed) return;
