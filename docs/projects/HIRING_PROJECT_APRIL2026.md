@@ -3,7 +3,7 @@
 **Project owner:** Karen McLaren + Michael McLaren
 **Created:** Friday, April 17, 2026
 **Last updated:** Saturday, April 18, 2026 (morning updates)
-**Status:** Active — 3 roles open, 11 candidates ranked, 2 advancing to trial this week
+**Status:** Active — 3 roles open, 12 candidates ranked, 2 advancing to trial this week + 1 May candidate confirmed
 
 ---
 
@@ -97,6 +97,7 @@ Active modified role: **Alissa** — on hospital leave; handling with care.
 | Aria Review | 2 | Ester Manigbas (29/30) — *verify phone*, Sarah Campbell (27/30) — *no contact yet* |
 | Jotform Sent | 1 | **Samantha Sylvester (#011 — HOLD, awaiting JotForm return)** |
 | Calendly Booked | 0 | — |
+| Phone screened Sat Apr 18 | 1 | **Dazmyn Lush (29/35 — POSITIVE, May start)** |
 | Trial & Offer | 3 | Karen Corrie (21/25 screen — advance Monday), Felicia Wilson (28/35 — advance this week), Trish Beekman (waiting on employer) |
 
 ### New candidates added Saturday April 18, 2026
@@ -115,6 +116,15 @@ Active modified role: **Alissa** — on hospital leave; handling with care.
 - Stage: **Awaiting JotForm — do not screen yet**
 - Detail: `candidates/SAMANTHA_SYLVESTER.md`
 
+**Candidate — Dazmyn Lush** — ADVANCING — phone screen completed Saturday April 18 at 1:52 PM
+- Score: **29/35** (revised up from 28/35)
+- Ranking: **#5 in pool**
+- Conducted by: **Michael Butterfield** — 21 minutes
+- Outcome: **POSITIVE — May start date**
+- Key: Already knows HousecallPro; leaving Walker's (under-the-table pay + not enough hours)
+- Stage: **Follow-up call Tuesday or Wednesday, April 21–22**
+- Detail: `candidates/DAZMYN_LUSH.md`
+
 **See:** `docs/projects/candidates/CANDIDATE_INDEX.md` for ranked list with next actions.
 
 ---
@@ -132,8 +142,10 @@ Active modified role: **Alissa** — on hospital leave; handling with care.
 | Monday, April 20, 2026 | Team Lead selection | Karen + Michael |
 | Monday, April 20, 2026 | Claude Routines setup | Michael |
 | Tue–Wed, April 21–22 | Trial shift #2 — Felicia Wilson | Karen |
+| Tue–Wed, April 21–22 | Follow-up call — Dazmyn Lush (confirm May start) | Michael |
 | Friday, May 1, 2026 | Hiring goal deadline — 3 filled roles | Karen + Michael |
 | Monday, May 5, 2026 (est.) | Trish Beekman start (if employer approves) | Karen |
+| May 2026 (TBD) | Dazmyn Lush start (potential Felicia June replacement) | Karen |
 
 ---
 
@@ -206,4 +218,39 @@ Flags that automatically escalate to Michael's approval queue:
 
 ---
 
-*Last touched: Saturday, April 18, 2026 — Saturday morning updates appended.*
+## Saturday April 18 2026 — Afternoon Update
+
+### Dazmyn Lush — Phone screen PASSED — #5 ranking
+
+- **Date/time:** Saturday, April 18, 2026 — 1:52 PM PT
+- **Conducted by:** Michael Butterfield
+- **Duration:** ~21 minutes
+- **Outcome:** POSITIVE — **May start date**
+- **Score:** 28/35 → **29/35**
+
+**Key discoveries:**
+
+1. **Why leaving Walker's** — two reasons: not enough hours; **Walker's pays under the table — no taxes**
+2. **Kennel job** — wants to leave it as soon as cleaning hours replace the income
+3. **HousecallPro** — already fluent; zero software training curve
+4. **Motivated by hours and money** — straightforward, not career-shopping
+5. **Start date — MAY** (not the April 20 crisis window)
+6. **Personality** — direct and honest, genuine passion for cleaning, independent worker, no drama
+
+**Industry note — Walker's Cleaning Services pays under the table:**
+
+- Walker's cleaners who want legitimate employment (T4, CPP/EI, pay stubs) will be drawn to LHS
+- **Treat Walker's as an ongoing talent pool** for experienced residential cleaners seeking above-board work
+- Michael + Karen to track for future recruiting
+
+**Decision:**
+
+- **Right candidate — wrong timing** for the April 20 crisis
+- Strong fit as **May hire**, ideal candidate to **replace Felicia in June** when she steps out
+- **Follow-up call:** Tuesday or Wednesday, April 21–22 — confirm May window, vehicle, WHMIS, Food Safe, pay/hours expectations
+
+See: `candidates/DAZMYN_LUSH.md`
+
+---
+
+*Last touched: Saturday, April 18, 2026 — Dazmyn Lush post-screen update appended (afternoon).*
