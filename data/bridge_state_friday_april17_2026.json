@@ -1,0 +1,45 @@
+{
+  "key": "bridge_state_friday_april17_2026",
+  "snapshottedAt": "2026-04-17T17:00:00-07:00",
+  "note": "Dashboard runtime snapshot — candidates + alerts + comm logs as of Friday April 17 2026.",
+  "stats": { "activeCleaners": 12, "openPositions": 3, "candidates": 9, "arOutstanding": 13092 },
+  "redAlerts": [
+    { "id": "r1",       "title": "Website feedback to agency",             "assignedTo": "Michael",          "category": "website",    "est": 15 },
+    { "id": "r2",       "title": "Indeed — review 3 positions",            "assignedTo": "Cowork",           "category": "hiring",     "est": 30 },
+    { "id": "r3",       "title": "Contact Sarah Campbell",                 "assignedTo": "Michael",          "category": "hiring",     "est": 5  },
+    { "id": "r4",       "title": "Verify Ester phone number",              "assignedTo": "Michael",          "category": "hiring",     "est": 2  },
+    { "id": "k-red-1",  "title": "Karen Corrie screen — 3 pm TODAY",        "assignedTo": "Karen",            "category": "hiring",     "est": 15 },
+    { "id": "k-red-2",  "title": "Score Karen Corrie — text Michael",       "assignedTo": "Karen",            "category": "hiring",     "est": 5  },
+    { "id": "k-red-3",  "title": "Paula client list — pull from HCP",       "assignedTo": "Karen",            "category": "field-ops",  "est": 10 },
+    { "id": "k-red-4",  "title": "Hélène Brassard — DO NOT contact yet",    "assignedTo": "Karen",            "category": "client-mgmt", "est": 20 }
+  ],
+  "yellowAlerts": [
+    { "id": "y1",       "title": "Karen meeting — Fri/Sat/Mon",             "assignedTo": "Michael",          "category": "hiring" },
+    { "id": "y3",       "title": "Cowork HCP test confirmation",            "assignedTo": "Michael",          "category": "automation" },
+    { "id": "y4",       "title": "Claude Routines setup — Monday",          "assignedTo": "Michael",          "category": "automation" },
+    { "id": "y5",       "title": "VA final selection — Monday",             "assignedTo": "Michael + Karen",  "category": "hiring" },
+    { "id": "k-yel-5",  "title": "Alissa modified role — gentle conversation", "assignedTo": "Karen",         "category": "field-ops" },
+    { "id": "k-yel-6",  "title": "Client notes session — top 30 clients",   "assignedTo": "Karen + Michael",  "category": "admin" },
+    { "id": "k-yel-7",  "title": "Team Lead selection",                     "assignedTo": "Karen + Michael",  "category": "hiring" },
+    { "id": "k-yel-8",  "title": "Review new website draft",                "assignedTo": "Karen",            "category": "marketing" },
+    { "id": "k-acc-9",  "title": "ROE for Lorissa W — email Bill Gee",      "assignedTo": "Karen",            "category": "accountant", "overdue": true },
+    { "id": "k-acc-10", "title": "ROE for Julieta S — email Bill Gee",      "assignedTo": "Karen",            "category": "accountant", "overdue": true },
+    { "id": "k-acc-11", "title": "ROE for Paula — email Bill Gee",          "assignedTo": "Karen",            "category": "accountant" }
+  ],
+  "pipelineByStage": {
+    "applied":          ["nicole-bryson", "alisha-chumber", "louise-savoie", "rachael-szilasy"],
+    "aria-review":      ["ester-manigbas", "sarah-campbell"],
+    "jotform-sent":     ["felicia-wilson"],
+    "calendly-booked":  ["karen-corrie"],
+    "trial-offer":      ["trish-beekman"]
+  },
+  "activeCountdowns": [
+    {
+      "candidateId": "louise-savoie",
+      "lastOutboundAt": "2026-04-17T14:40:00-07:00",
+      "autoFollowUpAt": "2026-04-18T14:40:00-07:00",
+      "status": "awaiting-callback",
+      "note": "Voicemail — 24 h countdown to Saturday 2:40 PM auto follow-up"
+    }
+  ]
+}

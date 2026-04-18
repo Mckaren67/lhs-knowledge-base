@@ -1,0 +1,44 @@
+{
+  "key": "aria_session_april17_2026_friday",
+  "session": {
+    "id": "aria_session_april17_2026_friday",
+    "date": "2026-04-17",
+    "dayOfWeek": "Friday",
+    "timezone": "America/Los_Angeles",
+    "correctedFrom": "aria_session_april17_2026 (previously labeled Saturday in error)",
+    "correctionNote": "April 17, 2026 is a Friday, not a Saturday.",
+    "correctedAt": "2026-04-17T14:45:00-07:00"
+  },
+  "hiringProject": {
+    "name": "HIRING_PROJECT_APRIL2026",
+    "goal": { "hiresNeeded": 3, "deadline": "2026-05-01", "role": "Residential House Cleaner", "location": "Chilliwack, BC V2R 1A1" },
+    "openRoles": [
+      { "vacatedBy": "Lorissa W", "date": "2026-03-26" },
+      { "vacatedBy": "Julieta S", "date": "2026-03-26" },
+      { "vacatedBy": "Paula",     "date": "2026-04-16", "note": "no notice" }
+    ],
+    "modifiedRole": { "name": "Alissa", "status": "hospital leave" }
+  },
+  "candidates": [
+    { "id": "karen-corrie",   "name": "Karen Corrie",   "stage": "calendly-booked", "score": 9,  "scoreMax": 10, "highlights": ["Enhanced criminal check","Driver abstract","Elder care potential"], "flags": [], "nextAction": { "type": "discovery-call", "when": "2026-04-17T15:00:00-07:00" } },
+    { "id": "trish-beekman",  "name": "Trish Beekman",  "stage": "trial-offer",     "score": 7,  "scoreMax": 10, "highlights": ["Follow-up Apr 19","Est. start May 5 2026"], "flags": [] },
+    { "id": "felicia-wilson", "name": "Felicia Wilson", "stage": "jotform-sent",    "score": 28, "scoreMax": 35, "highlights": ["10 years dedicated cleaning","Self-employed AirBnB","Vehicle confirmed","Criminal check confirmed","HR Mgmt cert UFV"], "flags": ["Under 15 hrs — clarify full-time","Contact Tues Apr 21 after 9 AM only"] },
+    { "id": "ester-manigbas", "name": "Ester Manigbas", "stage": "aria-review",     "score": 8,  "scoreMax": 10, "highlights": ["11 years experience","Food Safe","100% travel"], "flags": ["Phone incomplete","Vehicle unconfirmed"] },
+    { "id": "sarah-campbell", "name": "Sarah Campbell", "stage": "aria-review",     "score": 7,  "scoreMax": 10, "highlights": ["Team Lead potential"], "flags": ["Overqualification risk"] },
+    { "id": "alisha-chumber", "name": "Alisha Chumber", "stage": "applied",         "score": null, "highlights": ["Trilingual","Meets all screeners"], "flags": ["Location mismatch","Thin cleaning history"] },
+    { "id": "nicole-bryson",  "name": "Nicole Bryson",  "stage": "applied",         "score": null, "decision": "HOLD", "highlights": [], "flags": ["No vehicle"] },
+    { "id": "rachael-szilasy","name": "Rachael Szilasy","stage": "applied",         "score": 20, "scoreMax": 35, "highlights": ["AP/AR Advanced","Excel Advanced","Admin coordination"], "flags": ["Consider for VA — not cleaner","2-year employment gap","No cleaning experience","Short tenures"] },
+    { "id": "louise-savoie",  "name": "Louise Savoie",  "stage": "applied",         "score": null, "highlights": [], "flags": [],
+      "communicationLog": [
+        { "date": "2026-04-17", "dayOfWeek": "Friday", "time": "14:40", "timezone": "Pacific", "channel": "phone", "actor": "Michael", "summary": "Michael called — left voicemail",
+          "autoFollowUp": { "scheduledFor": "2026-04-18T14:40:00-07:00", "dayOfWeek": "Saturday", "condition": "if no callback received" } }
+      ]
+    }
+  ],
+  "agenticAdoption": { "current": 69, "target": 80, "projectedDate": "2026-05-08" },
+  "contacts": {
+    "aria":    { "name": "Aria",    "phone": "778-200-6517", "tel": "+17782006517" },
+    "karen":   { "name": "Karen",   "phone": "604-800-9630", "tel": "+16048009630" },
+    "michael": { "name": "Michael", "phone": "604-618-0336", "tel": "+16046180336" }
+  }
+}

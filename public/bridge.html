@@ -1141,6 +1141,278 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ============================================================
+   CALL ARIA — always-visible green pulse button
+   ============================================================ */
+.call-aria {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.call-aria:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(22, 163, 74, 0.45); }
+.call-aria:active { transform: translateY(0); }
+.call-aria::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid rgba(22, 163, 74, 0.5);
+  animation: ariaPulse 2s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes ariaPulse {
+  0%   { transform: scale(0.85); opacity: 0.9; }
+  70%  { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.contact-btn:hover { border-color: var(--border-strong); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.contact-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+
+/* ============================================================
+   MODAL (Call Aria / Call Karen / Call Michael)
+   ============================================================ */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: grid; place-items: center;
+  animation: fadeIn 180ms ease;
+  padding: 20px;
+}
+[data-theme="dark"] .modal-backdrop { background: rgba(0,0,0,0.7); }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-xl);
+  animation: popIn 220ms cubic-bezier(0.22, 1.5, 0.36, 1);
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.modal h3 {
+  font-size: 18px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 10px;
+}
+.modal p { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; }
+.modal-actions { display: flex; flex-direction: column; gap: 10px; }
+.modal-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.modal-btn:hover { border-color: var(--border-strong); background: var(--card); text-decoration: none; transform: translateY(-1px); }
+.modal-btn-call { background: var(--success-soft); color: var(--success); border-color: transparent; }
+.modal-btn-call:hover { background: var(--success); color: #fff; }
+.modal-btn-sms { background: var(--primary-soft); color: var(--primary-strong); border-color: transparent; }
+.modal-btn-sms:hover { background: var(--primary); color: #fff; }
+.modal-btn-cancel {
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border: none;
+  padding: 10px;
+}
+.modal-btn-cancel:hover { color: var(--text); background: var(--card-subtle); }
+.modal-phone {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-left: auto;
+  font-weight: 500;
+}
+
+/* ============================================================
+   CANDIDATE COMM BUTTONS + DROPDOWN + LOG
+   ============================================================ */
+.cand-comm-row {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  position: relative;
+}
+.comm-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition);
+  position: relative;
+}
+.comm-btn-sms   { background: var(--primary); color: #fff; box-shadow: 0 1px 2px rgba(37,99,235,0.2); }
+.comm-btn-sms:hover { background: var(--primary-strong); box-shadow: 0 2px 6px rgba(37,99,235,0.3); }
+.comm-btn-email { background: var(--success); color: #fff; box-shadow: 0 1px 2px rgba(22,163,74,0.2); }
+.comm-btn-email:hover { filter: brightness(1.05); box-shadow: 0 2px 6px rgba(22,163,74,0.3); }
+.comm-btn-log   { background: var(--card-subtle); color: var(--text); border-color: var(--border-strong); font-weight: 600; }
+.comm-btn-log:hover { background: var(--border); }
+.comm-btn-log .log-count {
+  display: inline-grid; place-items: center;
+  min-width: 18px; height: 18px;
+  padding: 0 5px; margin-left: 2px;
+  background: var(--primary); color: #fff;
+  font-size: 10.5px; font-weight: 800;
+  border-radius: 999px;
+}
+
+.comm-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 200;
+  min-width: 260px;
+  max-width: calc(100% - 8px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xl);
+  padding: 6px;
+  animation: expand 180ms ease;
+}
+.comm-dropdown-head {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 8px 10px 6px;
+}
+.comm-option {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition);
+  border: none;
+}
+.comm-option:hover { background: var(--card-subtle); }
+.comm-option .num {
+  display: grid; place-items: center;
+  min-width: 20px; height: 20px;
+  background: var(--bg);
+  border-radius: 5px;
+  font-size: 10.5px; font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.comm-log {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--card-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  animation: expand 220ms ease;
+}
+.comm-log-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.comm-log-list { display: flex; flex-direction: column; gap: 0; }
+.comm-log-entry {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  gap: 10px;
+  padding: 8px 4px;
+  font-size: 12px;
+  align-items: baseline;
+  border-bottom: 1px dashed var(--border);
+}
+.comm-log-entry:last-child { border-bottom: none; }
+.comm-log-type {
+  font-size: 10px; font-weight: 800;
+  padding: 2px 6px; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.comm-log-type.sms   { background: var(--primary-soft); color: var(--primary-strong); }
+.comm-log-type.email { background: var(--success-soft); color: var(--success); }
+.comm-log-type.phone { background: var(--warning-soft); color: var(--warning); }
+.comm-log-type.note  { background: var(--card); color: var(--text-secondary); border: 1px solid var(--border); }
+.comm-log-time { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+.comm-log-text { color: var(--text); word-break: break-word; }
+.comm-log-status {
+  font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600;
+}
+.status-sent      { background: var(--card); color: var(--text-secondary); border: 1px solid var(--border); }
+.status-delivered { background: var(--success-soft); color: var(--success); }
+.status-no-reply  { background: var(--danger-soft); color: var(--danger); font-weight: 700; }
+.status-replied   { background: var(--success); color: #fff; }
+
+.cand-countdown {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px; font-weight: 700;
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+}
+.cd-waiting  { background: var(--primary-soft); color: var(--primary-strong); }
+.cd-warning  { background: var(--warning-soft); color: var(--warning); }
+.cd-no-reply { background: var(--danger-soft); color: var(--danger); }
+.cd-hold-suggest {
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: var(--danger-soft);
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+  border-radius: 6px;
+  font-size: 11.5px; font-weight: 700;
+  color: var(--danger);
+}
+
+@media (max-width: 640px) {
+  .call-aria { padding: 9px 14px; font-size: 12.5px; }
+  .modal { padding: 18px; }
+}
+
+/* ============================================================
    UTIL
    ============================================================ */
 .hidden { display: none !important; }
@@ -1168,9 +1440,13 @@ ul { margin: 0; padding: 0; list-style: none; }
     </div>
     <div class="clock" id="clock" aria-live="polite">
       <span class="pulse" aria-hidden="true"></span>
-      <span class="clock-day" id="clock-day">Saturday</span>
+      <span class="clock-day" id="clock-day">Friday</span>
       <span id="clock-time">--:-- PT</span>
     </div>
+    <button class="call-aria" id="call-aria-btn" aria-label="Call or text Aria at 778-200-6517">
+      <span style="font-size:16px;">📞</span>
+      <span>Call Aria</span>
+    </button>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
       <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -1307,30 +1583,118 @@ const SEED = {
       priority: 'high' }
   ],
   candidates: [
-    { id: 'nicole',  name: 'Nicole Bryson',   stage: 'applied',         score: null, contact: 'Housekeeping • Chilliwack, BC',
+    { id: 'nicole',   name: 'Nicole Bryson',    stage: 'applied',         score: null, scoreMax: 10,
+      contact: 'Housekeeping • Chilliwack, BC',
       flags: ['No vehicle'], highlights: [], decision: 'HOLD',
-      note: 'Confirmed: no transportation available', log: 'Applied — Apr 16' },
-    { id: 'alisha',  name: 'Alisha Chumber',  stage: 'applied',         score: null, contact: 'Abbotsford, BC',
+      note: 'HOLD — no vehicle confirmed',
+      commLog: [
+        { at: '2026-04-16T10:00:00-07:00', type: 'note', text: 'Applied via Indeed', status: 'sent' },
+        { at: '2026-04-17T09:20:00-07:00', type: 'note', text: 'HOLD — no vehicle confirmed', status: 'sent' }
+      ]
+    },
+    { id: 'alisha',   name: 'Alisha Chumber',   stage: 'applied',         score: null, scoreMax: 10,
+      contact: 'Abbotsford, BC • alishachumber26@gmail.com',
+      email: 'alishachumber26@gmail.com',
       flags: ['Location mismatch', 'Thin cleaning history'],
       highlights: ['Trilingual', 'Meets all screeners'], decision: null,
-      note: 'Cowork assessed — awaiting Michael decision', log: 'Applied — Apr 16, 3:57 PM PT' },
-    { id: 'ester',   name: 'Ester Manigbas',  stage: 'aria-review',     score: 8,    contact: 'Phone ⚠️ incomplete',
+      note: 'Location issue — no contact',
+      commLog: [
+        { at: '2026-04-16T15:57:00-07:00', type: 'note', text: 'Indeed application + resume received', status: 'sent' },
+        { at: '2026-04-17T12:14:00-07:00', type: 'note', text: 'Cowork reviewed — location mismatch flagged', status: 'sent' }
+      ]
+    },
+    { id: 'ester',    name: 'Ester Manigbas',   stage: 'aria-review',     score: 8,    scoreMax: 10,
+      contact: 'Phone ⚠️ incomplete',
       flags: ['Phone incomplete', 'Vehicle unconfirmed'],
       highlights: ['11 years experience', 'Food Safe', '100% travel'],
-      decision: null, note: '', log: 'Aria reviewed — pending Michael' },
-    { id: 'sarah',   name: 'Sarah Campbell',  stage: 'aria-review',     score: 7,    contact: 'No contact made yet',
+      decision: null, note: 'No contact ⚠️',
+      commLog: [
+        { at: '2026-04-17T12:41:00-07:00', type: 'note', text: 'Aria reviewed — 8/10; phone + vehicle flags', status: 'sent' }
+      ]
+    },
+    { id: 'sarah',    name: 'Sarah Campbell',   stage: 'aria-review',     score: 7,    scoreMax: 10,
+      contact: 'No contact made yet',
       flags: ['Overqualification risk'],
       highlights: ['Team Lead potential'],
-      decision: null, note: '', log: 'No contact yet' },
-    { id: 'karen-c', name: 'Karen Corrie',    stage: 'calendly-booked', score: 9,    contact: 'Discovery call — Today 3 PM PT',
+      decision: null, note: 'No contact ⚠️',
+      commLog: []
+    },
+    { id: 'karen-c',  name: 'Karen Corrie',     stage: 'calendly-booked', score: 9,    scoreMax: 10,
+      contact: 'Discovery call — Today 3 PM PT',
       flags: [],
       highlights: ['Enhanced criminal check', 'Driver abstract', 'Elder care potential'],
-      decision: null, note: 'Screen TODAY 3 pm 🔴', urgent: true,
-      log: 'SMS sent 11:14 AM • Booked discovery call' },
-    { id: 'trish',   name: 'Trish Beekman',   stage: 'trial-offer',     score: 7,    contact: 'Awaiting trial confirmation',
+      decision: null, note: 'Calendly booked — screen Friday 3 pm', urgent: true,
+      commLog: [
+        { at: '2026-04-17T11:14:00-07:00', type: 'sms',   text: 'Sent discovery-call booking link',          status: 'delivered' },
+        { at: '2026-04-17T12:58:00-07:00', type: 'sms',   text: 'Confirmation — 3 PM PT discovery call',    status: 'replied' },
+        { at: '2026-04-17T15:00:00-07:00', type: 'phone', text: 'Discovery call — scheduled TODAY',         status: 'sent' }
+      ]
+    },
+    { id: 'trish',    name: 'Trish Beekman',    stage: 'trial-offer',     score: 7,    scoreMax: 10,
+      contact: 'Awaiting trial confirmation',
       flags: [],
       highlights: ['Follow-up Apr 19', 'Est. start May 5 2026'],
-      decision: null, note: 'Trial window open', log: 'Offer extended — awaiting response' }
+      decision: null, note: 'Phone screen done — trial pending',
+      commLog: [
+        { at: '2026-04-16T11:21:00-07:00', type: 'email', text: 'Jotform pre-interview form received',       status: 'delivered' },
+        { at: '2026-04-17T10:00:00-07:00', type: 'phone', text: 'Phone screen completed — offer extended',  status: 'sent' }
+      ]
+    },
+    { id: 'louise',   name: 'Louise Savoie',    stage: 'applied',         score: null, scoreMax: 10,
+      contact: 'Voicemail left — awaiting callback',
+      flags: [], highlights: [], decision: null,
+      note: 'Auto follow-up Sat Apr 18 at 2:40 PM PT',
+      lastOutboundAt: '2026-04-17T14:40:00-07:00',
+      autoFollowUpAt: '2026-04-18T14:40:00-07:00',
+      commLog: [
+        { at: '2026-04-17T14:40:00-07:00', type: 'phone', text: 'Michael called — left voicemail',                  status: 'sent' },
+        { at: '2026-04-18T14:40:00-07:00', type: 'note',  text: 'Auto follow-up scheduled if no callback received', status: 'sent' }
+      ]
+    },
+    { id: 'felicia',  name: 'Felicia Wilson',   stage: 'jotform-sent',    score: 28,   scoreMax: 35,
+      contact: '604-798-1933 • felicia.olivia2017@outlook.com',
+      phone: '604-798-1933', email: 'felicia.olivia2017@outlook.com',
+      flags: ['Under 15 hrs — clarify full-time openness', 'Contact Tues Apr 21 after 9 AM only'],
+      highlights: ['10 years dedicated cleaning', 'Self-employed — AirBnB / move in-out', 'Vehicle confirmed', 'Criminal check confirmed', 'HR Management cert — UFV'],
+      decision: null, note: 'Advance — phone screen Tuesday Apr 21 after 9 AM',
+      commLog: [
+        { at: '2026-04-17T09:30:00-07:00', type: 'email', text: 'Application received (Indeed)',             status: 'delivered' },
+        { at: '2026-04-17T13:10:00-07:00', type: 'email', text: 'Jotform pre-interview submitted — 8/12',   status: 'delivered' }
+      ]
+    },
+    { id: 'rachael',  name: 'Rachael Szilasy',  stage: 'applied',         score: 20,   scoreMax: 35,
+      contact: '226-724-2460 (Ontario area code) • rachaelszilasy@gmail.com',
+      phone: '226-724-2460', email: 'rachaelszilasy@gmail.com',
+      flags: ['Consider for VA — not cleaner', '2-year employment gap 2024–2026', 'No dedicated cleaning experience', 'Short tenures — 4 jobs in 4 years'],
+      highlights: ['AP/AR Advanced', 'Excel Advanced', 'Admin coordination + invoicing'],
+      decision: null, note: 'Not recommended as cleaner — consider for VA role',
+      commLog: [
+        { at: '2026-04-17T09:07:00-07:00', type: 'email', text: 'Application received (Indeed bundle)', status: 'delivered' }
+      ]
+    }
+  ],
+  contacts: {
+    aria:    { name: 'Aria',    phone: '778-200-6517', tel: '+17782006517' },
+    karen:   { name: 'Karen',   phone: '604-800-9630', tel: '+16048009630' },
+    michael: { name: 'Michael', phone: '604-618-0336', tel: '+16046180336' }
+  },
+  smsTemplates: [
+    { id: 'jotform',       label: 'Send Jotform link',         body: 'Hi {{name}}, here is our pre-interview form — takes 5 min: https://form.jotform.com/202336220179448 — Karen @ LHS' },
+    { id: 'calendly',      label: 'Send Calendly booking',     body: 'Hi {{name}}, book a discovery call that works for you: https://calendly.com/lhs-interview — Karen @ LHS' },
+    { id: 'confirm-time',  label: 'Confirm interview time',    body: 'Hi {{name}}, confirming our call at 3 PM today. Talk soon — Karen, LHS' },
+    { id: 'check-avail',   label: 'Check availability',        body: 'Hi {{name}}, do you have 10 min this week for a quick intro call? Mon–Fri mornings work best — Karen, LHS' },
+    { id: 'vehicle',       label: 'Confirm vehicle ownership', body: 'Hi {{name}}, confirming — do you have a reliable vehicle for work? Required for our routes. Thanks, Karen' },
+    { id: 'advance',       label: 'Advance to trial',          body: 'Hi {{name}} — great news, we would like to book you for a paid trial shift. Reply with 2–3 windows that work. Karen, LHS' },
+    { id: 'decline',       label: 'Polite decline',            body: 'Hi {{name}}, thanks for your time and interest. We have moved forward with other candidates for this role. Wishing you all the best. — Karen, LHS' },
+    { id: 'custom',        label: 'Custom message',            body: '' }
+  ],
+  emailTemplates: [
+    { id: 'interview', label: 'Interview invitation',    subject: 'Interview invitation — Residential House Cleaner',  body: 'Hi {{name}},\n\nThanks for your application. We would like to invite you to an interview...' },
+    { id: 'trial',     label: 'Trial run invitation',    subject: 'Trial shift invitation — LHS',                      body: 'Hi {{name}},\n\nWe would like to invite you to a paid trial shift next week...' },
+    { id: 'rjp',       label: 'Realistic job preview',   subject: 'A realistic look at the Residential Cleaner role',  body: 'Hi {{name}},\n\nBefore we go further, we want to make sure the role is a good fit...' },
+    { id: 'offer',     label: 'Offer letter',            subject: 'Offer — Residential House Cleaner — LHS',           body: 'Hi {{name}},\n\nWe are thrilled to extend an offer...' },
+    { id: 'decline',   label: 'Polite decline',          subject: 'Thank you for applying — LHS',                      body: 'Hi {{name}},\n\nThank you for taking the time to apply. We have gone with other candidates for this role...' },
+    { id: 'custom',    label: 'Custom email',            subject: '',                                                  body: '' }
   ],
   pendingApprovals: [
     { id: 'pa1', candidate: 'Alisha Chumber', summary: 'Cowork recommends phone screen before interview — location discrepancy needs clarification.', action: 'contact' }
@@ -1476,6 +1840,9 @@ function applyTheme(t) {
 document.addEventListener('click', (e) => {
   if (e.target.closest('#theme-toggle')) {
     applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+  }
+  if (e.target.closest('#call-aria-btn')) {
+    openContactModal('aria');
   }
 });
 
@@ -1811,6 +2178,8 @@ function infoRow(label, sub, right, valueColor) {
 function renderKaren() {
   const host = el('div');
   host.appendChild(renderMeter());
+  // Karen view: direct line to Michael
+  host.appendChild(buildContactRow(['michael']));
 
   // ============================================================
   // MY TASKS — Karen's tasks only, right at the top
@@ -1971,6 +2340,8 @@ function renderKaren() {
 function renderVA() {
   const host = el('div');
   host.appendChild(renderMeter());
+  // VA view: direct lines to Karen + Michael
+  host.appendChild(buildContactRow(['karen', 'michael']));
 
   // Standup
   const stand = el('div', { class: 'card', style: 'margin-bottom:16px;' });
@@ -2138,8 +2509,10 @@ function buildCandidateCard(c) {
   );
   head.appendChild(left);
   if (typeof c.score === 'number') {
-    const scoreCls = c.score >= 8 ? 'high' : c.score >= 7 ? 'mid' : '';
-    head.appendChild(el('div', { class: 'cand-score ' + scoreCls }, `${c.score}/10`));
+    const max = c.scoreMax || 10;
+    const ratio = c.score / max;
+    const scoreCls = ratio >= 0.8 ? 'high' : ratio >= 0.65 ? 'mid' : '';
+    head.appendChild(el('div', { class: 'cand-score ' + scoreCls }, `${c.score}/${max}`));
   }
   card.appendChild(head);
 
@@ -2154,8 +2527,16 @@ function buildCandidateCard(c) {
     card.appendChild(el('div', { class: 'cand-note ' + (c.urgent ? 'urgent' : '') }, c.note));
   }
 
-  if (c.log) card.appendChild(el('div', { class: 'cand-log' }, c.log));
+  // 24h / 48h countdown — based on last outbound SMS/phone with no reply
+  const countdownInfo = computeCountdown(c);
+  if (countdownInfo) {
+    card.appendChild(el('div', { class: 'cand-countdown ' + countdownInfo.cls }, countdownInfo.text));
+    if (countdownInfo.suggestHold) {
+      card.appendChild(el('div', { class: 'cd-hold-suggest' }, '⏸️ Suggest HOLD — 48 h with no reply'));
+    }
+  }
 
+  // Row 1 — decision actions
   const actions = el('div', { class: 'cand-actions' });
   actions.appendChild(el('button', { class: 'btn btn-success btn-sm', onclick: (e) => { e.stopPropagation(); decideCandidate(c.id, 'yes'); } }, '✅ YES'));
   actions.appendChild(el('button', { class: 'btn btn-sm btn-danger-ghost', onclick: (e) => { e.stopPropagation(); decideCandidate(c.id, 'no'); } }, '❌ NO'));
@@ -2164,7 +2545,50 @@ function buildCandidateCard(c) {
   actions.appendChild(el('button', { class: 'btn btn-sm', onclick: (e) => { e.stopPropagation(); toast('Full profile coming — deep-link to Indeed next pass'); } }, 'Profile'));
   card.appendChild(actions);
 
+  // Row 2 — communication actions (SMS / Email / View Log)
+  const commRow = el('div', { class: 'cand-comm-row' });
+  commRow.appendChild(el('button', {
+    class: 'comm-btn comm-btn-sms',
+    onclick: (e) => { e.stopPropagation(); toggleCommDropdown(commRow, c, 'sms'); }
+  }, '📱 SMS Follow Up'));
+  commRow.appendChild(el('button', {
+    class: 'comm-btn comm-btn-email',
+    onclick: (e) => { e.stopPropagation(); toggleCommDropdown(commRow, c, 'email'); }
+  }, '📧 Email Follow Up'));
+  const logCount = (c.commLog || []).length;
+  const logBtn = el('button', {
+    class: 'comm-btn comm-btn-log',
+    onclick: (e) => { e.stopPropagation(); toggleCommLog(card, c); }
+  }, '📋 View Log ▼');
+  if (logCount) logBtn.appendChild(el('span', { class: 'log-count' }, String(logCount)));
+  commRow.appendChild(logBtn);
+  card.appendChild(commRow);
+
   return card;
+}
+
+function computeCountdown(c) {
+  if (!c.lastOutboundAt) return null;
+  const sentAt = new Date(c.lastOutboundAt).getTime();
+  const replied = (c.commLog || []).some(e => (e.status === 'replied') && new Date(e.at).getTime() >= sentAt);
+  if (replied) return null;
+  const elapsedMs = Date.now() - sentAt;
+  const hours = elapsedMs / (1000 * 60 * 60);
+  if (hours < 0) {
+    return { cls: 'cd-waiting', text: `⏳ Auto follow-up in ${fmtHM(-hours)}`, suggestHold: false };
+  }
+  if (hours < 24) {
+    return { cls: 'cd-waiting', text: `⏳ ${fmtHM(24 - hours)} until 24-hr follow-up`, suggestHold: false };
+  }
+  if (hours < 48) {
+    return { cls: 'cd-no-reply', text: `🔴 No reply — ${Math.floor(hours)} h since last outbound`, suggestHold: false };
+  }
+  return { cls: 'cd-no-reply', text: `🔴 No reply — ${Math.floor(hours)} h since last outbound`, suggestHold: true };
+}
+function fmtHM(hoursFloat) {
+  const h = Math.floor(hoursFloat);
+  const m = Math.floor((hoursFloat - h) * 60);
+  return `${h}h ${String(m).padStart(2, '0')}m`;
 }
 
 /* ============================================================
@@ -2392,6 +2816,138 @@ function updateNotesBadge(cardEl, count) {
     existing.remove();
   }
 }
+
+/* ============================================================
+   CANDIDATE COMMUNICATIONS — SMS / EMAIL DROPDOWNS + LOG
+   ============================================================ */
+function toggleCommDropdown(rowEl, c, kind) {
+  document.querySelectorAll('.comm-dropdown').forEach(d => d.remove());
+  const templates = kind === 'sms' ? state.smsTemplates : state.emailTemplates;
+  const dd = el('div', { class: 'comm-dropdown', dataset: { kind } });
+  dd.appendChild(el('div', { class: 'comm-dropdown-head' }, kind === 'sms' ? 'Send SMS template' : 'Send email template'));
+  templates.forEach((t, i) => {
+    dd.appendChild(el('button', {
+      class: 'comm-option',
+      onclick: (e) => { e.stopPropagation(); handleCommSelect(c, kind, t); dd.remove(); }
+    },
+      el('span', { class: 'num' }, String(i + 1)),
+      el('span', {}, t.label)
+    ));
+  });
+  rowEl.appendChild(dd);
+  setTimeout(() => {
+    const close = (ev) => { if (!dd.contains(ev.target)) { dd.remove(); document.removeEventListener('click', close); } };
+    document.addEventListener('click', close);
+  }, 10);
+}
+
+function handleCommSelect(c, kind, template) {
+  const nowIso = new Date().toISOString();
+  const entry = {
+    at: nowIso,
+    type: kind,
+    text: template.id === 'custom' ? 'Custom ' + (kind === 'sms' ? 'SMS' : 'email') + ' sent' : template.label,
+    status: 'sent'
+  };
+  if (!c.commLog) c.commLog = [];
+  c.commLog.push(entry);
+  // 24-hr clock keyed to SMS/phone outbound (per spec)
+  if (kind === 'sms') c.lastOutboundAt = nowIso;
+  toast(`${kind === 'sms' ? '📱 SMS' : '📧 Email'} logged: ${template.label}`);
+  postUpdate('candidate.comm', { id: c.id, kind, templateId: template.id, at: nowIso });
+  render();
+}
+
+function toggleCommLog(cardEl, c) {
+  const existing = cardEl.querySelector('.comm-log');
+  if (existing) { existing.remove(); return; }
+  const log = el('div', { class: 'comm-log' });
+  log.appendChild(el('div', { class: 'comm-log-title' }, `📋 Communications — ${c.name} (${(c.commLog || []).length})`));
+  const listEl = el('div', { class: 'comm-log-list' });
+  const entries = (c.commLog || []).slice().sort((a, b) => new Date(a.at) - new Date(b.at));
+  if (!entries.length) {
+    listEl.appendChild(el('div', { class: 'info-sub', style: 'padding:6px 4px;' }, 'No communications logged yet.'));
+  } else {
+    entries.forEach(e => {
+      const item = el('div', { class: 'comm-log-entry' });
+      item.appendChild(el('span', { class: 'comm-log-type ' + (e.type || 'note') }, (e.type || 'note').toUpperCase()));
+      item.appendChild(el('span', { class: 'comm-log-time' }, formatLogTime(e.at)));
+      item.appendChild(el('span', { class: 'comm-log-text' }, e.text));
+      item.appendChild(el('span', { class: 'comm-log-status status-' + (e.status || 'sent') }, (e.status || 'sent').replace('-', ' ')));
+      listEl.appendChild(item);
+    });
+  }
+  log.appendChild(listEl);
+  cardEl.appendChild(log);
+}
+function formatLogTime(iso) {
+  try {
+    const d = new Date(iso);
+    const date = d.toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles', month: 'short', day: 'numeric' });
+    const time = d.toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit' });
+    return `${date} ${time}`;
+  } catch (_) { return iso; }
+}
+
+/* ============================================================
+   CALL ARIA / CALL KAREN / CALL MICHAEL — modal
+   ============================================================ */
+function openContactModal(contactKey) {
+  const c = state.contacts[contactKey];
+  if (!c) return;
+  const backdrop = el('div', { class: 'modal-backdrop', onclick: (ev) => { if (ev.target === backdrop) backdrop.remove(); } });
+  const modal = el('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true' });
+  const icon = contactKey === 'aria' ? '📞' : contactKey === 'karen' ? '👩' : '👨';
+  const titleText = contactKey === 'aria' ? 'Call or text Aria' : 'Call or text ' + c.name;
+  modal.appendChild(el('h3', {},
+    el('span', {}, icon + ' ' + titleText),
+    el('span', { class: 'modal-phone' }, c.phone)
+  ));
+  modal.appendChild(el('p', {}, contactKey === 'aria'
+    ? 'Aria is our automation line. Call for live context or text to drop a note into the queue.'
+    : `Direct line for ${c.name}.`));
+  const actions = el('div', { class: 'modal-actions' });
+  actions.appendChild(el('a', {
+    class: 'modal-btn modal-btn-call',
+    href: 'tel:' + c.tel,
+    onclick: () => setTimeout(() => backdrop.remove(), 200)
+  },
+    el('span', { style: 'font-size:18px;' }, '📞'),
+    el('span', {}, 'Call — ' + c.phone)
+  ));
+  actions.appendChild(el('a', {
+    class: 'modal-btn modal-btn-sms',
+    href: 'sms:' + c.tel,
+    onclick: () => setTimeout(() => backdrop.remove(), 200)
+  },
+    el('span', { style: 'font-size:18px;' }, '💬'),
+    el('span', {}, 'Text — ' + c.phone)
+  ));
+  actions.appendChild(el('button', {
+    class: 'modal-btn modal-btn-cancel',
+    onclick: () => backdrop.remove()
+  }, '❌ Cancel'));
+  modal.appendChild(actions);
+  backdrop.appendChild(modal);
+  document.body.appendChild(backdrop);
+  const onKey = (ev) => { if (ev.key === 'Escape') { backdrop.remove(); document.removeEventListener('keydown', onKey); } };
+  document.addEventListener('keydown', onKey);
+}
+
+function buildContactRow(keys) {
+  const row = el('div', { class: 'contact-row' });
+  keys.forEach(k => {
+    const c = state.contacts[k];
+    if (!c) return;
+    const emoji = k === 'aria' ? '📞' : k === 'karen' ? '👩' : '👨';
+    row.appendChild(el('button', {
+      class: 'contact-btn',
+      onclick: () => openContactModal(k)
+    }, `${emoji} Call ${c.name} — ${c.phone}`));
+  });
+  return row;
+}
+
 function decideCandidate(id, decision) {
   const c = state.candidates.find(x => x.id === id);
   if (!c) return;
