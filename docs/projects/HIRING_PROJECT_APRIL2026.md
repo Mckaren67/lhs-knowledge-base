@@ -2,8 +2,8 @@
 
 **Project owner:** Karen McLaren + Michael McLaren
 **Created:** Friday, April 17, 2026
-**Last updated:** Friday, April 17, 2026 (post-screen)
-**Status:** Active — 3 roles open, 9 candidates ranked, 2 advancing to trial this week
+**Last updated:** Saturday, April 18, 2026 (morning updates)
+**Status:** Active — 3 roles open, 10 candidates ranked, 2 advancing to trial this week
 
 ---
 
@@ -144,4 +144,37 @@ Flags that automatically escalate to Michael's approval queue:
 
 ---
 
-*Last touched: Friday, April 17, 2026 — post-screen update, 3-position strategy set.*
+## Saturday April 18 2026 — Morning Updates
+
+### Karen Corrie — 21/25 phone screen PASSED
+- Can start **Monday, April 20**
+- Karen M note: "sounds mature — has cleaned in homes"
+- Decision: **Advanced to trial — schedule this week**
+
+### Felicia Wilson — CONDITIONAL HOLD
+- Availability confirmed: Mon/Tue/Thu/Fri 9–3, Wed 9–2
+- No daycare summer — works until ~**June 20**
+- Decision: **Hire only if better candidates not found**
+- Status: **Hold — do not contact yet**
+
+### Louise Savoie — ADVANCING (progress since Friday)
+- **Messaged us Saturday morning** — completed JotForm
+- Phone: **604-799-9623 confirmed**
+- Status: **Phone screen needed today**
+
+### Haley Edworthy — NEW — Candidate #010 — HOT LIST
+- See detail: `candidates/HALEY_EDWORTHY.md`
+- Replied to our Indeed outreach — stand-in cleaning experience
+- Score: **26/35**
+- Status: **Phone screen needed today urgently**
+
+### Felicia Wilson decision framework
+
+Hire Felicia only if:
+- Louise Savoie fails screen
+
+_[Framework incomplete — remaining criteria to be added.]_
+
+---
+
+*Last touched: Saturday, April 18, 2026 — Saturday morning updates appended.*
