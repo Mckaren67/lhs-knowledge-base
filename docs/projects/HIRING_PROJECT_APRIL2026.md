@@ -2,8 +2,8 @@
 
 **Project owner:** Karen McLaren + Michael McLaren
 **Created:** Friday, April 17, 2026
-**Last updated:** Friday, April 17, 2026
-**Status:** Active — 3 roles open, 7 candidates in pipeline
+**Last updated:** Friday, April 17, 2026 (post-screen)
+**Status:** Active — 3 roles open, 9 candidates ranked, 2 advancing to trial this week
 
 ---
 
@@ -21,34 +21,85 @@ Active modified role: **Alissa** — on hospital leave; handling with care.
 
 ---
 
-## Pipeline snapshot — Friday, April 17, 2026
+## Three-position strategy — UPDATED
 
-Posting: *Residential House Cleaner, Chilliwack, BC V2R 1A1*
-Today's Indeed applicant volume: **15+ new candidates** (bundled notification received 9:07 AM PT)
+### Position 1 — Monday, April 20, 2026
+**Karen Corrie** — phone screen **21/25** (Friday Apr 17 at 3 PM)
+- Can start **Monday, April 20**
+- Limited residential cleaning experience — **needs coaching** on first 1–2 paid shifts
+- **Elder companion dual-role potential** — slot into care-heavy client routes
+- Contact: **Text tonight or Saturday** (draft below)
 
-### Kanban status
+### Position 2 — This week
+**Felicia Wilson** — available now
+- Availability confirmed: **Mon/Tue/Thu/Fri 9 AM–3 PM; Wed 9 AM–2 PM**
+- 10 years dedicated cleaning; self-employed AirBnB + move-in/out
+- Vehicle + criminal check confirmed; HR Mgmt cert (UFV)
+- **Summer daycare unknown — clarify urgently** during trial conversation
+- Contact: **Text tonight or Saturday** (draft below)
 
-| Stage | Count | Names |
-|---|---|---|
-| Applied | 3 | Nicole Bryson, Alisha Chumber, Louise Savoie |
-| Aria Review | 2 | Ester Manigbas (8/10), Sarah Campbell (7/10) |
-| Jotform Sent | 0 | — |
-| Calendly Booked | 1 | Karen Corrie (9/10) — discovery call TODAY 3 PM PT |
-| Trial & Offer | 1 | Trish Beekman (7/10) — follow up April 19 |
+### Position 3 — ASAP
+**Louise Savoie** — voicemail left **Friday Apr 17 2:40 PM PT**
+- Auto follow-up **Saturday Apr 18 2:40 PM PT** if no callback received
+- WHMIS certified; most flexible availability of the pool
+- Score: **30/35** (highest in pool)
+- Can start **Monday, April 20**
 
 ---
 
-## Candidate summary
+## Backup / contingency
 
-See individual files in `docs/projects/candidates/`.
+**Ester Manigbas** — 11 years experience, score 29/30
+- **Verify phone number — call this weekend** (red-alert task open, Michael)
+- Food Safe, 100% travel
 
-- **Karen Corrie** — 9/10 — Calendly Booked — *screen TODAY 3 PM PT* 🔴
-- **Trish Beekman** — 7/10 — Trial & Offer — awaiting trial confirmation, est. start **May 5, 2026**
-- **Ester Manigbas** — 8/10 — Aria Review — 11 yrs experience, Food Safe, 100% travel ⭐
-- **Sarah Campbell** — 7/10 — Aria Review — Team Lead potential ⭐ (overqualification risk ⚠️)
-- **Alisha Chumber** — Applied — Cowork assessed — location mismatch ⚠️ awaiting Michael decision
-- **Nicole Bryson** — Applied — HOLD ⚠️ no vehicle
-- **Louise Savoie** — Applied — voicemail left Friday April 17 2026 at 2:40 PM PT
+**Trish Beekman** — score 27/35
+- **Waiting on employer** — will contact Karen when she knows
+- 2-week notice required; est. start ~**May 5, 2026**
+- **Do NOT follow up** — she's handling it
+
+**Sarah Campbell** — score 27/30
+- **No contact made yet** — reach out this weekend (red-alert task open, Michael)
+- Team Lead potential; watch for overqualification risk
+
+---
+
+## VA position (parallel track)
+
+**Rachael Szilasy** — score 20/35 for cleaner (below threshold)
+- **Reconsider under VA posting** — AP/AR Advanced, Excel Advanced
+- Flags: 2-year employment gap 2024–2026, short tenures, Ontario area code
+- Revisit after cleaning positions filled (VA final selection Monday)
+
+---
+
+## Draft texts — send tonight or Saturday
+
+### To Karen Corrie — 778-552-0807
+
+> Hi Karen — this is Karen from Lifestyle Home Service. Thank you so much for speaking with me today! We would love to have you in for a paid 2-hour trial clean. You would be compensated regardless of outcome. Are you available Monday or Tuesday this week? — Karen at LHS 604-800-9630
+
+### To Felicia Wilson — 604-798-1933
+
+> Hi Felicia — this is Karen from Lifestyle Home Service. Thank you for completing your application! We are very impressed with your experience and would love to have you in for a paid 2-hour trial clean this week. Are you available Monday or Tuesday? — Karen at LHS 604-800-9630
+
+### Auto follow-up — Louise Savoie (Saturday Apr 18 at 2:40 PM PT)
+
+> Hi Louise — Michael at Lifestyle Home Service. I left you a voicemail yesterday at 2:40 PM about the Residential Cleaner role. If you're still interested, please call me back at 604-618-0336 or text any time this weekend. Thanks — Michael
+
+---
+
+## Pipeline snapshot — Friday evening, April 17, 2026
+
+| Stage | Count | Names |
+|---|---|---|
+| Applied | 4 | Nicole Bryson (HOLD), Alisha Chumber, Louise Savoie, Rachael Szilasy |
+| Aria Review | 2 | Ester Manigbas (29/30) — *verify phone*, Sarah Campbell (27/30) — *no contact yet* |
+| Jotform Sent | 0 | — |
+| Calendly Booked | 0 | — |
+| Trial & Offer | 3 | Karen Corrie (21/25 screen — advance Monday), Felicia Wilson (28/35 — advance this week), Trish Beekman (waiting on employer) |
+
+**See:** `docs/projects/candidates/CANDIDATE_INDEX.md` for ranked list with next actions.
 
 ---
 
@@ -56,13 +107,17 @@ See individual files in `docs/projects/candidates/`.
 
 | Date | Task | Owner |
 |---|---|---|
-| Friday, April 17, 2026 | Karen Corrie discovery call — 3 PM PT | Karen |
-| Sunday, April 19, 2026 | Trish Beekman employer response window | Karen |
-| Monday, April 21, 2026 | VA final selection | Karen + Michael |
-| Monday, April 21, 2026 | Team Lead selection | Karen + Michael |
-| Monday, April 21, 2026 | Claude Routines setup | Michael |
+| Friday, April 17, 2026 (evening) | Text Karen Corrie + Felicia Wilson to schedule trials | Karen |
+| Saturday, April 18, 2026 at 2:40 PM PT | Louise Savoie auto follow-up (if no callback) | Michael |
+| Saturday, April 18, 2026 | Sarah Campbell first contact | Michael |
+| Weekend Apr 18–19 | Ester Manigbas: verify phone, then call | Michael |
+| Monday, April 20, 2026 | Trial shift #1 — Karen Corrie | Karen |
+| Monday, April 20, 2026 | VA final selection | Karen + Michael |
+| Monday, April 20, 2026 | Team Lead selection | Karen + Michael |
+| Monday, April 20, 2026 | Claude Routines setup | Michael |
+| Tue–Wed, April 21–22 | Trial shift #2 — Felicia Wilson | Karen |
 | Friday, May 1, 2026 | Hiring goal deadline — 3 filled roles | Karen + Michael |
-| Monday, May 5, 2026 (est.) | Trish Beekman start date | Karen |
+| Monday, May 5, 2026 (est.) | Trish Beekman start (if employer approves) | Karen |
 
 ---
 
@@ -77,15 +132,16 @@ See individual files in `docs/projects/candidates/`.
 
 ## Decision framework
 
-Karen scores candidates **out of 25** after phone screen plus a gut-feel note. Michael signs off before Aria SMS-schedules any further step.
+Karen scores candidates on a **/25 phone-screen grid** plus a gut-feel note. Michael signs off before Aria SMS-schedules further steps.
 
-Flags automatically escalated to Michael's approval queue:
+Flags that automatically escalate to Michael's approval queue:
 - Location mismatch (resume vs. screener answer)
 - Vehicle unconfirmed
 - Phone number incomplete or unverified
 - Overqualification risk (>3 yrs in a higher-level role)
 - Thin or stale cleaning history
+- Childcare gap (e.g., summer daycare unknown)
 
 ---
 
-*Last touched: Friday, April 17, 2026 — date corrected from earlier "Saturday" note.*
+*Last touched: Friday, April 17, 2026 — post-screen update, 3-position strategy set.*

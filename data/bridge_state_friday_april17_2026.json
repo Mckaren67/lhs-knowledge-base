@@ -1,37 +1,32 @@
 {
   "key": "bridge_state_friday_april17_2026",
-  "snapshottedAt": "2026-04-17T17:00:00-07:00",
-  "note": "Dashboard runtime snapshot — candidates + alerts + comm logs as of Friday April 17 2026.",
+  "snapshottedAt": "2026-04-17T18:30:00-07:00",
+  "note": "Post-screen evening snapshot — Karen Corrie advanced to trial (21/25), Felicia advancing to trial, Trish waiting on employer. Ranked via CANDIDATE_INDEX.md.",
   "stats": { "activeCleaners": 12, "openPositions": 3, "candidates": 9, "arOutstanding": 13092 },
-  "redAlerts": [
-    { "id": "r1",       "title": "Website feedback to agency",             "assignedTo": "Michael",          "category": "website",    "est": 15 },
-    { "id": "r2",       "title": "Indeed — review 3 positions",            "assignedTo": "Cowork",           "category": "hiring",     "est": 30 },
-    { "id": "r3",       "title": "Contact Sarah Campbell",                 "assignedTo": "Michael",          "category": "hiring",     "est": 5  },
-    { "id": "r4",       "title": "Verify Ester phone number",              "assignedTo": "Michael",          "category": "hiring",     "est": 2  },
-    { "id": "k-red-1",  "title": "Karen Corrie screen — 3 pm TODAY",        "assignedTo": "Karen",            "category": "hiring",     "est": 15 },
-    { "id": "k-red-2",  "title": "Score Karen Corrie — text Michael",       "assignedTo": "Karen",            "category": "hiring",     "est": 5  },
-    { "id": "k-red-3",  "title": "Paula client list — pull from HCP",       "assignedTo": "Karen",            "category": "field-ops",  "est": 10 },
-    { "id": "k-red-4",  "title": "Hélène Brassard — DO NOT contact yet",    "assignedTo": "Karen",            "category": "client-mgmt", "est": 20 }
-  ],
-  "yellowAlerts": [
-    { "id": "y1",       "title": "Karen meeting — Fri/Sat/Mon",             "assignedTo": "Michael",          "category": "hiring" },
-    { "id": "y3",       "title": "Cowork HCP test confirmation",            "assignedTo": "Michael",          "category": "automation" },
-    { "id": "y4",       "title": "Claude Routines setup — Monday",          "assignedTo": "Michael",          "category": "automation" },
-    { "id": "y5",       "title": "VA final selection — Monday",             "assignedTo": "Michael + Karen",  "category": "hiring" },
-    { "id": "k-yel-5",  "title": "Alissa modified role — gentle conversation", "assignedTo": "Karen",         "category": "field-ops" },
-    { "id": "k-yel-6",  "title": "Client notes session — top 30 clients",   "assignedTo": "Karen + Michael",  "category": "admin" },
-    { "id": "k-yel-7",  "title": "Team Lead selection",                     "assignedTo": "Karen + Michael",  "category": "hiring" },
-    { "id": "k-yel-8",  "title": "Review new website draft",                "assignedTo": "Karen",            "category": "marketing" },
-    { "id": "k-acc-9",  "title": "ROE for Lorissa W — email Bill Gee",      "assignedTo": "Karen",            "category": "accountant", "overdue": true },
-    { "id": "k-acc-10", "title": "ROE for Julieta S — email Bill Gee",      "assignedTo": "Karen",            "category": "accountant", "overdue": true },
-    { "id": "k-acc-11", "title": "ROE for Paula — email Bill Gee",          "assignedTo": "Karen",            "category": "accountant" }
+  "threePositionStrategy": {
+    "position1": { "candidate": "Karen Corrie",    "startDate": "2026-04-20", "status": "advance-to-trial", "score": "21/25 phone screen" },
+    "position2": { "candidate": "Felicia Wilson",  "startWindow": "this week",  "status": "advance-to-trial", "score": "28/35" },
+    "position3": { "candidate": "Louise Savoie",   "startDate": "2026-04-20", "status": "awaiting-callback", "score": "30/35", "autoFollowUpAt": "2026-04-18T14:40:00-07:00" },
+    "backup":    ["Ester Manigbas (29/30 — verify phone)", "Trish Beekman (27/35 — waiting on employer, est May 5)", "Sarah Campbell (27/30 — no contact yet)"],
+    "va":        { "candidate": "Rachael Szilasy", "score": "20/35", "reason": "AP/AR Advanced — consider after cleaning roles filled" }
+  },
+  "candidateRanking": [
+    { "rank": 1, "id": "louise-savoie",  "name": "Louise Savoie",  "score": "30/35", "status": "voicemail-left",      "nextAction": "Auto follow-up Sat Apr 18 2:40 PM" },
+    { "rank": 2, "id": "ester-manigbas", "name": "Ester Manigbas", "score": "29/30", "status": "phone-screen-needed",  "nextAction": "Verify phone, then call this weekend" },
+    { "rank": 3, "id": "felicia-wilson", "name": "Felicia Wilson", "score": "28/35", "status": "advance-to-trial",    "nextAction": "Text tonight or Saturday" },
+    { "rank": 4, "id": "karen-corrie",   "name": "Karen Corrie",   "score": "21/25 screen", "status": "advance-to-trial",   "nextAction": "Text tonight or Saturday" },
+    { "rank": 5, "id": "sarah-campbell", "name": "Sarah Campbell", "score": "27/30", "status": "no-contact-yet",       "nextAction": "Reach out this weekend" },
+    { "rank": 6, "id": "trish-beekman",  "name": "Trish Beekman",  "score": "27/35", "status": "awaiting-employer",    "nextAction": "Wait — Trish will contact Karen" },
+    { "rank": 7, "id": "alisha-chumber", "name": "Alisha Chumber", "score": "5/10",  "status": "borderline",           "nextAction": "Location clarification needed" },
+    { "rank": 8, "id": "rachael-szilasy","name": "Rachael Szilasy","score": "20/35", "status": "va-consideration",     "nextAction": "Revisit under VA posting" },
+    { "rank": 9, "id": "nicole-bryson",  "name": "Nicole Bryson",  "score": "HOLD",  "status": "hold-no-vehicle",      "nextAction": "Closed unless transport changes" }
   ],
   "pipelineByStage": {
     "applied":          ["nicole-bryson", "alisha-chumber", "louise-savoie", "rachael-szilasy"],
     "aria-review":      ["ester-manigbas", "sarah-campbell"],
-    "jotform-sent":     ["felicia-wilson"],
-    "calendly-booked":  ["karen-corrie"],
-    "trial-offer":      ["trish-beekman"]
+    "jotform-sent":     [],
+    "calendly-booked":  [],
+    "trial-offer":      ["karen-corrie", "felicia-wilson", "trish-beekman"]
   },
   "activeCountdowns": [
     {
@@ -39,7 +34,28 @@
       "lastOutboundAt": "2026-04-17T14:40:00-07:00",
       "autoFollowUpAt": "2026-04-18T14:40:00-07:00",
       "status": "awaiting-callback",
-      "note": "Voicemail — 24 h countdown to Saturday 2:40 PM auto follow-up"
+      "note": "Voicemail left Friday 2:40 PM — 24-hr countdown to auto follow-up Saturday 2:40 PM"
     }
-  ]
+  ],
+  "queuedTexts": [
+    {
+      "to": "Karen Corrie",
+      "phone": "778-552-0807",
+      "when": "tonight-or-saturday",
+      "body": "Hi Karen — this is Karen from Lifestyle Home Service. Thank you so much for speaking with me today! We would love to have you in for a paid 2-hour trial clean. You would be compensated regardless of outcome. Are you available Monday or Tuesday this week? — Karen at LHS 604-800-9630"
+    },
+    {
+      "to": "Felicia Wilson",
+      "phone": "604-798-1933",
+      "when": "tonight-or-saturday",
+      "body": "Hi Felicia — this is Karen from Lifestyle Home Service. Thank you for completing your application! We are very impressed with your experience and would love to have you in for a paid 2-hour trial clean this week. Are you available Monday or Tuesday? — Karen at LHS 604-800-9630"
+    }
+  ],
+  "questionsForTrialConversation": {
+    "felicia-wilson": [
+      "When does summer start for your kids? (typical BC school calendar = last week of June)",
+      "Any summer childcare plan in place — camps, family, swap arrangements?",
+      "Are you looking for school-year only, or are we targeting year-round?"
+    ]
+  }
 }

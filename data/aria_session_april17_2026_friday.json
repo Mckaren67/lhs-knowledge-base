@@ -5,9 +5,9 @@
     "date": "2026-04-17",
     "dayOfWeek": "Friday",
     "timezone": "America/Los_Angeles",
+    "updatedAt": "2026-04-17T18:30:00-07:00",
     "correctedFrom": "aria_session_april17_2026 (previously labeled Saturday in error)",
-    "correctionNote": "April 17, 2026 is a Friday, not a Saturday.",
-    "correctedAt": "2026-04-17T14:45:00-07:00"
+    "correctionNote": "April 17, 2026 is a Friday, not a Saturday. Evening update includes Karen Corrie screen result and Felicia advance."
   },
   "hiringProject": {
     "name": "HIRING_PROJECT_APRIL2026",
@@ -17,22 +17,73 @@
       { "vacatedBy": "Julieta S", "date": "2026-03-26" },
       { "vacatedBy": "Paula",     "date": "2026-04-16", "note": "no notice" }
     ],
-    "modifiedRole": { "name": "Alissa", "status": "hospital leave" }
+    "modifiedRole": { "name": "Alissa", "status": "hospital leave" },
+    "threePositionStrategy": {
+      "position1": { "candidate": "Karen Corrie",   "startDate": "2026-04-20", "status": "advance-to-trial" },
+      "position2": { "candidate": "Felicia Wilson", "startWindow": "this week", "status": "advance-to-trial" },
+      "position3": { "candidate": "Louise Savoie",  "startDate": "2026-04-20", "status": "awaiting-callback" }
+    }
   },
   "candidates": [
-    { "id": "karen-corrie",   "name": "Karen Corrie",   "stage": "calendly-booked", "score": 9,  "scoreMax": 10, "highlights": ["Enhanced criminal check","Driver abstract","Elder care potential"], "flags": [], "nextAction": { "type": "discovery-call", "when": "2026-04-17T15:00:00-07:00" } },
-    { "id": "trish-beekman",  "name": "Trish Beekman",  "stage": "trial-offer",     "score": 7,  "scoreMax": 10, "highlights": ["Follow-up Apr 19","Est. start May 5 2026"], "flags": [] },
-    { "id": "felicia-wilson", "name": "Felicia Wilson", "stage": "jotform-sent",    "score": 28, "scoreMax": 35, "highlights": ["10 years dedicated cleaning","Self-employed AirBnB","Vehicle confirmed","Criminal check confirmed","HR Mgmt cert UFV"], "flags": ["Under 15 hrs — clarify full-time","Contact Tues Apr 21 after 9 AM only"] },
-    { "id": "ester-manigbas", "name": "Ester Manigbas", "stage": "aria-review",     "score": 8,  "scoreMax": 10, "highlights": ["11 years experience","Food Safe","100% travel"], "flags": ["Phone incomplete","Vehicle unconfirmed"] },
-    { "id": "sarah-campbell", "name": "Sarah Campbell", "stage": "aria-review",     "score": 7,  "scoreMax": 10, "highlights": ["Team Lead potential"], "flags": ["Overqualification risk"] },
-    { "id": "alisha-chumber", "name": "Alisha Chumber", "stage": "applied",         "score": null, "highlights": ["Trilingual","Meets all screeners"], "flags": ["Location mismatch","Thin cleaning history"] },
-    { "id": "nicole-bryson",  "name": "Nicole Bryson",  "stage": "applied",         "score": null, "decision": "HOLD", "highlights": [], "flags": ["No vehicle"] },
-    { "id": "rachael-szilasy","name": "Rachael Szilasy","stage": "applied",         "score": 20, "scoreMax": 35, "highlights": ["AP/AR Advanced","Excel Advanced","Admin coordination"], "flags": ["Consider for VA — not cleaner","2-year employment gap","No cleaning experience","Short tenures"] },
-    { "id": "louise-savoie",  "name": "Louise Savoie",  "stage": "applied",         "score": null, "highlights": [], "flags": [],
+    { "id": "louise-savoie",  "name": "Louise Savoie",  "rank": 1, "stage": "applied",      "score": "30/35", "status": "voicemail-left",
+      "nextAction": { "type": "auto-follow-up", "when": "2026-04-18T14:40:00-07:00" },
       "communicationLog": [
         { "date": "2026-04-17", "dayOfWeek": "Friday", "time": "14:40", "timezone": "Pacific", "channel": "phone", "actor": "Michael", "summary": "Michael called — left voicemail",
           "autoFollowUp": { "scheduledFor": "2026-04-18T14:40:00-07:00", "dayOfWeek": "Saturday", "condition": "if no callback received" } }
       ]
+    },
+    { "id": "ester-manigbas", "name": "Ester Manigbas", "rank": 2, "stage": "aria-review", "score": "29/30",
+      "status": "phone-screen-needed", "flags": ["Phone incomplete", "Vehicle unconfirmed"],
+      "highlights": ["11 years experience", "Food Safe", "100% travel"],
+      "nextAction": { "type": "verify-phone-and-call", "owner": "Michael", "window": "this weekend" } },
+    { "id": "felicia-wilson", "name": "Felicia Wilson", "rank": 3, "stage": "trial-offer", "score": "28/35",
+      "status": "advance-to-trial",
+      "availability": { "mon": "9-3", "tue": "9-3", "wed": "9-2", "thu": "9-3", "fri": "9-3" },
+      "flags": ["Summer daycare unknown — clarify urgently", "Under 15 hrs — verify full-time openness"],
+      "highlights": ["10 years dedicated cleaning", "Self-employed AirBnB + move in-out", "Vehicle confirmed", "Criminal check confirmed", "HR Mgmt cert UFV", "Friend owns cleaning co."],
+      "nextAction": { "type": "send-trial-text", "phone": "604-798-1933", "when": "tonight-or-saturday" } },
+    { "id": "karen-corrie",   "name": "Karen Corrie",   "rank": 4, "stage": "trial-offer", "score": "21/25 screen",
+      "status": "advance-to-trial",
+      "karenAssessment": "Could be a fit. Limited residential cleaning experience but strong trust + care-aide background.",
+      "canStart": "2026-04-20",
+      "dualRolePotential": "elder-companion",
+      "highlights": ["Enhanced criminal check", "Driver abstract", "Elder care potential"],
+      "nextAction": { "type": "send-trial-text", "phone": "778-552-0807", "when": "tonight-or-saturday" } },
+    { "id": "sarah-campbell", "name": "Sarah Campbell", "rank": 5, "stage": "aria-review", "score": "27/30",
+      "status": "no-contact-yet",
+      "highlights": ["Team Lead potential"], "flags": ["Overqualification risk"],
+      "nextAction": { "type": "first-contact", "owner": "Michael", "window": "this weekend" } },
+    { "id": "trish-beekman",  "name": "Trish Beekman",  "rank": 6, "stage": "trial-offer", "score": "27/35",
+      "status": "awaiting-employer",
+      "note": "2-week notice required; est start May 5 2026",
+      "nextAction": { "type": "wait", "note": "Trish will contact Karen — do NOT follow up" } },
+    { "id": "alisha-chumber", "name": "Alisha Chumber", "rank": 7, "stage": "applied",     "score": "5/10",
+      "status": "borderline",
+      "flags": ["Location mismatch", "Thin cleaning history"],
+      "nextAction": { "type": "clarify-location", "owner": "Michael" } },
+    { "id": "rachael-szilasy","name": "Rachael Szilasy","rank": 8, "stage": "applied",     "score": "20/35",
+      "status": "va-consideration",
+      "highlights": ["AP/AR Advanced", "Excel Advanced", "Admin coordination"],
+      "flags": ["Consider for VA — not cleaner", "2-year employment gap 2024-2026", "No cleaning experience", "Short tenures"],
+      "nextAction": { "type": "revisit-under-va-posting" } },
+    { "id": "nicole-bryson",  "name": "Nicole Bryson",  "rank": 9, "stage": "applied",     "score": "HOLD",
+      "status": "hold-no-vehicle",
+      "decision": "HOLD",
+      "flags": ["No vehicle"],
+      "nextAction": { "type": "closed", "reopenIf": "transport confirmed" } }
+  ],
+  "draftTexts": [
+    {
+      "to": "Karen Corrie",
+      "phone": "778-552-0807",
+      "when": "tonight-or-saturday",
+      "body": "Hi Karen — this is Karen from Lifestyle Home Service. Thank you so much for speaking with me today! We would love to have you in for a paid 2-hour trial clean. You would be compensated regardless of outcome. Are you available Monday or Tuesday this week? — Karen at LHS 604-800-9630"
+    },
+    {
+      "to": "Felicia Wilson",
+      "phone": "604-798-1933",
+      "when": "tonight-or-saturday",
+      "body": "Hi Felicia — this is Karen from Lifestyle Home Service. Thank you for completing your application! We are very impressed with your experience and would love to have you in for a paid 2-hour trial clean this week. Are you available Monday or Tuesday? — Karen at LHS 604-800-9630"
     }
   ],
   "agenticAdoption": { "current": 69, "target": 80, "projectedDate": "2026-05-08" },
