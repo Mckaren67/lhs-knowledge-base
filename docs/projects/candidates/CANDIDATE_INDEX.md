@@ -11,7 +11,7 @@
 
 | Rank | Candidate | Score | Status | Next action |
 |---:|---|---|---|---|
-| 1  | **Louise Savoie**       | 30 / 35 | Phone screen needed today — JotForm completed Sat AM | Screen today |
+| 1  | **Louise Savoie**       | 30 / 35 | Phone screen PASSED — ADVANCING TO TRIAL Monday Apr 20 | Trial Monday April 20 |
 | 2  | **Ester Manigbas**      | 29 / 30 | Phone screen needed — urgent | Verify phone number, then call |
 | 3  | **Felicia Wilson**      | 28 / 35 | CONDITIONAL HOLD — available now | Decision framework in hiring doc |
 | 4  | **Karen Corrie**        | 21 / 25 screen | ADVANCE TO TRIAL — Monday start | Trial Monday April 20 |
@@ -28,11 +28,11 @@
 
 ## Rank 1 — Louise Savoie — 30 / 35
 
-- **Messaged us Saturday morning** — completed JotForm
+- **Phone screen PASSED Saturday April 18** (Michael) — personability 9/10, commitment 10/10, good listening
+- **Mature, customer-service background, wants full-time, can start right away**
 - Phone: **604-799-9623 confirmed**
-- Can start: **Monday, April 20, 2026**
 - Key note: WHMIS certified; most flexible availability of the pool
-- **Status: Phone screen needed today**
+- **Status: ADVANCING TO TRIAL — Monday April 20 (alongside Karen Corrie)**
 - File: `docs/projects/candidates/LOUISE_SAVOIE.md`
 
 ## Rank 2 — Ester Manigbas — 29 / 30

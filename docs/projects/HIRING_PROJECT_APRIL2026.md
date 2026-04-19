@@ -38,12 +38,13 @@ Active modified role: **Alissa** — on hospital leave; handling with care.
 - **Summer daycare unknown — clarify urgently** during trial conversation
 - Contact: **Text tonight or Saturday** (draft below)
 
-### Position 3 — ASAP
-**Louise Savoie** — voicemail left **Friday Apr 17 2:40 PM PT**
-- Auto follow-up **Saturday Apr 18 2:40 PM PT** if no callback received
+### Position 3 — Monday, April 20, 2026
+**Louise Savoie** — **phone screen PASSED Saturday April 18** (Michael)
+- Personability **9/10**, job commitment **10/10**, good listening skills
+- Mature lady with strong customer-service background — wants **full-time**
+- Can start right away — **Monday April 20 trial confirmed**
 - WHMIS certified; most flexible availability of the pool
 - Score: **30/35** (highest in pool)
-- Can start **Monday, April 20**
 
 ---
 
@@ -137,7 +138,7 @@ Active modified role: **Alissa** — on hospital leave; handling with care.
 | Saturday, April 18, 2026 at 2:40 PM PT | Louise Savoie auto follow-up (if no callback) | Michael |
 | Saturday, April 18, 2026 | Sarah Campbell first contact | Michael |
 | Weekend Apr 18–19 | Ester Manigbas: verify phone, then call | Michael |
-| Monday, April 20, 2026 | Trial shift #1 — Karen Corrie | Karen |
+| Monday, April 20, 2026 | Trial shift #1 — Karen Corrie + **Louise Savoie** | Karen |
 | Monday, April 20, 2026 | VA final selection | Karen + Michael |
 | Monday, April 20, 2026 | Team Lead selection | Karen + Michael |
 | Monday, April 20, 2026 | Claude Routines setup | Michael |
@@ -185,10 +186,11 @@ Flags that automatically escalate to Michael's approval queue:
 - Decision: **Hire only if better candidates not found**
 - Status: **Hold — do not contact yet**
 
-### Louise Savoie — ADVANCING (progress since Friday)
-- **Messaged us Saturday morning** — completed JotForm
-- Phone: **604-799-9623 confirmed**
-- Status: **Phone screen needed today**
+### Louise Savoie — ADVANCED — phone screen PASSED Saturday April 18
+- **Messaged us Saturday morning** — completed JotForm; phone **604-799-9623 confirmed**
+- **Phone screen PASSED** — personability 9/10, commitment 10/10, good listening
+- Mature, strong customer service experience, prefers **full-time**, can start right away
+- Status: **Trial Monday April 20** (alongside Karen Corrie)
 
 ### Haley Edworthy — NEW — Candidate #010 — HOT LIST
 - See detail: `candidates/HALEY_EDWORTHY.md`
