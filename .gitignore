@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Node
+node_modules/
+.env
+.env.local
+
+# Vercel
+.vercel/
