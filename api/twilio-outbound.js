@@ -1,6 +1,6 @@
 // /api/twilio-outbound — Aria's SMS sender.
 //
-// All Aria-driven candidate SMS goes through here, always from 604-330-3997.
+// All Aria-driven candidate SMS goes through here, always from 778-200-6517.
 // Karen's and Michael's personal phones stay personal (v1.3 §9). This endpoint
 // is INTERNAL (protected by INTERNAL_SECRET) — candidate-facing features call
 // it from other Vercel functions, not from the browser.

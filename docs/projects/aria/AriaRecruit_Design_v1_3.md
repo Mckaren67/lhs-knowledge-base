@@ -21,7 +21,7 @@
 
 ## Stack
 
-Claude Opus 4.7 · Claude Code · Claude Cowork · Vercel (existing lhs-knowledge-base) · Upstash Redis (lhs-aria-kb) · Twilio (604-330-3997) · SendGrid (inbound + outbound) · Google Workspace (Gmail, Calendar, Meet, Drive) · Calendly · Indeed · Dialpad · HubSpot (as external system, not a dependency)
+Claude Opus 4.7 · Claude Code · Claude Cowork · Vercel (existing lhs-knowledge-base) · Upstash Redis (lhs-aria-kb) · Twilio (778-200-6517) · SendGrid (inbound + outbound) · Google Workspace (Gmail, Calendar, Meet, Drive) · Calendly · Indeed · Dialpad · HubSpot (as external system, not a dependency)
 
 ---
 
@@ -78,7 +78,7 @@ This means:
 | Calendar | Google Calendar + Calendly | Meet pre-screens, phone screens, trial shifts |
 | Video pre-screen | Google Meet | 15-min recorded, auto-transcribed |
 | Voice recording | Dialpad (existing LHS infrastructure) | Phone screens; transcripts flow to HubSpot |
-| Messaging | Twilio (604-330-3997) | All Aria-driven candidate SMS |
+| Messaging | Twilio (778-200-6517) | All Aria-driven candidate SMS |
 | Transcript bridge | Claude Cowork on Karen's Mac | Pulls Dialpad/HubSpot + Google Meet transcripts into Redis |
 | Background jobs | Claude Code Routines on Anthropic infrastructure | Daily summaries, stale-candidate checks, pipeline health monitoring |
 
@@ -355,7 +355,7 @@ When `/api/intake-email` processes a new application:
 
 Currently: candidates are texted from Karen's personal phone (604-800-9630) or Michael's (604-618-0336).
 
-Target state: Aria texts from 604-330-3997, Karen and Michael's personal phones stay personal.
+Target state: Aria texts from 778-200-6517, Karen and Michael's personal phones stay personal.
 
 ### 9.1 For new candidates (post-Aria-launch)
 

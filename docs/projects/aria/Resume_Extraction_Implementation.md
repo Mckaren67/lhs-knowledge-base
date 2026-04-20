@@ -357,7 +357,7 @@ async function sendFirstSMS(candidate) {
   
   await twilioClient.messages.create({
     body: greeting,
-    from: process.env.TWILIO_PHONE, // 604-330-3997
+    from: process.env.TWILIO_PHONE, // 778-200-6517
     to: candidate.phone
   });
 }

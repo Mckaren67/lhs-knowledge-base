@@ -79,7 +79,7 @@ Check with Michael. If **yes**, have him share the login and skip to 2c.
 | `ANTHROPIC_API_KEY` | your existing Claude API key | console.anthropic.com → API Keys (create a new one if you don't have one handy; name it "AriaRecruit") |
 | `TWILIO_SID` | your Twilio Account SID | twilio.com/console — "Account SID" on the dashboard home |
 | `TWILIO_TOKEN` | your Twilio Auth Token | same dashboard, "Auth Token" (click to reveal) |
-| `TWILIO_PHONE` | `+16043303997` | v1.3-locked (Aria's number) |
+| `TWILIO_PHONE` | `+17782006517` | v1.3-locked (Aria's number) |
 | `KAREN_PHONE` | `+16048009630` | your mobile, for urgent alerts |
 | `MICHAEL_PHONE` | `+16046180336` | Michael's mobile, for urgent alerts |
 | `SENDGRID_API_KEY` | the key you copied in Step 2c | SendGrid |
@@ -288,7 +288,7 @@ You should see a JSON response like:
 2. Send the email.
 3. Within about 60 seconds:
    - A new candidate card appears in the **Applied** column of the hiring portal Kanban (refresh if needed).
-   - The test applicant's phone (whatever phone number is in the resume) receives an SMS **from 604-330-3997** (Aria's number). If you used a real phone number on Michael's real resume, this will land on his actual phone — so use a fake phone number or accept that it'll text Michael.
+   - The test applicant's phone (whatever phone number is in the resume) receives an SMS **from 778-200-6517** (Aria's number). If you used a real phone number on Michael's real resume, this will land on his actual phone — so use a fake phone number or accept that it'll text Michael.
    - The test applicant's email receives an intro email **from `LHS Careers <careers@lifestylehomeservice.com>`**.
 4. On the Kanban card, verify:
    - The **score** renders as `NN/100 — prescreen triage — Aria (automated)`.

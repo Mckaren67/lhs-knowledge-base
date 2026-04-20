@@ -1,6 +1,6 @@
 // /api/send-jotform-invite — send the JotForm invite to one Applied candidate.
 //
-// Fires both SMS (from 604-330-3997) and email (from careers@) in parallel,
+// Fires both SMS (from 778-200-6517) and email (from careers@) in parallel,
 // each with 3-attempt exponential backoff. On double-success the candidate
 // transitions Applied → JotForm (zrem + writeCandidate). Partial failures stay
 // Applied and add a flag. Double-failure writes a red alert for Karen.
@@ -18,7 +18,7 @@ import { firstNameFrom } from './_lib/intake-helpers.js';
 const redis = Redis.fromEnv();
 
 const JOTFORM_URL = process.env.JOTFORM_URL || 'https://form.jotform.com/251412920037245';
-const TWILIO_PHONE = process.env.TWILIO_PHONE || '+16043303997';
+const TWILIO_PHONE = process.env.TWILIO_PHONE || '+17782006517';
 const FROM_EMAIL = 'careers@lifestylehomeservice.com';
 
 function smsBody(firstName) {

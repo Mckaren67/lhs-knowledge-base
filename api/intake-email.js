@@ -16,7 +16,7 @@
 //      and zrem the orphan recruit:stage:hard_hold that writeCandidate creates.
 //  10. If inconsistency_flag: write recruit:redalert:* for Karen to review.
 //  11. Auto-reply routing:
-//      - Applied: first_contact email + first SMS (from 604-330-3997)
+//      - Applied: first_contact email + first SMS (from 778-200-6517)
 //      - Hard Hold, location-based, no inconsistency: send location_decline email
 //      - Hard Hold, travel-based OR inconsistency: no candidate outreach; Karen decides
 //

@@ -35,7 +35,7 @@ SUPPORTING DOCUMENTS:
 STAKEHOLDERS:
 - Karen McLaren (karen@lifestylehomeservice.com, 604-800-9630) — business owner, field ops
 - Michael Butterfield (michael@lifestylehomeservice.com, 604-618-0336) — builder, systems
-- Aria SMS number — 604-330-3997 (existing Twilio)
+- Aria SMS number — 778-200-6517 (existing Twilio)
 
 ARCHITECTURE LOCKED:
 - AriaRecruit is a standalone page: lhs-knowledge-base.vercel.app/hiring.html
@@ -145,7 +145,7 @@ Phase 1 deliverables in priority order:
 
 12. END-TO-END TEST
     - Michael submits a test Indeed-style application to careers@lifestylehomeservice.com with a sample resume PDF
-    - Verify: email arrives at SendGrid → webhook fires → /api/intake-email processes → Claude Opus extracts resume → candidate record written to Redis → MD file created in repo → first SMS sent from 604-330-3997 → first email sent from careers@ → both visible in hiring.html Kanban
+    - Verify: email arrives at SendGrid → webhook fires → /api/intake-email processes → Claude Opus extracts resume → candidate record written to Redis → MD file created in repo → first SMS sent from 778-200-6517 → first email sent from careers@ → both visible in hiring.html Kanban
     - Total elapsed time target: under 60 seconds
     - Verify dual-write integrity: Redis and MD file match
 
@@ -166,7 +166,7 @@ OPERATING RULES
 - ALWAYS display scores in Option 2 format: value/denominator — rubric — interviewer
 - NEVER normalize scores across rubrics
 - NEVER auto-reject a candidate (conditional logic auto-advances only; rejections need human confirmation — relevant in Phase 5, noted here for consistency)
-- NEVER send candidate-facing communication from anywhere other than 604-330-3997 (SMS) or careers@lifestylehomeservice.com (email)
+- NEVER send candidate-facing communication from anywhere other than 778-200-6517 (SMS) or careers@lifestylehomeservice.com (email)
 - When prompting Karen or Michael for action, use the "time saved" framing preference, not "technology" framing
 - For Redis saves, always Option 2 — local JSON in /data first
 - Commit and push to lhs-knowledge-base after every meaningful change
