@@ -58,6 +58,23 @@ Thank you for your interest in Lifestyle Home Service. Unfortunately, our servic
 We wish you all the best in your job search.
 
 — The LHS Team`
+  },
+
+  jotform_invite: {
+    subject: () => 'Next steps — Lifestyle Home Service application',
+    body: (d) => `Hi ${d.firstName || 'there'},
+
+Thanks for applying to Lifestyle Home Service! We'd love to learn a bit more about you.
+
+Please take 5–10 minutes to fill out this short form, which helps us understand your experience and availability:
+
+${d.jotformUrl || 'https://form.jotform.com/251412920037245'}
+
+Once you've completed the form, we'll reach out to schedule a quick 10-minute phone conversation.
+
+If you have any questions in the meantime, just reply to this email.
+
+— The LHS Team`
   }
 };
 
