@@ -450,6 +450,19 @@ function renderCleanerForm(c){
             </select>
           </div>
         </div>
+        <div class="grid full" style="margin-top:10px">
+          <div class="fg"><label class="fl">Home address <span class="auto-tag">used for intelligent routing</span></label>
+            <input class="fi" id="f-address" value="${s.address||''}" placeholder="e.g. 123 Main St, Chilliwack, BC V2P 1A1"/></div>
+        </div>
+        <div class="grid" style="margin-top:10px">
+          <div class="fg"><label class="fl">Max travel radius (km)</label>
+            <input class="fi" id="f-radius" type="number" value="${s.radius||25}" min="5" max="100" step="5"/></div>
+          <div class="fg"><label class="fl">Preferred start location</label>
+            <select class="fi" id="f-startloc">
+              ${['From home address','From previous job','Flexible'].map(l=>`<option ${(s.startloc||'From home address')===l?'selected':''}>${l}</option>`).join('')}
+            </select>
+          </div>
+        </div>
       </div>
       <div class="sec">
         <div class="sec-title">Skills</div>
@@ -516,6 +529,7 @@ function saveCleaner(key){
   saved[key]={
     days,skills,start:val('f-start'),end:val('f-end'),
     maxjobs:val('f-maxjobs'),zone:val('f-zone'),
+    address:val('f-address'),radius:val('f-radius'),startloc:val('f-startloc'),
     best:val('f-best'),avoid:val('f-avoid'),
     status:val('f-status'),cnotify:val('f-cnotify'),cnotes:val('f-cnotes'),
     _complete:true,_saved_at:new Date().toISOString()
