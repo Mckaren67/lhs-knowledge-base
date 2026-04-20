@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#F8F9FA" />
+<title>AriaRecruit — LHS Hiring Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F8F9FA;
+  --bg-elev: #FFFFFF;
+  --card: #FFFFFF;
+  --card-subtle: #F9FAFB;
+  --primary: #2563EB;
+  --primary-soft: #EFF6FF;
+  --primary-strong: #1D4ED8;
+  --success: #16A34A;
+  --success-soft: #F0FDF4;
+  --warning: #D97706;
+  --warning-soft: #FFFBEB;
+  --danger: #DC2626;
+  --danger-soft: #FEF2F2;
+  --purple: #7C3AED;
+  --purple-soft: #F5F3FF;
+  --text: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --border: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.05);
+  --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+}
+[data-theme="dark"] {
+  --bg: #0B0F17;
+  --bg-elev: #121823;
+  --card: #121823;
+  --card-subtle: #161D2A;
+  --primary: #3B82F6;
+  --primary-soft: rgba(59, 130, 246, 0.12);
+  --primary-strong: #60A5FA;
+  --success: #22C55E;
+  --success-soft: rgba(34, 197, 94, 0.12);
+  --warning: #F59E0B;
+  --warning-soft: rgba(245, 158, 11, 0.12);
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.12);
+  --purple: #A78BFA;
+  --purple-soft: rgba(167, 139, 250, 0.12);
+  --text: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --border: #1F2A3A;
+  --border-strong: #2A3A4F;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.35);
+  --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -2px rgba(0,0,0,0.35);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -4px rgba(0,0,0,0.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background-color 400ms, color 400ms;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+.app { max-width: 1600px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 32px) 48px; }
+
+/* Header */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 16px; gap: 16px; flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; }
+.brand-mark {
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #7C3AED 0%, #2563EB 100%);
+  border-radius: 10px; font-size: 20px;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-text .primary-text { color: var(--text); }
+.brand-text .secondary-text {
+  font-size: 11px; font-weight: 500; color: var(--text-secondary);
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+.header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.nav-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 12px; font-size: 13px; font-weight: 500;
+  color: var(--text-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); background: var(--card);
+  transition: all var(--transition);
+}
+.nav-link:hover { color: var(--text); border-color: var(--border-strong); text-decoration: none; }
+.clock {
+  font-family: var(--font-mono); font-weight: 600; font-size: 13px;
+  background: var(--card); padding: 8px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+}
+.clock .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+}
+.clock-day { color: var(--text-secondary); font-weight: 500; }
+.theme-toggle {
+  width: 36px; height: 36px; background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  display: grid; place-items: center; transition: all var(--transition);
+}
+.theme-toggle:hover { border-color: var(--border-strong); }
+.theme-toggle svg { width: 16px; height: 16px; stroke: var(--text); fill: none; stroke-width: 2; }
+[data-theme="dark"] .theme-toggle .sun { display: block; }
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+.theme-toggle .sun { display: none; }
+.theme-toggle .moon { display: block; }
+
+/* Build banner */
+.build-banner {
+  background: linear-gradient(135deg, var(--purple-soft), var(--primary-soft));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13.5px;
+}
+.build-banner .b-emoji { font-size: 18px; }
+.build-banner strong { color: var(--text); }
+.build-banner .b-text { color: var(--text-secondary); }
+
+/* Red alert banner */
+.red-alert-banner {
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13.5px;
+  color: var(--danger);
+}
+.red-alert-banner.empty {
+  background: var(--card);
+  border: 1px dashed var(--border-strong);
+  color: var(--text-secondary);
+  animation: none;
+}
+.red-alert-banner.active { animation: redpulse 2s infinite; }
+@keyframes redpulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+}
+
+/* Mode row */
+.mode-row {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.mode-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; font-size: 12.5px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  border-radius: 999px;
+  background: var(--card); border: 1px solid var(--border);
+}
+.mode-chip.mode-casual { border-color: var(--primary); color: var(--primary); background: var(--primary-soft); }
+.mode-chip.mode-urgent { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
+.mode-chip.mode-not_hiring { border-color: var(--border-strong); color: var(--text-secondary); }
+.mode-chip .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor;
+}
+.stat-inline { font-size: 13px; color: var(--text-secondary); }
+.stat-inline strong { color: var(--text); font-weight: 700; }
+
+/* Tabs */
+.tabs {
+  display: flex; gap: 4px;
+  background: var(--card); padding: 4px;
+  border-radius: 10px; border: 1px solid var(--border);
+  margin-bottom: 20px; overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border-radius: 8px;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap; transition: all var(--transition);
+}
+.tab:hover { color: var(--text); background: var(--card-subtle); }
+.tab.is-active {
+  color: var(--text); background: var(--bg);
+  box-shadow: var(--shadow-sm); font-weight: 600;
+}
+[data-theme="dark"] .tab.is-active { background: var(--bg-elev); }
+.tab .count {
+  font-size: 11px; font-weight: 600;
+  padding: 2px 7px; border-radius: 999px;
+  background: var(--card-subtle); color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.tab.is-active .count { background: var(--primary-soft); color: var(--primary); }
+
+.view { display: none; }
+.view.is-active { display: block; }
+
+/* Kanban */
+.kanban-wrap {
+  overflow-x: auto; padding-bottom: 12px;
+  scrollbar-width: thin;
+}
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(260px, 1fr));
+  gap: 12px;
+  min-width: fit-content;
+}
+.kanban-col {
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex; flex-direction: column;
+  min-height: 400px;
+  gap: 10px;
+}
+.kanban-col-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.kanban-col-title {
+  font-size: 12.5px; font-weight: 700;
+  letter-spacing: 0.03em; text-transform: uppercase;
+  color: var(--text);
+}
+.kanban-col-count {
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--text-secondary); font-variant-numeric: tabular-nums;
+}
+.kanban-col-body {
+  display: flex; flex-direction: column; gap: 8px;
+  flex: 1;
+}
+.empty-slot {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Holding patterns */
+.holding-section-title {
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  letter-spacing: 0.03em; text-transform: uppercase;
+  margin: 8px 0 12px;
+}
+.holding-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+.holding-col {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  display: flex; flex-direction: column;
+  gap: 10px;
+  min-height: 200px;
+}
+.holding-col .accent {
+  width: 28px; height: 3px; border-radius: 999px;
+  background: var(--border-strong);
+}
+.holding-col[data-lane="hard_hold"] .accent { background: var(--danger); }
+.holding-col[data-lane="conditional_hold"] .accent { background: var(--warning); }
+.holding-col[data-lane="pending_return"] .accent { background: var(--primary); }
+.holding-col[data-lane="waiting_employer"] .accent { background: var(--purple); }
+.holding-col[data-lane="reassigned"] .accent { background: var(--text-secondary); }
+.holding-col[data-lane="expected"] .accent { background: var(--success); }
+.holding-col-title {
+  font-size: 13.5px; font-weight: 700; color: var(--text);
+}
+.holding-col-desc {
+  font-size: 12px; color: var(--text-secondary); line-height: 1.5;
+}
+
+/* Legacy view */
+.legacy-table-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.legacy-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.legacy-table th {
+  text-align: left; padding: 12px 14px;
+  font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--text-secondary);
+  background: var(--card-subtle); border-bottom: 1px solid var(--border);
+}
+.legacy-table td {
+  padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.legacy-table tr:last-child td { border-bottom: none; }
+.legacy-table tr:hover td { background: var(--card-subtle); }
+.legacy-name { font-weight: 600; color: var(--text); }
+.legacy-score {
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--text-secondary); font-variant-numeric: tabular-nums;
+}
+.legacy-status {
+  display: inline-block; padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 600;
+  background: var(--card-subtle); color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.legacy-next { color: var(--text-secondary); font-size: 12.5px; }
+.legacy-badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 999px;
+  background: var(--purple-soft); color: var(--purple);
+  margin-left: 8px;
+}
+
+.loading {
+  padding: 40px; text-align: center;
+  color: var(--text-muted); font-size: 13px;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; flex-wrap: wrap;
+  gap: 12px; font-size: 12px; color: var(--text-muted);
+}
+.footer a { color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark">AR</div>
+      <div class="brand-text">
+        <span class="primary-text">AriaRecruit</span>
+        <span class="secondary-text">LHS Hiring Portal</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <a class="nav-link" href="/bridge.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        The Bridge
+      </a>
+      <div class="clock">
+        <span class="pulse"></span>
+        <span id="clock-day" class="clock-day">—</span>
+        <span id="clock-time">—</span>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="build-banner">
+    <span class="b-emoji">🏗️</span>
+    <div>
+      <strong>Phase 1 build in progress.</strong>
+      <span class="b-text">Aria is not yet live for new candidates. Existing candidates remain in the manual process. Go-live trigger: Karen or Michael says "launch Aria for new candidates" after Phase 1 testing completes.</span>
+    </div>
+  </div>
+
+  <div id="red-alert-banner" class="red-alert-banner empty">
+    <span>✓</span>
+    <span>No active red alerts.</span>
+  </div>
+
+  <div class="mode-row">
+    <span id="mode-chip" class="mode-chip mode-casual">
+      <span class="dot"></span>
+      <span id="mode-label">Casual hiring</span>
+    </span>
+    <span class="stat-inline"><strong id="stat-active">0</strong> active candidates</span>
+    <span class="stat-inline"><strong id="stat-holding">0</strong> in holding patterns</span>
+    <span class="stat-inline"><strong id="stat-legacy">0</strong> legacy</span>
+    <span class="stat-inline" style="color: var(--text-muted); font-size:11px">Next candidate ID: <strong id="stat-next-id">#017</strong></span>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab is-active" data-view="kanban" onclick="switchView('kanban')">
+      Kanban <span class="count" id="tab-count-kanban">0</span>
+    </button>
+    <button class="tab" data-view="holding" onclick="switchView('holding')">
+      Holding patterns <span class="count" id="tab-count-holding">0</span>
+    </button>
+    <button class="tab" data-view="legacy" onclick="switchView('legacy')">
+      Legacy (pre-Aria) <span class="count" id="tab-count-legacy">—</span>
+    </button>
+  </div>
+
+  <section id="view-kanban" class="view is-active">
+    <div class="kanban-wrap">
+      <div class="kanban" id="kanban-board"></div>
+    </div>
+  </section>
+
+  <section id="view-holding" class="view">
+    <div class="holding-section-title">Parallel holding lanes — not part of the main funnel</div>
+    <div class="holding-grid" id="holding-board"></div>
+  </section>
+
+  <section id="view-legacy" class="view">
+    <div class="holding-section-title">Candidates from the manual hiring process (pre-Aria)</div>
+    <div id="legacy-board" class="loading">Loading legacy candidates…</div>
+  </section>
+
+  <footer class="footer">
+    <span>AriaRecruit v1.3 · Phase 1 build · <span id="footer-date">—</span></span>
+    <a href="/bridge.html">← The Bridge</a>
+  </footer>
+</div>
+
+<script>
+/* Stages per v1.3 §4 (8-stage funnel) */
+const STAGES = [
+  { id: 'applied',             label: 'Applied' },
+  { id: 'screener',            label: 'Screener' },
+  { id: 'jotform',             label: 'JotForm' },
+  { id: 'cleaning_simulator',  label: 'Cleaning simulator' },
+  { id: 'phone_screen',        label: 'Phone screen' },
+  { id: 'trial',               label: 'Trial' },
+  { id: 'offer',               label: 'Offer' },
+  { id: 'hired_declined',      label: 'Hired / Declined' }
+];
+
+/* Holding lanes per v1.3 §5 */
+const HOLDING_LANES = [
+  { id: 'hard_hold',         label: 'Hard Hold',            desc: 'Hard knockout that may eventually resolve (e.g. no vehicle). No contact; flagged monthly.' },
+  { id: 'conditional_hold',  label: 'Conditional Hold',     desc: 'Advancement depends on other candidates. Auto-advances when conditions met.' },
+  { id: 'pending_return',    label: 'Pending Return',       desc: 'Awaiting candidate input (JotForm, callback). One reminder at 48h, then parked.' },
+  { id: 'waiting_employer',  label: 'Waiting on Employer',  desc: 'Candidate managing current-employer notice. Aria is silent — respect their process.' },
+  { id: 'reassigned',        label: 'Reassigned',           desc: 'Wrong role for current position. Moved to alternate pipeline if one exists.' },
+  { id: 'expected',          label: 'Expected',             desc: 'Placeholder for incoming candidate. Auto-activates on resume arrival or 14-day timeout.' }
+];
+
+/* Theme */
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', t === 'dark' ? '#0B0F17' : '#F8F9FA');
+  try { localStorage.setItem('aria-theme', t); } catch (_) {}
+}
+function toggleTheme() {
+  const current = document.documentElement.dataset.theme || 'light';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+(function initTheme() {
+  let saved; try { saved = localStorage.getItem('aria-theme'); } catch (_) {}
+  const sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  applyTheme(saved || sys);
+})();
+
+/* Clock */
+function tickClock() {
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US', {
+    timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit', hour12: true
+  });
+  const day = now.toLocaleDateString('en-US', {
+    timeZone: 'America/Los_Angeles', weekday: 'long', month: 'short', day: 'numeric'
+  });
+  document.getElementById('clock-time').textContent = time + ' PT';
+  document.getElementById('clock-day').textContent = day;
+  document.getElementById('footer-date').textContent = now.toLocaleDateString('en-CA');
+}
+setInterval(tickClock, 1000); tickClock();
+
+/* Tabs */
+function switchView(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('is-active', t.dataset.view === id));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('is-active', v.id === `view-${id}`));
+}
+
+/* Render Kanban structure (empty columns) */
+function renderKanban() {
+  const board = document.getElementById('kanban-board');
+  board.innerHTML = STAGES.map(s => `
+    <div class="kanban-col" data-stage="${s.id}">
+      <div class="kanban-col-head">
+        <span class="kanban-col-title">${s.label}</span>
+        <span class="kanban-col-count" id="col-count-${s.id}">0</span>
+      </div>
+      <div class="kanban-col-body" id="col-body-${s.id}">
+        <div class="empty-slot">No candidates yet</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* Render Holding lanes (empty) */
+function renderHolding() {
+  const board = document.getElementById('holding-board');
+  board.innerHTML = HOLDING_LANES.map(l => `
+    <div class="holding-col" data-lane="${l.id}">
+      <div class="accent"></div>
+      <div class="holding-col-title">${l.label}</div>
+      <div class="holding-col-desc">${l.desc}</div>
+      <div class="empty-slot">No candidates in this lane</div>
+    </div>
+  `).join('');
+}
+
+/* Legacy: fetch CANDIDATE_INDEX.md and parse ranked list */
+async function renderLegacy() {
+  const target = document.getElementById('legacy-board');
+  try {
+    const res = await fetch('/api/legacy-candidates');
+    if (!res.ok) throw new Error('Endpoint not reachable (' + res.status + ')');
+    const payload = await res.json();
+    const md = payload.index_markdown || '';
+    const filesOnDisk = new Set(payload.files_on_disk || []);
+    const candidates = parseCandidateIndex(md).map(c => {
+      const expectedFile = c.name.toUpperCase().replace(/\s+/g, '_') + '.md';
+      return { ...c, fileExists: filesOnDisk.has(expectedFile) };
+    });
+    if (!candidates.length) {
+      target.innerHTML = '<div class="loading">No legacy candidates parsed from index.</div>';
+      return;
+    }
+    document.getElementById('stat-legacy').textContent = candidates.length;
+    document.getElementById('tab-count-legacy').textContent = candidates.length;
+
+    const rows = candidates.map(c => `
+      <tr>
+        <td style="width:40px; color: var(--text-muted); font-variant-numeric: tabular-nums;">${c.rank}</td>
+        <td>
+          <span class="legacy-name">${escapeHtml(c.name)}</span>
+          <span class="legacy-badge">Legacy · pre-Aria</span>
+          ${c.fileExists ? '' : '<div style="font-size:11px; color: var(--text-muted); margin-top:2px">(details pending — no MD file yet)</div>'}
+        </td>
+        <td class="legacy-score">${escapeHtml(c.score || '—')}</td>
+        <td><span class="legacy-status">${escapeHtml(c.status)}</span></td>
+        <td class="legacy-next">${escapeHtml(c.nextAction)}</td>
+      </tr>
+    `).join('');
+
+    target.classList.remove('loading');
+    target.innerHTML = `
+      <div class="legacy-table-wrap">
+        <table class="legacy-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Candidate</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Next action</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  } catch (err) {
+    target.innerHTML = `<div class="loading">Couldn't load candidate index: ${escapeHtml(err.message)}</div>`;
+  }
+}
+
+function parseCandidateIndex(md) {
+  const lines = md.split('\n');
+  const results = [];
+  const tableRowRe = /^\|\s*(\d+)\s*\|\s*\*\*([^*]+)\*\*\s*(?:\(#(\d+)\))?\s*\|\s*([^|]*?)\s*\|\s*([^|]*?)\s*\|\s*([^|]*?)\s*\|\s*$/;
+  for (const line of lines) {
+    const m = line.match(tableRowRe);
+    if (m) {
+      results.push({
+        rank: m[1],
+        name: m[2].trim(),
+        idHint: m[3] || null,
+        score: m[4].trim(),
+        status: m[5].trim(),
+        nextAction: m[6].trim(),
+        fileExists: null
+      });
+    }
+  }
+  return results;
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])
+  );
+}
+
+/* Fetch hiring data (Aria-managed candidates) — endpoint not yet built */
+async function fetchHiringData() {
+  try {
+    const res = await fetch('/api/hiring-data');
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (_) {
+    return null;
+  }
+}
+
+/* Boot */
+(async function boot() {
+  renderKanban();
+  renderHolding();
+  renderLegacy();
+
+  const data = await fetchHiringData();
+  if (data && data.mode) {
+    const chip = document.getElementById('mode-chip');
+    chip.className = 'mode-chip mode-' + data.mode.toLowerCase();
+    document.getElementById('mode-label').textContent =
+      data.mode === 'CASUAL' ? 'Casual hiring'
+      : data.mode === 'URGENT' ? 'Urgent — fast track'
+      : 'Not hiring';
+  }
+  if (data && typeof data.nextCandidateId === 'string') {
+    document.getElementById('stat-next-id').textContent = data.nextCandidateId;
+  }
+})();
+</script>
+</body>
+</html>

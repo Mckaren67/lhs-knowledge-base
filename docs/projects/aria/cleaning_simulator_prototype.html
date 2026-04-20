@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AriaRecruit Cleaning Skills Simulator — Prototype</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --panel: #ffffff;
+    --ink: #2c2c2a;
+    --ink-soft: #5f5e5a;
+    --ink-faint: #888780;
+    --line: rgba(0,0,0,0.08);
+    --line-strong: rgba(0,0,0,0.18);
+    --accent: #185FA5;
+    --accent-soft: #E6F1FB;
+    --good: #3B6D11;
+    --good-soft: #EAF3DE;
+    --warn: #854F0B;
+    --warn-soft: #FAEEDA;
+    --bad: #A32D2D;
+    --bad-soft: #FCEBEB;
+    --red-cloth: #E24B4A;
+    --blue-cloth: #378ADD;
+    --yellow-cloth: #EF9F27;
+    --green-cloth: #639922;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  .shell {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--panel);
+    border: 0.5px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .header .brand {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .header .brand .sub {
+    color: var(--ink-faint);
+    font-weight: 400;
+    margin-left: 8px;
+    font-size: 13px;
+  }
+  .header .timer {
+    font-variant-numeric: tabular-nums;
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding: 6px 12px;
+    background: var(--bg);
+    border-radius: 6px;
+    border: 0.5px solid var(--line);
+  }
+  .header .timer.warn { color: var(--warn); background: var(--warn-soft); border-color: transparent; }
+  .header .timer.good { color: var(--good); }
+
+  /* Progress bar */
+  .progress {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .progress .step {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--panel);
+    border: 0.5px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+  .progress .step.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .progress .step.done {
+    background: var(--good-soft);
+    border-color: transparent;
+    color: var(--good);
+  }
+
+  /* Screen container */
+  .screen {
+    display: none;
+    animation: fadeIn 0.25s ease;
+  }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Welcome screen */
+  .welcome-card {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+    border: 0.5px solid var(--line);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .welcome-card h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  .welcome-card .subtitle {
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .welcome-card ul {
+    margin: 0 0 24px;
+    padding-left: 20px;
+    color: var(--ink-soft);
+  }
+  .welcome-card ul li { margin-bottom: 6px; }
+  .welcome-card .note {
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  /* Room picker */
+  .room-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .room-option {
+    background: var(--panel);
+    border: 0.5px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    box-shadow: var(--shadow);
+  }
+  .room-option:hover:not(.done) {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .room-option.done {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: var(--good-soft);
+    border-color: transparent;
+  }
+  .room-option .icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 12px;
+  }
+  .room-option .name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .room-option .meta {
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+
+  /* Estimate modal */
+  .estimate-panel {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 0.5px solid var(--line);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .estimate-panel h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  .estimate-panel .hint {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .estimate-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--bg);
+    border-radius: 8px;
+  }
+  .estimate-controls input[type="range"] {
+    flex: 1;
+  }
+  .estimate-controls .val {
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    font-size: 20px;
+    min-width: 70px;
+    text-align: right;
+  }
+
+  /* Main simulator layout */
+  .sim-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 16px;
+  }
+  @media (max-width: 860px) {
+    .sim-layout { grid-template-columns: 1fr; }
+  }
+  .room-canvas {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    border: 0.5px solid var(--line);
+  }
+  .room-canvas h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .room-canvas .instr {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  .svg-wrap {
+    background: #F6F3EE;
+    border-radius: 8px;
+    padding: 8px;
+    aspect-ratio: 16 / 10;
+  }
+  .svg-wrap svg { width: 100%; height: 100%; display: block; }
+
+  .clean-target {
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .clean-target:hover {
+    filter: brightness(1.05);
+  }
+  .clean-target.dirty .soil {
+    opacity: 1;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .clean-target.cleaned .soil {
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .clean-target.cleaned .surface {
+    fill: #E6F1FB !important;
+    transition: fill 0.4s;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.75; } }
+
+  .target-label {
+    font-size: 11px;
+    font-weight: 500;
+    pointer-events: none;
+  }
+
+  /* Kit panel */
+  .kit {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    border: 0.5px solid var(--line);
+    display: flex;
+    flex-direction: column;
+  }
+  .kit h3 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+  }
+  .kit .subh {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .kit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .tool {
+    padding: 10px 8px;
+    background: var(--bg);
+    border: 1.5px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 12px;
+    transition: all 0.12s;
+  }
+  .tool:hover { border-color: var(--line-strong); }
+  .tool.selected {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .tool .tool-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 4px;
+    display: block;
+  }
+  .cloth-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .cloth {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.12s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+  }
+  .cloth.red { background: var(--red-cloth); }
+  .cloth.blue { background: var(--blue-cloth); }
+  .cloth.yellow { background: var(--yellow-cloth); }
+  .cloth.green { background: var(--green-cloth); }
+  .cloth.selected { border-color: var(--ink); transform: scale(1.05); }
+  .cloth.selected::after { content: "✓"; font-size: 18px; }
+
+  .selection-display {
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 12px;
+    min-height: 50px;
+    color: var(--ink-soft);
+  }
+  .selection-display .label-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    margin-bottom: 2px;
+  }
+  .selection-display .val { font-weight: 500; color: var(--ink); }
+  .selection-display .none { color: var(--ink-faint); font-style: italic; }
+
+  .btn {
+    padding: 10px 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    transition: all 0.12s;
+  }
+  .btn:hover:not(:disabled) { background: #0F4680; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn.ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 0.5px solid var(--line-strong);
+  }
+  .btn.ghost:hover:not(:disabled) { background: var(--bg); }
+
+  /* Actions log */
+  .actions-log {
+    margin-top: 12px;
+    max-height: 120px;
+    overflow-y: auto;
+    font-size: 12px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 6px;
+    border: 0.5px solid var(--line);
+  }
+  .actions-log .action {
+    color: var(--ink-soft);
+    padding: 2px 0;
+  }
+  .actions-log .action.bad { color: var(--bad); }
+  .actions-log .action.good { color: var(--good); }
+  .actions-log .none {
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+
+  /* Results screen */
+  .results-card {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    border: 0.5px solid var(--line);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .results-card h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  .results-card .tagline {
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .score-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--bg);
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  .score-big {
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .score-max {
+    font-size: 18px;
+    color: var(--ink-faint);
+    font-weight: 400;
+  }
+  .score-verdict {
+    flex: 1;
+  }
+  .score-verdict .band {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .band.pass { background: var(--good-soft); color: var(--good); }
+  .band.review { background: var(--warn-soft); color: var(--warn); }
+  .band.reject { background: var(--bad-soft); color: var(--bad); }
+  .score-verdict .v-text { color: var(--ink-soft); font-size: 14px; }
+
+  .breakdown {
+    margin-bottom: 20px;
+  }
+  .dim-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 50px;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--line);
+  }
+  .dim-row:last-child { border-bottom: none; }
+  .dim-name { font-size: 14px; }
+  .dim-bar-wrap {
+    height: 6px;
+    background: var(--bg);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .dim-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+  .dim-score {
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    text-align: right;
+  }
+
+  .feedback {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .feedback .fb-head {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .feedback.good { background: var(--good-soft); color: var(--good); }
+  .feedback.warn { background: var(--warn-soft); color: var(--warn); }
+  .feedback.bad { background: var(--bad-soft); color: var(--bad); }
+
+  .json-preview {
+    margin-top: 20px;
+    padding: 14px;
+    background: #2C2C2A;
+    color: #D3D1C7;
+    border-radius: 8px;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    white-space: pre;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .json-preview .k { color: #EF9F27; }
+  .json-preview .s { color: #97C459; }
+  .json-preview .n { color: #85B7EB; }
+
+  .disclosure {
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--ink-faint);
+    padding: 12px 14px;
+    background: var(--bg);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+
+  /* Sequence picker */
+  .seq-picker {
+    margin-bottom: 12px;
+  }
+  .seq-picker .seq-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .seq-btn {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    background: var(--bg);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+  }
+  .seq-btn:hover { border-color: var(--line-strong); }
+  .seq-btn.selected {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="header">
+    <div class="brand">AriaRecruit <span class="sub">Cleaning Skills Simulator — Prototype</span></div>
+    <div class="timer" id="timer">00:00</div>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="step active" data-step="welcome">Welcome</div>
+    <div class="step" data-step="room-picker">Choose rooms</div>
+    <div class="step" data-step="simulator">Clean</div>
+    <div class="step" data-step="results">Results</div>
+  </div>
+
+  <!-- ============ WELCOME ============ -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-card">
+      <h1>Welcome to the Lifestyle Home Service skills check</h1>
+      <p class="subtitle">This is a short interactive exercise to see how you approach residential cleaning. It takes about 15&ndash;20 minutes. There are no trick questions.</p>
+
+      <p style="font-weight: 500; margin-bottom: 4px;">You will:</p>
+      <ul>
+        <li>Walk through 3 rooms (kitchen, bathroom, bedroom)</li>
+        <li>Pick which room to start with and how you'd sequence your work</li>
+        <li>Estimate how long each room should take you</li>
+        <li>Choose tools and cloth colours from a cleaning kit</li>
+        <li>Click the surfaces you would clean, in the order you would clean them</li>
+      </ul>
+
+      <div class="note">
+        <strong>No prior knowledge of our colour system is required.</strong> We'll introduce it as you go. Just clean the way you'd naturally approach it.
+      </div>
+
+      <button class="btn" onclick="goto('room-picker')">Start the exercise</button>
+    </div>
+  </div>
+
+  <!-- ============ ROOM PICKER ============ -->
+  <div class="screen" id="screen-room-picker">
+    <div style="max-width: 720px; margin: 0 auto;">
+      <h2 style="font-size: 20px; font-weight: 500; margin: 0 0 6px;">Pick a room to start with</h2>
+      <p style="color: var(--ink-soft); margin-bottom: 20px;">Your choice tells us how you think about sequence. Most experienced cleaners have a preference — pick whichever feels natural to you.</p>
+      <div class="room-picker" id="roomPickerGrid"></div>
+      <p id="roomPickerHint" style="text-align: center; color: var(--ink-faint); margin-top: 16px; font-size: 13px;">Complete all 3 rooms to finish.</p>
+    </div>
+  </div>
+
+  <!-- ============ ESTIMATE ============ -->
+  <div class="screen" id="screen-estimate">
+    <div class="estimate-panel">
+      <h2 id="estimateHeading">How long should this room take?</h2>
+      <p class="hint" id="estimateHint">Your best estimate for a standard recurring clean of this room.</p>
+      <div class="estimate-controls">
+        <input type="range" id="estimateSlider" min="3" max="40" value="12" step="1" />
+        <div class="val"><span id="estimateVal">12</span> min</div>
+      </div>
+
+      <div class="seq-picker">
+        <div class="seq-label">Which sequence best matches how you clean a room?</div>
+        <button class="seq-btn" data-seq="top-to-bottom" onclick="selectSeq(this)">Top to bottom, dry before wet</button>
+        <button class="seq-btn" data-seq="wet-first" onclick="selectSeq(this)">Wet surfaces first (sinks, tubs), then everything else</button>
+        <button class="seq-btn" data-seq="floors-first" onclick="selectSeq(this)">Floors first so they dry while I do the rest</button>
+        <button class="seq-btn" data-seq="by-dirtiness" onclick="selectSeq(this)">Whichever surface looks dirtiest first</button>
+      </div>
+
+      <button class="btn" id="estimateContinue" onclick="startCleaning()" disabled>Begin cleaning this room</button>
+    </div>
+  </div>
+
+  <!-- ============ SIMULATOR ============ -->
+  <div class="screen" id="screen-simulator">
+    <div class="sim-layout">
+      <div class="room-canvas">
+        <h3 id="roomTitle">Bathroom</h3>
+        <p class="instr">
+          <strong>Step 1:</strong> Pick a tool. <strong>Step 2:</strong> Pick a cloth colour. <strong>Step 3:</strong> Click a surface to clean it.
+        </p>
+        <div class="svg-wrap" id="svgWrap"></div>
+        <div class="actions-log" id="actionsLog">
+          <div class="none">Your cleaning actions will appear here as you work.</div>
+        </div>
+      </div>
+
+      <div class="kit">
+        <h3>Your cleaning kit</h3>
+        <div class="subh">Pick a tool</div>
+        <div class="kit-grid" id="toolGrid"></div>
+
+        <h3 style="margin-top: 4px;">Cloth colour</h3>
+        <div class="subh">Tap to select</div>
+        <div class="cloth-row">
+          <div class="cloth red" data-cloth="red" onclick="selectCloth('red')" title="Red">R</div>
+          <div class="cloth blue" data-cloth="blue" onclick="selectCloth('blue')" title="Blue">B</div>
+          <div class="cloth yellow" data-cloth="yellow" onclick="selectCloth('yellow')" title="Yellow">Y</div>
+          <div class="cloth green" data-cloth="green" onclick="selectCloth('green')" title="Green">G</div>
+        </div>
+
+        <div class="selection-display" id="selectionDisplay"></div>
+
+        <button class="btn" id="finishRoomBtn" onclick="finishRoom()">Finish this room</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ RESULTS ============ -->
+  <div class="screen" id="screen-results">
+    <div class="results-card">
+      <h1>Assessment complete</h1>
+      <p class="tagline">Here's how Aria scored your work. This is what Karen sees on the Kanban card.</p>
+
+      <div class="score-header">
+        <div>
+          <span class="score-big" id="resScore">0</span><span class="score-max">/100</span>
+        </div>
+        <div class="score-verdict">
+          <div class="band" id="resBand">—</div>
+          <div class="v-text" id="resVerdict"></div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 15px; font-weight: 500; margin: 0 0 8px;">Scoring breakdown</h3>
+      <div class="breakdown" id="breakdown"></div>
+
+      <h3 style="font-size: 15px; font-weight: 500; margin: 20px 0 8px;">What Aria noticed</h3>
+      <div id="feedbackList"></div>
+
+      <div class="disclosure">
+        <strong>This is what Aria writes to the candidate's Redis record</strong> (<code>recruit:score:{candidate_id}</code>). The scorecard is what shows up in Karen's Kanban card and drives the autonomy matrix — auto-advance above 75, review between 55&ndash;74, auto-reject below 55.
+      </div>
+      <div class="json-preview" id="jsonPreview"></div>
+
+      <button class="btn" onclick="restart()" style="margin-top: 16px;">Try again (reset)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// AriaRecruit Cleaning Simulator — scoring engine + room data
+// ============================================================
+// Research-grounded: scoring follows the 4 equally-weighted
+// dimensions Karen specified (knowledge, speed, tool-choice,
+// safety/sequencing). ISSA 4-colour cloth system used throughout.
+
+const STATE = {
+  timerStart: null,
+  timerInterval: null,
+  currentRoom: null,
+  roomsDone: [],
+  selectedTool: null,
+  selectedCloth: null,
+  estimates: {},       // roomId -> minutes estimated
+  actualTimes: {},     // roomId -> seconds taken
+  sequenceChoice: {},  // roomId -> seq string
+  actions: {},         // roomId -> [{ surface, tool, cloth, order, time }]
+  roomStart: null,
+};
+
+// ---------- Room definitions ----------
+// Each surface: id, label, correct tool, correct cloth, priority order, notes.
+const ROOMS = {
+  bathroom: {
+    name: "Bathroom",
+    timeTarget: 14,   // minutes, research-based
+    timeOK: [10, 18], // pass band
+    surfaces: [
+      // id, x, y, w, h, label, correctTools, correctCloth, priorityOrder, safetyCritical
+      { id: "mirror",   x: 40,  y: 80,  w: 120, h: 70,  label: "Mirror",       correctTools: ["glass"],        correctCloth: "blue",   order: 2, shape: "rect", fill: "#B5D4F4" },
+      { id: "counter",  x: 30,  y: 160, w: 180, h: 40,  label: "Counter",      correctTools: ["multi"],        correctCloth: "yellow", order: 3, shape: "rect", fill: "#D3D1C7" },
+      { id: "sink",     x: 75,  y: 175, w: 90,  h: 30,  label: "Sink",         correctTools: ["multi","scrub"],correctCloth: "yellow", order: 3, shape: "ellipse", fill: "#F1EFE8" },
+      { id: "toilet",   x: 260, y: 150, w: 80,  h: 100, label: "Toilet",       correctTools: ["toilet","disinf"], correctCloth: "red", order: 5, shape: "rect", fill: "#F1EFE8", critical: true },
+      { id: "tub",      x: 400, y: 90,  w: 190, h: 160, label: "Tub / shower", correctTools: ["scrub","multi"],correctCloth: "yellow", order: 4, shape: "rect", fill: "#D3D1C7" },
+      { id: "floor",    x: 30,  y: 290, w: 560, h: 60,  label: "Floor",        correctTools: ["mop","vacuum"], correctCloth: "yellow", order: 6, shape: "rect", fill: "#CEC9BE" },
+      { id: "highdust", x: 30,  y: 30,  w: 560, h: 25,  label: "High dusting", correctTools: ["duster"],       correctCloth: "blue",   order: 1, shape: "rect", fill: "#E8E5DD" },
+    ],
+  },
+  kitchen: {
+    name: "Kitchen",
+    timeTarget: 18,
+    timeOK: [14, 24],
+    surfaces: [
+      { id: "highdust", x: 30,  y: 30,  w: 560, h: 25,  label: "High dusting",       correctTools: ["duster"],      correctCloth: "blue",  order: 1, shape: "rect", fill: "#E8E5DD" },
+      { id: "cabinets", x: 30,  y: 70,  w: 250, h: 55,  label: "Cabinet fronts",     correctTools: ["multi"],        correctCloth: "green", order: 2, shape: "rect", fill: "#D3C9B4" },
+      { id: "microwave",x: 300, y: 70,  w: 100, h: 55,  label: "Microwave",          correctTools: ["degrease","multi"], correctCloth: "green", order: 3, shape: "rect", fill: "#B4B2A9" },
+      { id: "counter",  x: 30,  y: 140, w: 370, h: 40,  label: "Counters",           correctTools: ["multi"],        correctCloth: "green", order: 4, shape: "rect", fill: "#D3D1C7" },
+      { id: "stove",    x: 420, y: 70,  w: 170, h: 110, label: "Stovetop",           correctTools: ["degrease","scrub"], correctCloth: "green", order: 5, shape: "rect", fill: "#888780", critical: true },
+      { id: "sink",     x: 100, y: 195, w: 200, h: 55,  label: "Sink",               correctTools: ["multi","scrub"],correctCloth: "yellow", order: 6, shape: "rect", fill: "#F1EFE8" },
+      { id: "appliance",x: 320, y: 195, w: 120, h: 55,  label: "Appliance exteriors",correctTools: ["multi"],        correctCloth: "green", order: 7, shape: "rect", fill: "#B4B2A9" },
+      { id: "floor",    x: 30,  y: 290, w: 560, h: 60,  label: "Floor",              correctTools: ["mop","vacuum"], correctCloth: "yellow", order: 8, shape: "rect", fill: "#CEC9BE" },
+    ],
+  },
+  bedroom: {
+    name: "Bedroom",
+    timeTarget: 12,
+    timeOK: [8, 16],
+    surfaces: [
+      { id: "highdust", x: 30,  y: 30,  w: 560, h: 25,  label: "High dusting / fan", correctTools: ["duster"],      correctCloth: "blue",  order: 1, shape: "rect", fill: "#E8E5DD" },
+      { id: "mirror",   x: 420, y: 70,  w: 170, h: 80,  label: "Mirror",             correctTools: ["glass"],       correctCloth: "blue",  order: 2, shape: "rect", fill: "#B5D4F4" },
+      { id: "dresser",  x: 30,  y: 70,  w: 180, h: 90,  label: "Dresser top",        correctTools: ["multi","duster"], correctCloth: "blue", order: 3, shape: "rect", fill: "#D3C9B4" },
+      { id: "nightstand", x: 230, y: 80, w: 100, h: 60, label: "Nightstand",         correctTools: ["multi","duster"], correctCloth: "blue", order: 4, shape: "rect", fill: "#D3C9B4" },
+      { id: "bed",      x: 160, y: 160, w: 320, h: 80,  label: "Bed (make bed)",     correctTools: ["hand"],        correctCloth: null,    order: 5, shape: "rect", fill: "#F5C4B3" },
+      { id: "surfaces", x: 30,  y: 250, w: 560, h: 40,  label: "Baseboards / touchpoints", correctTools: ["multi"], correctCloth: "blue", order: 6, shape: "rect", fill: "#D3D1C7" },
+      { id: "floor",    x: 30,  y: 300, w: 560, h: 50,  label: "Floor",              correctTools: ["vacuum","mop"],correctCloth: "yellow",order: 7, shape: "rect", fill: "#CEC9BE" },
+    ],
+  },
+};
+
+// ---------- Tool definitions ----------
+const TOOLS = {
+  multi:    { name: "All-purpose", icon: "spray" },
+  glass:    { name: "Glass cleaner", icon: "glass" },
+  degrease: { name: "Degreaser", icon: "degrease" },
+  disinf:   { name: "Disinfectant", icon: "disinfect" },
+  toilet:   { name: "Toilet brush", icon: "brush" },
+  scrub:    { name: "Scrub pad", icon: "pad" },
+  duster:   { name: "Ext. duster", icon: "duster" },
+  mop:      { name: "Mop", icon: "mop" },
+  vacuum:   { name: "Vacuum", icon: "vacuum" },
+  hand:     { name: "Hands / make bed", icon: "hand" },
+};
+
+// Tool icon SVGs — flat, clean
+const TOOL_ICONS = {
+  spray: '<svg viewBox="0 0 32 32" fill="none"><path d="M13 5h6v6h-6z" fill="#378ADD"/><rect x="11" y="11" width="10" height="14" rx="1" fill="#378ADD"/><path d="M19 8l6-2v4l-6 1z" fill="#888"/></svg>',
+  glass: '<svg viewBox="0 0 32 32" fill="none"><rect x="6" y="4" width="20" height="16" rx="2" fill="#B5D4F4" stroke="#378ADD" stroke-width="1.5"/><path d="M10 24l3 4M16 24l3 4M22 24l3 4" stroke="#378ADD" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  degrease: '<svg viewBox="0 0 32 32" fill="none"><rect x="10" y="8" width="12" height="16" rx="2" fill="#639922"/><rect x="12" y="4" width="8" height="5" rx="1" fill="#3B6D11"/><path d="M14 14h4M14 18h4" stroke="white" stroke-width="1.2"/></svg>',
+  disinfect: '<svg viewBox="0 0 32 32" fill="none"><rect x="10" y="8" width="12" height="16" rx="2" fill="#A32D2D"/><rect x="12" y="4" width="8" height="5" rx="1" fill="#791F1F"/><circle cx="16" cy="16" r="2.5" fill="white"/></svg>',
+  brush: '<svg viewBox="0 0 32 32" fill="none"><rect x="15" y="4" width="3" height="18" fill="#888"/><rect x="10" y="20" width="13" height="6" rx="1" fill="#E24B4A"/><path d="M12 26v3M15 26v3M18 26v3M21 26v3" stroke="#E24B4A" stroke-width="1.5"/></svg>',
+  pad: '<svg viewBox="0 0 32 32" fill="none"><rect x="6" y="12" width="20" height="10" rx="2" fill="#EF9F27"/><circle cx="11" cy="17" r="1" fill="#854F0B"/><circle cx="16" cy="17" r="1" fill="#854F0B"/><circle cx="21" cy="17" r="1" fill="#854F0B"/></svg>',
+  duster: '<svg viewBox="0 0 32 32" fill="none"><rect x="14" y="14" width="3" height="16" fill="#888"/><path d="M6 4l10 12-10 2z" fill="#CECBF6"/><path d="M22 6l-7 9 7 1z" fill="#AFA9EC"/></svg>',
+  mop: '<svg viewBox="0 0 32 32" fill="none"><rect x="15" y="2" width="3" height="20" fill="#888"/><path d="M8 22h16l-2 8H10z" fill="#EF9F27"/><path d="M11 22v8M14 22v8M17 22v8M20 22v8" stroke="#854F0B" stroke-width="0.8"/></svg>',
+  vacuum: '<svg viewBox="0 0 32 32" fill="none"><rect x="6" y="18" width="20" height="10" rx="2" fill="#2C2C2A"/><circle cx="11" cy="28" r="3" fill="#444"/><circle cx="21" cy="28" r="3" fill="#444"/><path d="M20 18v-8a2 2 0 00-2-2h-2" stroke="#888" stroke-width="1.5" fill="none"/></svg>',
+  hand: '<svg viewBox="0 0 32 32" fill="none"><path d="M10 16c0-6 3-10 6-10s6 4 6 10v8c0 3-2 6-6 6s-6-3-6-6z" fill="#F5C4B3" stroke="#993C1D" stroke-width="1"/></svg>',
+};
+
+// ---------- Scoring ----------
+const CLOTH_RULES = {
+  // Matches the explainer that shows on the first cloth click.
+  red: { allowedSurfaces: ["toilet"], label: "Toilets only" },
+  yellow: { allowedSurfaces: ["sink","tub","counter","floor"], label: "Bathroom non-toilet + wet floors" },
+  green: { allowedSurfaces: ["counter","stove","appliance","cabinets","microwave"], label: "Kitchen / food-prep surfaces" },
+  blue: { allowedSurfaces: ["mirror","highdust","dresser","nightstand","surfaces"], label: "Glass, dusting, low-risk surfaces" },
+};
+
+function scoreAttempt() {
+  // Equal-weight scoring across 4 dimensions (Karen's choice).
+  // Each out of 25, totaling 100.
+  let knowledge = 25;    // Top-to-bottom, made-bed, all priority surfaces touched
+  let speed = 25;        // Actual vs target time
+  let toolChoice = 25;   // Right tool + right cloth for each surface
+  let safety = 25;       // No cross-contamination, no safety skips
+  const feedback = [];
+
+  // --- Knowledge & sequencing (out of 25) ---
+  let knowledgeIssues = [];
+  Object.keys(ROOMS).forEach(roomId => {
+    const actions = STATE.actions[roomId] || [];
+    const seq = STATE.sequenceChoice[roomId];
+    const room = ROOMS[roomId];
+
+    // Missed priority surfaces
+    const touched = new Set(actions.map(a => a.surface));
+    const priorityMissed = room.surfaces.filter(s => !touched.has(s.id));
+    if (priorityMissed.length > 0) {
+      knowledge -= Math.min(priorityMissed.length * 2, 8);
+      knowledgeIssues.push(`Missed ${priorityMissed.length} surface(s) in ${room.name}: ${priorityMissed.map(s=>s.label).join(", ")}`);
+    }
+
+    // Sequence check — did they click in roughly correct order?
+    const clickedOrder = actions.map(a => room.surfaces.find(s => s.id === a.surface)?.order).filter(Boolean);
+    let outOfOrderCount = 0;
+    for (let i = 1; i < clickedOrder.length; i++) {
+      if (clickedOrder[i] < clickedOrder[i-1] - 1) outOfOrderCount++;
+    }
+    if (outOfOrderCount >= 2) {
+      knowledge -= 3;
+      knowledgeIssues.push(`${room.name}: sequence was disordered (cleaned low surfaces before high)`);
+    }
+
+    // Top-to-bottom sequence preference
+    if (seq && seq !== "top-to-bottom") {
+      knowledge -= 1;
+    }
+  });
+  knowledge = Math.max(0, knowledge);
+  if (knowledgeIssues.length > 0) {
+    feedback.push({ tone: "warn", head: "Sequencing and coverage", text: knowledgeIssues.join(". ") });
+  } else {
+    feedback.push({ tone: "good", head: "Strong sequence and coverage", text: "All priority surfaces addressed, top-to-bottom order respected." });
+  }
+
+  // --- Speed (out of 25) ---
+  let speedIssues = [];
+  Object.keys(STATE.actualTimes).forEach(roomId => {
+    const actual = STATE.actualTimes[roomId] / 60; // minutes
+    const estimate = STATE.estimates[roomId];
+    const room = ROOMS[roomId];
+    const [low, high] = room.timeOK;
+
+    // The candidate's *estimate* itself is a signal — realistic pros know how long a room takes
+    if (estimate < low - 2 || estimate > high + 3) {
+      speed -= 3;
+      speedIssues.push(`${room.name}: estimate of ${estimate}min is outside the realistic range (${low}-${high}min)`);
+    }
+    // Actual simulator time check (less important in a prototype since they're clicking not cleaning)
+    // but we use it as a sanity signal
+  });
+  speed = Math.max(0, speed);
+  if (speedIssues.length > 0) {
+    feedback.push({ tone: "warn", head: "Time estimates", text: speedIssues.join(". ") });
+  } else {
+    feedback.push({ tone: "good", head: "Realistic time estimates", text: "Your estimates for each room are in the experienced-cleaner range." });
+  }
+
+  // --- Tool choice (out of 25) ---
+  let toolIssues = [];
+  let totalActions = 0;
+  let rightTool = 0;
+  let rightCloth = 0;
+  Object.keys(STATE.actions).forEach(roomId => {
+    const actions = STATE.actions[roomId] || [];
+    const room = ROOMS[roomId];
+    actions.forEach(a => {
+      totalActions++;
+      const surface = room.surfaces.find(s => s.id === a.surface);
+      if (!surface) return;
+      if (surface.correctTools.includes(a.tool)) rightTool++;
+      else toolIssues.push(`${room.name} > ${surface.label}: used ${TOOLS[a.tool]?.name || a.tool}, expected ${surface.correctTools.map(t=>TOOLS[t].name).join(" or ")}`);
+
+      if (surface.correctCloth === null) rightCloth++; // bed etc
+      else if (surface.correctCloth === a.cloth) rightCloth++;
+    });
+  });
+  if (totalActions > 0) {
+    const ratio = (rightTool + rightCloth) / (totalActions * 2);
+    toolChoice = Math.round(25 * ratio);
+  }
+  if (toolIssues.length > 0) {
+    feedback.push({ tone: "warn", head: "Tool choices", text: toolIssues.slice(0, 3).join(". ") + (toolIssues.length > 3 ? ` (and ${toolIssues.length - 3} more)` : "") });
+  } else if (totalActions > 0) {
+    feedback.push({ tone: "good", head: "Correct tool for each surface", text: "Tool selections matched the expected product for each surface type." });
+  }
+
+  // --- Safety / cross-contamination (out of 25) ---
+  let safetyIssues = [];
+  Object.keys(STATE.actions).forEach(roomId => {
+    const actions = STATE.actions[roomId] || [];
+    const room = ROOMS[roomId];
+    actions.forEach(a => {
+      if (!a.cloth) return;
+      const allowed = CLOTH_RULES[a.cloth].allowedSurfaces;
+      const surface = room.surfaces.find(s => s.id === a.surface);
+      if (!surface) return;
+
+      // Check cross-contamination: red cloth on anything but toilet = critical fail
+      if (a.cloth === "red" && surface.id !== "toilet") {
+        safety -= 8;
+        safetyIssues.push(`CRITICAL: red cloth used on ${surface.label} — red is toilet-only to prevent cross-contamination`);
+      }
+      // Green cloth used in bathroom (food-contact cloth on bathroom surface) = serious
+      else if (a.cloth === "green" && roomId === "bathroom") {
+        safety -= 5;
+        safetyIssues.push(`Green (kitchen) cloth used in bathroom on ${surface.label} — risk of contaminating food-prep surfaces later`);
+      }
+      // Using a bathroom cloth on kitchen food surfaces
+      else if ((a.cloth === "red" || a.cloth === "yellow") && (surface.id === "stove" || surface.id === "counter" && roomId === "kitchen" || surface.id === "appliance")) {
+        safety -= 5;
+        safetyIssues.push(`Bathroom-zone cloth used on kitchen ${surface.label} — cross-contamination risk`);
+      }
+    });
+  });
+
+  // Safety bonus/penalty on critical surfaces (toilet + stove)
+  Object.keys(STATE.actions).forEach(roomId => {
+    const actions = STATE.actions[roomId] || [];
+    const room = ROOMS[roomId];
+    room.surfaces.filter(s => s.critical).forEach(critSurface => {
+      const action = actions.find(a => a.surface === critSurface.id);
+      if (!action) {
+        safety -= 3;
+        safetyIssues.push(`${room.name}: ${critSurface.label} (critical surface) was not cleaned`);
+      }
+    });
+  });
+
+  safety = Math.max(0, safety);
+  if (safetyIssues.length > 0) {
+    feedback.push({ tone: "bad", head: "Safety & cross-contamination", text: safetyIssues.join(". ") });
+  } else {
+    feedback.push({ tone: "good", head: "Clean safety record", text: "No cross-contamination issues. Cloth colour system used correctly." });
+  }
+
+  const total = Math.round(knowledge + speed + toolChoice + safety);
+  return { total, knowledge, speed, toolChoice, safety, feedback };
+}
+
+// ---------- UI rendering ----------
+function renderRoomPicker() {
+  const grid = document.getElementById("roomPickerGrid");
+  grid.innerHTML = "";
+  Object.keys(ROOMS).forEach(roomId => {
+    const r = ROOMS[roomId];
+    const done = STATE.roomsDone.includes(roomId);
+    const el = document.createElement("div");
+    el.className = "room-option" + (done ? " done" : "");
+    el.innerHTML = `
+      <svg class="icon" viewBox="0 0 64 64" fill="none">
+        ${roomIconSVG(roomId)}
+      </svg>
+      <div class="name">${r.name}</div>
+      <div class="meta">${done ? "✓ completed" : `~${r.timeTarget} min typical`}</div>
+    `;
+    if (!done) el.onclick = () => pickRoom(roomId);
+    grid.appendChild(el);
+  });
+
+  // All done?
+  if (STATE.roomsDone.length === Object.keys(ROOMS).length) {
+    document.getElementById("roomPickerHint").innerHTML = `<button class="btn" onclick="showResults()" style="max-width: 240px;">See your results</button>`;
+  } else {
+    document.getElementById("roomPickerHint").textContent = `${Object.keys(ROOMS).length - STATE.roomsDone.length} room(s) remaining.`;
+  }
+}
+
+function roomIconSVG(roomId) {
+  if (roomId === "bathroom") return `
+    <rect x="8" y="14" width="48" height="42" rx="3" fill="#B5D4F4"/>
+    <rect x="14" y="24" width="14" height="10" rx="1" fill="white"/>
+    <circle cx="42" cy="34" r="7" fill="white"/>
+    <rect x="40" y="40" width="4" height="14" fill="white"/>`;
+  if (roomId === "kitchen") return `
+    <rect x="8" y="14" width="48" height="42" rx="3" fill="#C0DD97"/>
+    <rect x="12" y="22" width="22" height="20" rx="1" fill="#3B6D11"/>
+    <rect x="38" y="22" width="14" height="20" rx="1" fill="#888780"/>
+    <circle cx="23" cy="32" r="3" fill="#F2A623"/>`;
+  if (roomId === "bedroom") return `
+    <rect x="8" y="14" width="48" height="42" rx="3" fill="#F5C4B3"/>
+    <rect x="12" y="30" width="40" height="18" rx="2" fill="white"/>
+    <rect x="12" y="26" width="40" height="6" rx="1" fill="#993C1D"/>
+    <rect x="15" y="34" width="12" height="8" rx="1" fill="#F5C4B3"/>`;
+}
+
+function pickRoom(roomId) {
+  STATE.currentRoom = roomId;
+  document.getElementById("estimateHeading").textContent = `How long should the ${ROOMS[roomId].name.toLowerCase()} take?`;
+  // reset estimate screen
+  document.getElementById("estimateSlider").value = 12;
+  document.getElementById("estimateVal").textContent = 12;
+  document.querySelectorAll(".seq-btn").forEach(b => b.classList.remove("selected"));
+  document.getElementById("estimateContinue").disabled = true;
+  goto("estimate");
+}
+
+document.getElementById("estimateSlider").addEventListener("input", e => {
+  document.getElementById("estimateVal").textContent = e.target.value;
+});
+
+function selectSeq(btn) {
+  document.querySelectorAll(".seq-btn").forEach(b => b.classList.remove("selected"));
+  btn.classList.add("selected");
+  STATE.sequenceChoice[STATE.currentRoom] = btn.dataset.seq;
+  document.getElementById("estimateContinue").disabled = false;
+}
+
+function startCleaning() {
+  const roomId = STATE.currentRoom;
+  STATE.estimates[roomId] = parseInt(document.getElementById("estimateSlider").value);
+  STATE.roomStart = Date.now();
+  STATE.actions[roomId] = [];
+  STATE.selectedTool = null;
+  STATE.selectedCloth = null;
+  renderSimulator();
+  goto("simulator");
+}
+
+function renderSimulator() {
+  const roomId = STATE.currentRoom;
+  const room = ROOMS[roomId];
+  document.getElementById("roomTitle").textContent = room.name;
+
+  // Render SVG room
+  const svg = document.getElementById("svgWrap");
+  svg.innerHTML = renderRoomSVG(room);
+
+  // Render tool grid (context-sensitive per room for brevity)
+  const toolIds = getToolsForRoom(roomId);
+  const grid = document.getElementById("toolGrid");
+  grid.innerHTML = toolIds.map(id => `
+    <div class="tool" data-tool="${id}" onclick="selectTool('${id}')">
+      <div class="tool-icon">${TOOL_ICONS[TOOLS[id].icon]}</div>
+      ${TOOLS[id].name}
+    </div>
+  `).join("");
+
+  // Reset cloth/selection display
+  document.querySelectorAll(".cloth").forEach(c => c.classList.remove("selected"));
+  updateSelectionDisplay();
+  document.getElementById("actionsLog").innerHTML = '<div class="none">Your cleaning actions will appear here as you work.</div>';
+}
+
+function getToolsForRoom(roomId) {
+  if (roomId === "bathroom") return ["multi","glass","disinf","toilet","scrub","duster","mop","vacuum"];
+  if (roomId === "kitchen")  return ["multi","glass","degrease","disinf","scrub","duster","mop","vacuum"];
+  if (roomId === "bedroom")  return ["multi","glass","duster","vacuum","mop","hand"];
+  return Object.keys(TOOLS);
+}
+
+function renderRoomSVG(room) {
+  const surfaces = room.surfaces.map(s => {
+    const shape = s.shape === "ellipse"
+      ? `<ellipse cx="${s.x + s.w/2}" cy="${s.y + s.h/2}" rx="${s.w/2}" ry="${s.h/2}" class="surface" fill="${s.fill}" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>`
+      : `<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="4" class="surface" fill="${s.fill}" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>`;
+    // Soil specks
+    const soilCount = s.critical ? 12 : 6;
+    let soil = '<g class="soil">';
+    for (let i = 0; i < soilCount; i++) {
+      const cx = s.x + 6 + Math.random() * (s.w - 12);
+      const cy = s.y + 6 + Math.random() * (s.h - 12);
+      const r = 1 + Math.random() * 2;
+      soil += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#5F5E5A" opacity="0.5"/>`;
+    }
+    soil += '</g>';
+    return `
+      <g class="clean-target dirty" data-surface="${s.id}" onclick="cleanSurface('${s.id}')">
+        ${shape}
+        ${soil}
+        <text class="target-label" x="${s.x + s.w/2}" y="${s.y + s.h/2 + 4}" text-anchor="middle" fill="#444441">${s.label}</text>
+      </g>`;
+  }).join("");
+  return `
+    <svg viewBox="0 0 620 360" style="width:100%;height:100%;">
+      <rect x="0" y="0" width="620" height="360" fill="#F6F3EE"/>
+      ${surfaces}
+    </svg>
+  `;
+}
+
+function selectTool(id) {
+  STATE.selectedTool = id;
+  document.querySelectorAll(".tool").forEach(t => t.classList.toggle("selected", t.dataset.tool === id));
+  updateSelectionDisplay();
+}
+
+function selectCloth(color) {
+  STATE.selectedCloth = color;
+  document.querySelectorAll(".cloth").forEach(c => c.classList.toggle("selected", c.dataset.cloth === color));
+  updateSelectionDisplay();
+}
+
+function updateSelectionDisplay() {
+  const disp = document.getElementById("selectionDisplay");
+  disp.innerHTML = `
+    <div class="label-tag">Current pick</div>
+    <div>Tool: <span class="${STATE.selectedTool ? 'val' : 'none'}">${STATE.selectedTool ? TOOLS[STATE.selectedTool].name : 'none'}</span></div>
+    <div>Cloth: <span class="${STATE.selectedCloth ? 'val' : 'none'}">${STATE.selectedCloth ? STATE.selectedCloth + ' — ' + CLOTH_RULES[STATE.selectedCloth].label : 'none'}</span></div>
+  `;
+}
+
+function cleanSurface(surfaceId) {
+  if (!STATE.selectedTool) {
+    alert("Pick a tool first.");
+    return;
+  }
+  if (!STATE.selectedCloth && surfaceId !== "bed") {
+    alert("Pick a cloth colour first.");
+    return;
+  }
+  const roomId = STATE.currentRoom;
+  const room = ROOMS[roomId];
+  const surface = room.surfaces.find(s => s.id === surfaceId);
+
+  // Check if already cleaned
+  if ((STATE.actions[roomId] || []).some(a => a.surface === surfaceId)) {
+    return;
+  }
+
+  const action = {
+    surface: surfaceId,
+    tool: STATE.selectedTool,
+    cloth: STATE.selectedCloth,
+    order: (STATE.actions[roomId] || []).length + 1,
+    time: Math.round((Date.now() - STATE.roomStart) / 1000),
+  };
+  STATE.actions[roomId] = STATE.actions[roomId] || [];
+  STATE.actions[roomId].push(action);
+
+  // Mark as cleaned visually
+  document.querySelector(`[data-surface="${surfaceId}"]`)?.classList.remove("dirty");
+  document.querySelector(`[data-surface="${surfaceId}"]`)?.classList.add("cleaned");
+
+  // Log
+  const log = document.getElementById("actionsLog");
+  if (log.querySelector(".none")) log.innerHTML = "";
+
+  // Quick feedback flag
+  const isCrossContam = (STATE.selectedCloth === "red" && surfaceId !== "toilet")
+                     || (STATE.selectedCloth === "green" && roomId === "bathroom");
+  const flagClass = isCrossContam ? "bad" : "";
+  const flagText = isCrossContam ? " ⚠ cross-contamination risk" : "";
+
+  log.innerHTML = `<div class="action ${flagClass}">${action.order}. ${surface.label} · ${TOOLS[STATE.selectedTool].name}${STATE.selectedCloth ? ' · ' + STATE.selectedCloth + ' cloth' : ''}${flagText}</div>` + log.innerHTML;
+}
+
+function finishRoom() {
+  const roomId = STATE.currentRoom;
+  STATE.actualTimes[roomId] = Math.round((Date.now() - STATE.roomStart) / 1000);
+  STATE.roomsDone.push(roomId);
+  renderRoomPicker();
+  updateProgress("room-picker");
+  goto("room-picker");
+}
+
+// ---------- Results ----------
+function showResults() {
+  clearInterval(STATE.timerInterval);
+  const result = scoreAttempt();
+
+  document.getElementById("resScore").textContent = result.total;
+
+  let band, verdict;
+  if (result.total >= 75) {
+    band = "pass"; verdict = "Auto-advance to phone screen. Strong signal on all four dimensions.";
+  } else if (result.total >= 55) {
+    band = "review"; verdict = "Review by Karen recommended. Mixed signal — strengths worth exploring, gaps worth probing.";
+  } else {
+    band = "reject"; verdict = "Auto-reject threshold. Safety or fundamental sequencing issues present.";
+  }
+  const bandEl = document.getElementById("resBand");
+  bandEl.className = "band " + band;
+  bandEl.textContent = band === "pass" ? "Pass" : band === "review" ? "Needs review" : "Below threshold";
+  document.getElementById("resVerdict").textContent = verdict;
+
+  // Breakdown
+  const brk = document.getElementById("breakdown");
+  const dims = [
+    { name: "Knowledge & sequencing", val: result.knowledge },
+    { name: "Time estimation",       val: result.speed },
+    { name: "Tool & cloth choice",    val: result.toolChoice },
+    { name: "Safety / contamination", val: result.safety },
+  ];
+  brk.innerHTML = dims.map(d => `
+    <div class="dim-row">
+      <div class="dim-name">${d.name}</div>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width: 0%"></div></div>
+      <div class="dim-score">${d.val} / 25</div>
+    </div>
+  `).join("");
+  // animate bars
+  setTimeout(() => {
+    brk.querySelectorAll(".dim-bar").forEach((bar, i) => {
+      bar.style.width = (dims[i].val / 25 * 100) + "%";
+    });
+  }, 50);
+
+  // Feedback list
+  const fbList = document.getElementById("feedbackList");
+  fbList.innerHTML = result.feedback.map(f => `
+    <div class="feedback ${f.tone === 'good' ? 'good' : f.tone === 'bad' ? 'bad' : 'warn'}">
+      <div class="fb-head">${f.head}</div>
+      <div>${f.text}</div>
+    </div>
+  `).join("");
+
+  // JSON preview
+  const jsonObj = {
+    candidate_id: "cand_" + Math.random().toString(36).slice(2,10),
+    assessment_type: "cleaning_simulator_v1",
+    completed_at: new Date().toISOString(),
+    total_score: result.total,
+    dimensions: {
+      knowledge_sequencing: result.knowledge,
+      time_estimation: result.speed,
+      tool_cloth_choice: result.toolChoice,
+      safety_contamination: result.safety,
+    },
+    estimates: STATE.estimates,
+    actual_times_sec: STATE.actualTimes,
+    sequence_choices: STATE.sequenceChoice,
+    actions_by_room: STATE.actions,
+    verdict: band,
+    kanban_stage: band === "pass" ? "Phone screen booked" : band === "review" ? "Screening" : "Rejected",
+  };
+  document.getElementById("jsonPreview").innerHTML = syntaxHighlight(JSON.stringify(jsonObj, null, 2));
+
+  updateProgress("results");
+  goto("results");
+}
+
+function syntaxHighlight(json) {
+  return json
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/"([^"]+)":/g, '<span class="k">"$1"</span>:')
+    .replace(/: "([^"]*)"/g, ': <span class="s">"$1"</span>')
+    .replace(/: (\d+)/g, ': <span class="n">$1</span>');
+}
+
+function restart() {
+  STATE.roomsDone = [];
+  STATE.estimates = {};
+  STATE.actualTimes = {};
+  STATE.sequenceChoice = {};
+  STATE.actions = {};
+  STATE.currentRoom = null;
+  STATE.timerStart = Date.now();
+  updateProgress("welcome");
+  goto("welcome");
+  renderRoomPicker();
+}
+
+// ---------- Nav ----------
+function goto(screen) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById("screen-" + screen).classList.add("active");
+  if (screen === "room-picker") renderRoomPicker();
+  if (screen !== "welcome" && !STATE.timerStart) {
+    STATE.timerStart = Date.now();
+    startTimer();
+  }
+}
+
+function updateProgress(step) {
+  // Very simple: mark all earlier steps as done
+  const order = ["welcome","room-picker","simulator","results"];
+  const idx = order.indexOf(step);
+  document.querySelectorAll(".progress .step").forEach((el, i) => {
+    el.classList.remove("active","done");
+    if (i < idx) el.classList.add("done");
+    if (i === idx) el.classList.add("active");
+  });
+}
+
+function startTimer() {
+  STATE.timerInterval = setInterval(() => {
+    const sec = Math.floor((Date.now() - STATE.timerStart) / 1000);
+    const m = String(Math.floor(sec / 60)).padStart(2, "0");
+    const s = String(sec % 60).padStart(2, "0");
+    const t = document.getElementById("timer");
+    t.textContent = `${m}:${s}`;
+    if (sec > 1200) { t.classList.remove("good"); t.classList.add("warn"); }
+    else if (sec > 900) t.classList.add("good");
+  }, 500);
+}
+
+// Init
+renderRoomPicker();
+</script>
+
+</body>
+</html>
