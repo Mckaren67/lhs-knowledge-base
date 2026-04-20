@@ -299,13 +299,20 @@ You should see a JSON response like:
 6. Delete the test candidate after verification:
 
 ```bash
+# Delete Redis state only (keeps the git commit trail)
 curl -X POST "https://<preview>/api/admin-delete" \
   -H "x-internal-secret: YOUR_INTERNAL_SECRET_VALUE" \
   -H "Content-Type: application/json" \
   -d '{"candidate_id": "#017"}'
+
+# Or — delete Redis AND remove the MD/JSON files from the repo
+curl -X POST "https://<preview>/api/admin-delete" \
+  -H "x-internal-secret: YOUR_INTERNAL_SECRET_VALUE" \
+  -H "Content-Type: application/json" \
+  -d '{"candidate_id": "#017", "delete_git_files": true}'
 ```
 
-*Note: I haven't built `/api/admin-delete` yet — tell me after Step 8 and I'll add it if you need it for cleanup. Alternative: delete the Redis keys manually via Upstash console and revert the GitHub commit.*
+The response tells you exactly what was deleted from Redis and, if requested, which git files were removed (with their commit SHAs).
 
 **If Step 9 succeeds:** Phase 1 is cleared for review. Karen + Michael review the preview URL, then approve the aria-phase1 → main merge, then approve Phase 2 kickoff.
 
