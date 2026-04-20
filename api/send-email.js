@@ -47,6 +47,17 @@ If you'd like to read more about the role or the team, reply to this email and w
 Talk soon,
 The Lifestyle Home Service hiring team`;
     }
+  },
+
+  location_decline: {
+    subject: () => 'Thank you for applying to Lifestyle Home Service',
+    body: (d) => `Hi ${d.firstName || 'there'},
+
+Thank you for your interest in Lifestyle Home Service. Unfortunately, our service area is currently limited to Chilliwack, Sardis, Rosedale, and Cultus Lake, and your location falls outside that radius.
+
+We wish you all the best in your job search.
+
+— The LHS Team`
   }
 };
 

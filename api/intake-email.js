@@ -4,19 +4,25 @@
 //   1. Parse multipart/form-data from SendGrid (fields + attachments)
 //   2. Log raw intake to recruit:intake_log:{id} (30-day retention) — nothing is lost
 //   3. Claude Opus reads any PDF/DOCX resume as a document block + extracts to JSON
-//   4. Compute 0-100 score via the extraction-doc formula
-//   5. Check placeholders for name match — merge into reserved ID if matched
+//      (resume fields + the 4 Indeed screener answers + experience_keyword_match)
+//   4. computeRoute: postal-code FSA gate + travel-willingness gate +
+//      location_in_chilliwack_claim consistency check
+//   5. scoreBreakdown: 0–100 prescreen_triage score with dimension-level detail
+//   6. Check placeholders for name match — merge into reserved ID if matched
 //      else INCR recruit:counter:candidate_id → new #NNN
-//   6. Translate extraction output into v1.3 §3.1 candidate schema
-//      - score_value / score_denominator=100 / rubric_type=prescreen_triage
-//      - interviewer_name="Aria (automated)" / per_dimension_scores
-//      - status="Applied"
-//   7. writeCandidate (dual-write: Redis + atomic git commit of MD + JSON)
-//   8. Fire first SMS from 604-330-3997 (via /api/twilio-outbound, INTERNAL_SECRET-gated)
-//   9. Fire first email from careers@ (via /api/send-email)
+//   7. buildCandidateRecord: translate extraction + route + score into v1.3 §3.1
+//   8. writeCandidate (dual-write: Redis + atomic git commit of MD + JSON)
+//   9. Holding-lane fixup: if route.lane === 'hard_hold', zadd recruit:holding:hard_hold
+//      and zrem the orphan recruit:stage:hard_hold that writeCandidate creates.
+//  10. If inconsistency_flag: write recruit:redalert:* for Karen to review.
+//  11. Auto-reply routing:
+//      - Applied: first_contact email + first SMS (from 604-330-3997)
+//      - Hard Hold, location-based, no inconsistency: send location_decline email
+//      - Hard Hold, travel-based OR inconsistency: no candidate outreach; Karen decides
 //
-// Never auto-rejects. Borderline/hold candidates get a holding email but
-// still live in the funnel at status="Applied" with needs_approval=true.
+// Never auto-rejects. Rejection communication requires human confirmation; the
+// location_decline auto-reply is only for the "outside service area" lane which
+// Karen has pre-approved as an automatic decline.
 
 import Anthropic from '@anthropic-ai/sdk';
 import { Redis } from '@upstash/redis';
@@ -25,11 +31,16 @@ import fs from 'node:fs/promises';
 
 import { writeCandidate } from './_lib/writeCandidate.js';
 import { createPlaceholder, findPlaceholderByName, formatId } from './_lib/createPlaceholder.js';
+import { computeRoute, scoreBreakdown, firstNameFrom } from './_lib/intake-helpers.js';
 
 const redis = Redis.fromEnv();
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 export const config = { api: { bodyParser: false } };
+
+// Re-export pure helpers so test scripts can `import { ... } from './intake-email.js'`
+// if they choose. Primary import path remains ./_lib/intake-helpers.js.
+export { computeRoute, scoreBreakdown, firstNameFrom };
 
 const LHS_SYSTEM_PROMPT = `You are analyzing a job application for Lifestyle Home Service, a residential cleaning company in Chilliwack, BC.
 
@@ -60,95 +71,33 @@ Return ONLY a JSON object with this exact structure, no preamble:
   "communication_quality": 1-5,
   "transportation_ok": true/false/null,
   "distance_minutes_from_chilliwack": number or null,
+
+  "years_experience": number or null,
+  "interview_availability": "string or null",
+  "location_in_chilliwack_claim": true/false/null,
+  "travel_willingness_pct": 25 | 50 | 75 | 100 | null,
+  "experience_keyword_match": true/false,
+
   "summary": "2-sentence human-readable summary",
   "strengths": ["specific strength 1", "specific strength 2"],
   "concerns": ["specific concern 1 or empty array"]
-}`;
-
-function scoreBreakdown(extracted) {
-  const dims = [];
-  let total = 50;
-
-  dims.push({
-    dimension_name: 'trainable_baseline',
-    score: 50, denominator: 50,
-    description: 'LHS hires trainable people; this is the default floor.'
-  });
-
-  if (extracted.pretrained_bonus) {
-    total += 20;
-    dims.push({
-      dimension_name: 'prior_cleaning_experience',
-      score: 20, denominator: 20,
-      description: `${extracted.pretrained_type || 'unspecified'} · ${extracted.pretrained_years || 0} yr(s)`
-    });
-  } else {
-    dims.push({
-      dimension_name: 'prior_cleaning_experience',
-      score: 0, denominator: 20,
-      description: 'No prior cleaning experience — trainable baseline still applies.'
-    });
-  }
-
-  const signals = extracted.transferable_signals || [];
-  if (signals.length >= 3) {
-    total += 15;
-    dims.push({
-      dimension_name: 'transferable_signals',
-      score: 15, denominator: 15,
-      description: signals.join(', ')
-    });
-  } else {
-    dims.push({
-      dimension_name: 'transferable_signals',
-      score: 0, denominator: 15,
-      description: signals.length ? `Only ${signals.length} signal(s): ${signals.join(', ')}` : 'No strong transferable signals detected.'
-    });
-  }
-
-  const comm = extracted.communication_quality || 3;
-  if (comm >= 4) {
-    total += 10;
-    dims.push({ dimension_name: 'communication_quality', score: 10, denominator: 10, description: `Rated ${comm}/5` });
-  } else if (comm <= 2) {
-    total -= 10;
-    dims.push({ dimension_name: 'communication_quality', score: -10, denominator: 10, description: `Rated ${comm}/5 — weak` });
-  } else {
-    dims.push({ dimension_name: 'communication_quality', score: 0, denominator: 10, description: `Rated ${comm}/5` });
-  }
-
-  if (extracted.transportation_ok === true) {
-    total += 10;
-    dims.push({ dimension_name: 'transportation', score: 10, denominator: 10, description: 'Vehicle or transportation confirmed' });
-  } else if (extracted.transportation_ok === false) {
-    total -= 5;
-    dims.push({ dimension_name: 'transportation', score: -5, denominator: 10, description: 'No transportation — soft knockout; confirm' });
-  } else {
-    dims.push({ dimension_name: 'transportation', score: 0, denominator: 10, description: 'Transportation unclear' });
-  }
-
-  const dist = extracted.distance_minutes_from_chilliwack;
-  if (dist != null && dist < 30) {
-    total += 5;
-    dims.push({ dimension_name: 'proximity', score: 5, denominator: 5, description: `${dist} min from Chilliwack — local` });
-  } else if (dist != null && dist > 45) {
-    total -= 10;
-    dims.push({ dimension_name: 'proximity', score: -10, denominator: 5, description: `${dist} min from Chilliwack — distant` });
-  } else {
-    dims.push({ dimension_name: 'proximity', score: 0, denominator: 5, description: dist != null ? `${dist} min from Chilliwack` : 'Distance unknown' });
-  }
-
-  const reds = extracted.red_flags || [];
-  if (reds.length) {
-    total -= 25;
-    dims.push({ dimension_name: 'red_flags', score: -25, denominator: 0, description: reds.join(', ') });
-  } else {
-    dims.push({ dimension_name: 'red_flags', score: 0, denominator: 0, description: 'None detected' });
-  }
-
-  const final = Math.max(0, Math.min(100, total));
-  return { score: final, dimensions: dims };
 }
+
+IMPORTANT — Indeed screener questions:
+Indeed applications include 4 screener questions whose answers arrive in the email body.
+They may appear as "Q:" / "A:" pairs, bulleted lists, or prose. Extract them robustly:
+  1. Years of cleaning / service / hospitality experience → years_experience (integer)
+  2. Interview availability → interview_availability (free text, concise)
+  3. "Located in Chilliwack?" → location_in_chilliwack_claim (true/false/null)
+  4. Travel-willingness percentage → travel_willingness_pct (25, 50, 75, or 100)
+
+Also set experience_keyword_match = true if the resume or application text mentions
+any of: cleaning, service, hospitality, hotel, restaurant. Otherwise false.
+
+If a screener answer is absent or ambiguous, return null for that specific field — do
+not guess. years_experience with a range like "3-5 years" should be parsed as the lower
+bound (3). location_in_chilliwack_claim should be null if the candidate was never asked
+or answered ambiguously; false if they explicitly said no; true if they explicitly said yes.`;
 
 function detectSource(from, subject) {
   const s = `${from || ''} ${subject || ''}`.toLowerCase();
@@ -199,18 +148,38 @@ function parseClaudeJson(text) {
   }
 }
 
-function buildCandidateRecord({ reservedId, extracted, from, scoreInfo, stageEnteredAt }) {
+function buildCandidateRecord({ reservedId, extracted, from, scoreInfo, route, stageEnteredAt }) {
   const flags = (extracted.red_flags || []).map((rf, i) => ({
     id: `extract_${i}_${rf}`,
-    severity: (rf === 'criminal_history_mention' || rf === 'resume_inconsistencies') ? 'warning' : 'warning',
+    severity: 'warning',
     description: rf.replace(/_/g, ' ')
   }));
 
-  const lane =
+  if (route.inconsistency_flag) {
+    flags.push({
+      id: 'location_claim_inconsistency',
+      severity: 'warning',
+      description: `Candidate claimed Chilliwack but postal FSA ${route.fsa || '(missing)'} is outside the service area.`
+    });
+  }
+
+  const autonomyLane =
     scoreInfo.score >= 85 ? 'fast_track'
     : scoreInfo.score >= 65 ? 'standard'
     : scoreInfo.score >= 45 ? 'review_required'
     : 'hold';
+
+  const nextAction = route.status === 'hard_hold'
+    ? (route.holding_reason === 'outside service area'
+        ? (route.inconsistency_flag
+            ? 'Inconsistency — Karen to review location before any outreach.'
+            : 'Auto-declined (outside service area).')
+        : 'Karen to review travel-willingness constraint.')
+    : autonomyLane === 'hold'
+      ? 'Karen to review before any outreach.'
+      : autonomyLane === 'review_required'
+        ? 'Flagged for Karen review before phone-screen booking.'
+        : 'Aria to send first SMS + intro email.';
 
   return {
     candidate_id: reservedId,
@@ -237,16 +206,12 @@ function buildCandidateRecord({ reservedId, extracted, from, scoreInfo, stageEnt
     key_findings: extracted.strengths || [],
     communication_log: [],
     flags,
-    next_action: lane === 'hold'
-      ? 'Karen to review before any outreach.'
-      : lane === 'review_required'
-        ? 'Flagged for Karen review before phone-screen booking.'
-        : 'Aria to send first SMS + intro email.',
+    next_action: nextAction,
 
-    status: 'Applied',
+    status: route.status,  // "Applied" OR "hard_hold"
     stage_entered_at: stageEnteredAt,
     availability_horizon: 'unknown',
-    availability_details: null,
+    availability_details: extracted.interview_availability || null,
     earliest_start_date: null,
     depends_on: [],
 
@@ -257,12 +222,22 @@ function buildCandidateRecord({ reservedId, extracted, from, scoreInfo, stageEnt
     has_vehicle: extracted.transportation_ok === true,
     has_vehicle_confirmed: false,
 
-    needs_approval: lane === 'hold' || lane === 'review_required',
+    // Indeed screener captures
+    years_experience: extracted.years_experience ?? null,
+    interview_availability: extracted.interview_availability ?? null,
+    location_in_chilliwack_claim: extracted.location_in_chilliwack_claim ?? null,
+    travel_willingness_pct: extracted.travel_willingness_pct ?? null,
+    in_service_area: route.in_service_area,
+    location_inconsistency_flag: route.inconsistency_flag,
+
+    needs_approval: route.status === 'hard_hold' || autonomyLane === 'hold' || autonomyLane === 'review_required',
 
     aria_meta: {
-      autonomy_lane: lane,
+      autonomy_lane: autonomyLane,
       summary: extracted.summary || null,
-      concerns: extracted.concerns || []
+      concerns: extracted.concerns || [],
+      holding_reason: route.holding_reason || null,
+      postal_fsa: route.fsa || null
     }
   };
 }
@@ -282,6 +257,29 @@ async function callInternalEndpoint(path, payload) {
   } catch (err) {
     return { status: 0, body: { error: err.message } };
   }
+}
+
+async function appendCommLog(candidateId, entry) {
+  const rec = await redis.get(`recruit:candidate:${candidateId}`);
+  if (!rec) return;
+  rec.communication_log = rec.communication_log || [];
+  rec.communication_log.push(entry);
+  await redis.set(`recruit:candidate:${candidateId}`, rec);
+}
+
+async function writeRedAlert({ id, severity, type, description, resolution_action, candidate_id }) {
+  const now = new Date();
+  const key = `recruit:redalert:${id}_${now.getTime()}`;
+  await redis.set(key, {
+    id,
+    severity,
+    type,
+    description,
+    resolution_action,
+    candidate_id,
+    created_at: now.toISOString(),
+    resolved_at: null
+  });
 }
 
 export default async function handler(req, res) {
@@ -347,9 +345,15 @@ Return the JSON object as specified in the system prompt. No markdown, no explan
       communication_quality: 3,
       transferable_signals: [],
       pretrained_bonus: false,
-      transportation_ok: null
+      transportation_ok: null,
+      years_experience: null,
+      interview_availability: null,
+      location_in_chilliwack_claim: null,
+      travel_willingness_pct: null,
+      experience_keyword_match: false
     };
 
+    const route = computeRoute(extracted);
     const scoreInfo = scoreBreakdown(extracted);
 
     const existingPlaceholder = await findPlaceholderByName(extracted.full_name);
@@ -369,53 +373,102 @@ Return the JSON object as specified in the system prompt. No markdown, no explan
       extracted,
       from,
       scoreInfo,
+      route,
       stageEnteredAt: now.toISOString()
     });
 
     const writeResult = await writeCandidate({ candidate, eventType: 'application_received' });
 
-    const firstName = (candidate.full_name || '').split(' ')[0] || 'there';
-    let smsResult = null;
-    if (candidate.phone && candidate.aria_meta.autonomy_lane !== 'hold') {
-      smsResult = await callInternalEndpoint('/api/twilio-outbound', {
-        candidate_id: candidate.candidate_id,
-        to: candidate.phone,
-        body: candidate.has_cleaning_experience
-          ? `Hi ${firstName}, this is Aria — Karen's scheduling assistant at Lifestyle Home Service. Thanks for applying! I saw your cleaning background and wanted to reach out quickly. I've got 3 quick questions to see if this role is a fit. Reply when you have a minute.`
-          : `Hi ${firstName}, this is Aria — Karen's scheduling assistant at Lifestyle Home Service. Thanks for applying! I've got 3 quick questions to see if this role is a fit. Reply when you have a minute.`
+    // Holding-lane fixup: writeCandidate zadds to recruit:stage:{status}, which
+    // for hard-hold candidates creates an orphan zset. Move them to the proper
+    // holding-lane zset that the UI reads.
+    if (route.lane === 'hard_hold') {
+      await redis.zadd('recruit:holding:hard_hold', { score: now.getTime(), member: reservedId });
+      await redis.zrem('recruit:stage:hard_hold', reservedId);
+    }
+
+    // Red alert when the candidate's self-reported location conflicts with postal.
+    if (route.inconsistency_flag) {
+      await writeRedAlert({
+        id: `inconsistency_${reservedId}`,
+        severity: 'red_alert',
+        type: 'location_claim_inconsistency',
+        candidate_id: reservedId,
+        description: `${candidate.full_name} (${reservedId}) claimed Chilliwack but postal FSA is ${route.fsa} (outside service area). Human review needed before auto-decline.`,
+        resolution_action: 'Open profile, verify postal code with candidate, and decide hard-hold keep vs advance to Applied.'
       });
     }
 
+    const firstName = firstNameFrom(candidate.full_name);
+
+    // Candidate-facing outreach routing.
+    let smsResult = null;
     let emailResult = null;
-    if (candidate.email) {
-      emailResult = await callInternalEndpoint('/api/send-email', {
-        candidate_id: candidate.candidate_id,
-        template: 'first_contact',
-        data: { firstName, pretrained: candidate.has_cleaning_experience }
+    let locationDeclineResult = null;
+
+    if (route.send_location_auto_reply) {
+      // Location-based hard hold, no inconsistency: polite auto-decline.
+      locationDeclineResult = await callInternalEndpoint('/api/send-email', {
+        candidate_id: reservedId,
+        template: 'location_decline',
+        data: { firstName }
       });
+      await appendCommLog(reservedId, {
+        timestamp: new Date().toISOString(),
+        channel: 'email',
+        direction: 'out',
+        type: 'auto_reply_location_decline',
+        summary: 'Auto-reply: outside service area (polite decline sent).'
+      });
+    } else if (route.status === 'Applied') {
+      // Normal first-contact outreach.
+      if (candidate.phone) {
+        smsResult = await callInternalEndpoint('/api/twilio-outbound', {
+          candidate_id: reservedId,
+          to: candidate.phone,
+          body: candidate.has_cleaning_experience
+            ? `Hi ${firstName}, this is Aria — Karen's scheduling assistant at Lifestyle Home Service. Thanks for applying! I saw your cleaning background and wanted to reach out quickly. I've got 3 quick questions to see if this role is a fit. Reply when you have a minute.`
+            : `Hi ${firstName}, this is Aria — Karen's scheduling assistant at Lifestyle Home Service. Thanks for applying! I've got 3 quick questions to see if this role is a fit. Reply when you have a minute.`
+        });
+      }
+      if (candidate.email) {
+        emailResult = await callInternalEndpoint('/api/send-email', {
+          candidate_id: reservedId,
+          template: 'first_contact',
+          data: { firstName, pretrained: candidate.has_cleaning_experience }
+        });
+      }
     }
+    // else: travel hard hold OR location hard hold with inconsistency →
+    // no candidate outreach. Karen reviews the holding lane / red alert.
 
     await redis.set(`recruit:intake_log:${intakeId}`, {
       timestamp: new Date().toISOString(),
       received_at: startTime,
       status: 'processed',
-      candidate_id: candidate.candidate_id,
+      candidate_id: reservedId,
       score: scoreInfo.score,
+      route,
       autonomy_lane: candidate.aria_meta.autonomy_lane,
       write_result: writeResult.git,
       sms_status: smsResult?.status,
       email_status: emailResult?.status,
+      location_decline_status: locationDeclineResult?.status,
       processing_ms: Date.now() - startTime
     }, { ex: 60 * 60 * 24 * 30 });
 
     return res.status(200).json({
       ok: true,
-      candidate_id: candidate.candidate_id,
+      candidate_id: reservedId,
       score: scoreInfo.score,
+      status: route.status,
+      holding_reason: route.holding_reason,
+      inconsistency_flag: route.inconsistency_flag,
       autonomy_lane: candidate.aria_meta.autonomy_lane,
       dual_write: writeResult,
       sms: smsResult,
       email: emailResult,
+      location_decline: locationDeclineResult,
       processing_ms: Date.now() - startTime
     });
 
