@@ -12,7 +12,7 @@
 // Then calls createPlaceholder for Sharyn McKay #016, which advances counter to 16.
 
 import { Redis } from '@upstash/redis';
-import { createPlaceholder, findPlaceholderByName, formatId } from '../_lib/createPlaceholder.js';
+import { createPlaceholder, findPlaceholderByName, formatId } from './_lib/createPlaceholder.js';
 
 const redis = Redis.fromEnv();
 
