@@ -11,6 +11,7 @@
     "@anthropic-ai/sdk": "^0.68.0",
     "@sendgrid/mail": "^8.1.4",
     "@upstash/redis": "^1.35.0",
+    "formidable": "^3.5.4",
     "twilio": "^5.4.0"
   }
 }
