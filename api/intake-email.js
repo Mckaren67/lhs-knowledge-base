@@ -299,8 +299,28 @@ export default async function handler(req, res) {
     const from    = fields.from || fields.sender || '';
     const subject = fields.subject || '';
     const text    = fields.text || fields.plain || '';
+    const html    = fields.html || '';
 
     const resumeFile = pickResumeFile(files);
+
+    // Preserve raw body to intake_log BEFORE Claude processing, so that:
+    //   - Gmail/SMTP verification emails are recoverable (their codes live
+    //     in the raw text, but the extraction prompt discards them)
+    //   - Any intake that later fails can be replayed or manually parsed
+    //   - Debugging doesn't require re-fetching from SendGrid Activity
+    // Truncated to 32 KB per field to avoid unbounded Redis entries.
+    const RAW_LIMIT = 32 * 1024;
+    await redis.set(`recruit:intake_log:${intakeId}`, {
+      timestamp: new Date().toISOString(),
+      received_at: startTime,
+      status: 'received_raw_captured',
+      raw_from: String(from).slice(0, 2048),
+      raw_subject: String(subject).slice(0, 2048),
+      raw_text: String(text).slice(0, RAW_LIMIT),
+      raw_html: String(html).slice(0, RAW_LIMIT),
+      resume_attached: !!resumeFile,
+      resume_filename: resumeFile?.originalFilename || resumeFile?.newFilename || null
+    }, { ex: 60 * 60 * 24 * 30 });
     const contentBlocks = [];
 
     if (resumeFile) {
