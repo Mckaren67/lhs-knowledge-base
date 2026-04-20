@@ -285,6 +285,145 @@ ul { margin: 0; padding: 0; list-style: none; }
   color: var(--text-muted);
 }
 
+/* Candidate cards */
+.candidate-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.candidate-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.candidate-card.has-red-alert { border-left: 3px solid var(--danger); }
+.card-row-top {
+  display: flex; align-items: center; gap: 8px;
+  justify-content: space-between;
+}
+.card-id-name { display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1; }
+.card-id {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted); flex-shrink: 0;
+}
+.card-name {
+  font-size: 13px; font-weight: 600;
+  color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.stage-age {
+  font-family: var(--font-mono);
+  font-size: 10.5px; font-weight: 600;
+  padding: 2px 7px; border-radius: 999px;
+  flex-shrink: 0;
+  background: var(--card-subtle); color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.stage-age.fresh  { /* 0-2 days: default */ }
+.stage-age.warn   { background: var(--warning-soft); color: var(--warning); border-color: var(--warning); }
+.stage-age.stale  { background: var(--danger-soft);  color: var(--danger);  border-color: var(--danger); }
+.card-score {
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--text-secondary);
+  padding: 4px 8px; background: var(--card-subtle);
+  border-radius: 6px; font-variant-numeric: tabular-nums;
+}
+.card-action {
+  font-size: 12px; color: var(--text-secondary); line-height: 1.4;
+}
+.card-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px; color: var(--text-muted); }
+.card-meta .needs-approval {
+  color: var(--warning); font-weight: 600;
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.card-meta .flag-pill {
+  color: var(--text-muted);
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.card-meta .red-alert-pill {
+  color: var(--danger); font-weight: 700;
+}
+
+/* Profile drawer */
+.drawer-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--transition);
+}
+.drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(560px, 100%);
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  z-index: 101;
+  transform: translateX(100%);
+  transition: transform var(--transition);
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+.drawer.is-open { transform: translateX(0); }
+.drawer-head {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--bg);
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.drawer-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.drawer-close {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.drawer-close:hover { color: var(--text); border-color: var(--border-strong); }
+.drawer-body { padding: 18px 24px 48px; }
+.drawer-body h3 {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 20px 0 10px;
+}
+.drawer-body h3:first-child { margin-top: 0; }
+.drawer-field {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+}
+.drawer-field-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+.drawer-field-value {
+  color: var(--text);
+  word-wrap: break-word;
+}
+.drawer-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 12.5px; margin-bottom: 8px;
+}
+.drawer-table th, .drawer-table td {
+  text-align: left; padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.drawer-table th {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--text-secondary);
+  background: var(--card-subtle);
+}
+
 /* Holding patterns */
 .holding-section-title {
   font-size: 13px; font-weight: 600; color: var(--text-secondary);
@@ -462,18 +601,33 @@ ul { margin: 0; padding: 0; list-style: none; }
   </footer>
 </div>
 
+<div id="drawer-backdrop" class="drawer-backdrop" onclick="closeProfile()"></div>
+<aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="drawer-head">
+    <div id="drawer-title" class="drawer-title">Candidate</div>
+    <button class="drawer-close" onclick="closeProfile()" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="drawer-body" class="drawer-body"></div>
+</aside>
+
 <script>
-/* Stages per v1.3 §4 (8-stage funnel) */
+/* Stages per v1.3 §4 (8-stage funnel). `key` must match the exact string
+   used in recruit:stage:{key} Redis keys and the `status` field on candidates. */
 const STAGES = [
-  { id: 'applied',             label: 'Applied' },
-  { id: 'screener',            label: 'Screener' },
-  { id: 'jotform',             label: 'JotForm' },
-  { id: 'cleaning_simulator',  label: 'Cleaning simulator' },
-  { id: 'phone_screen',        label: 'Phone screen' },
-  { id: 'trial',               label: 'Trial' },
-  { id: 'offer',               label: 'Offer' },
-  { id: 'hired_declined',      label: 'Hired / Declined' }
+  { id: 'applied',             label: 'Applied',            key: 'Applied' },
+  { id: 'screener',            label: 'Screener',           key: 'Screener' },
+  { id: 'jotform',             label: 'JotForm',            key: 'JotForm' },
+  { id: 'cleaning-simulator',  label: 'Cleaning simulator', key: 'Cleaning simulator' },
+  { id: 'phone-screen',        label: 'Phone screen',       key: 'Phone screen' },
+  { id: 'trial',               label: 'Trial',              key: 'Trial' },
+  { id: 'offer',               label: 'Offer',              key: 'Offer' },
+  { id: 'hired-declined',      label: 'Hired / Declined',   key: 'Hired/Declined' }
 ];
+
+let LATEST_CARDS = {};
+let LATEST_DATA = null;
 
 /* Holding lanes per v1.3 §5 */
 const HOLDING_LANES = [
@@ -522,33 +676,170 @@ function switchView(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('is-active', v.id === `view-${id}`));
 }
 
-/* Render Kanban structure (empty columns) */
-function renderKanban() {
-  const board = document.getElementById('kanban-board');
-  board.innerHTML = STAGES.map(s => `
-    <div class="kanban-col" data-stage="${s.id}">
-      <div class="kanban-col-head">
-        <span class="kanban-col-title">${s.label}</span>
-        <span class="kanban-col-count" id="col-count-${s.id}">0</span>
-      </div>
-      <div class="kanban-col-body" id="col-body-${s.id}">
-        <div class="empty-slot">No candidates yet</div>
-      </div>
-    </div>
-  `).join('');
+function stageAgeClass(days) {
+  if (days == null) return '';
+  if (days > 5) return 'stale';
+  if (days > 2) return 'warn';
+  return 'fresh';
+}
+function stageAgeLabel(days) {
+  if (days == null) return '—';
+  if (days === 0) return 'today';
+  if (days === 1) return '1d';
+  return days + 'd';
 }
 
-/* Render Holding lanes (empty) */
-function renderHolding() {
-  const board = document.getElementById('holding-board');
-  board.innerHTML = HOLDING_LANES.map(l => `
-    <div class="holding-col" data-lane="${l.id}">
-      <div class="accent"></div>
-      <div class="holding-col-title">${l.label}</div>
-      <div class="holding-col-desc">${l.desc}</div>
-      <div class="empty-slot">No candidates in this lane</div>
+function renderCard(card) {
+  LATEST_CARDS[card.candidate_id] = card;
+  const scoreHtml = card.score_display
+    ? `<div class="card-score">${escapeHtml(card.score_display)}</div>`
+    : '';
+  const actionHtml = card.next_action
+    ? `<div class="card-action">${escapeHtml(card.next_action)}</div>`
+    : '';
+  const metaBits = [];
+  if (card.needs_approval) metaBits.push(`<span class="needs-approval">⚠ needs approval</span>`);
+  if (card.flag_count > 0) metaBits.push(`<span class="flag-pill">🚩 ${card.flag_count} flag${card.flag_count === 1 ? '' : 's'}</span>`);
+  if (card.has_red_alert_flag) metaBits.push(`<span class="red-alert-pill">🚨 red alert</span>`);
+  const metaHtml = metaBits.length ? `<div class="card-meta">${metaBits.join('')}</div>` : '';
+
+  return `
+    <div class="candidate-card ${card.has_red_alert_flag ? 'has-red-alert' : ''}" onclick="openProfile('${escapeHtml(card.candidate_id)}')">
+      <div class="card-row-top">
+        <div class="card-id-name">
+          <span class="card-id">${escapeHtml(card.candidate_id)}</span>
+          <span class="card-name">${escapeHtml(card.full_name || 'Unknown')}</span>
+        </div>
+        <span class="stage-age ${stageAgeClass(card.days_in_stage)}">${stageAgeLabel(card.days_in_stage)}</span>
+      </div>
+      ${scoreHtml}
+      ${actionHtml}
+      ${metaHtml}
     </div>
-  `).join('');
+  `;
+}
+
+function renderKanban(kanbanData) {
+  const board = document.getElementById('kanban-board');
+  board.innerHTML = STAGES.map(s => {
+    const cards = (kanbanData && kanbanData[s.key]) || [];
+    const body = cards.length
+      ? cards.map(renderCard).join('')
+      : '<div class="empty-slot">No candidates</div>';
+    return `
+      <div class="kanban-col" data-stage="${s.id}">
+        <div class="kanban-col-head">
+          <span class="kanban-col-title">${s.label}</span>
+          <span class="kanban-col-count">${cards.length}</span>
+        </div>
+        <div class="kanban-col-body">${body}</div>
+      </div>
+    `;
+  }).join('');
+
+  const totalActive = STAGES.reduce((n, s) => n + ((kanbanData && kanbanData[s.key]) ? kanbanData[s.key].length : 0), 0);
+  document.getElementById('tab-count-kanban').textContent = totalActive;
+}
+
+function renderHolding(holdingData) {
+  const board = document.getElementById('holding-board');
+  board.innerHTML = HOLDING_LANES.map(l => {
+    const cards = (holdingData && holdingData[l.id]) || [];
+    const body = cards.length
+      ? cards.map(renderCard).join('')
+      : '<div class="empty-slot">No candidates in this lane</div>';
+    return `
+      <div class="holding-col" data-lane="${l.id}">
+        <div class="accent"></div>
+        <div class="holding-col-title">${l.label} <span class="kanban-col-count" style="margin-left:6px">${cards.length}</span></div>
+        <div class="holding-col-desc">${l.desc}</div>
+        ${body}
+      </div>
+    `;
+  }).join('');
+
+  const total = HOLDING_LANES.reduce((n, l) => n + ((holdingData && holdingData[l.id]) ? holdingData[l.id].length : 0), 0);
+  document.getElementById('tab-count-holding').textContent = total;
+}
+
+function renderRedAlertBanner(alerts) {
+  const banner = document.getElementById('red-alert-banner');
+  if (!alerts || !alerts.length) {
+    banner.className = 'red-alert-banner empty';
+    banner.innerHTML = '<span>✓</span><span>No active red alerts.</span>';
+    return;
+  }
+  banner.className = 'red-alert-banner active';
+  const first = alerts[0];
+  banner.innerHTML = `
+    <span>🚨</span>
+    <div>
+      <strong>${alerts.length} active red alert${alerts.length === 1 ? '' : 's'}.</strong>
+      <span style="margin-left:6px">Most recent: ${escapeHtml(first.description || first.id || 'untitled')}</span>
+    </div>
+  `;
+}
+
+function renderMode(mode) {
+  const chip = document.getElementById('mode-chip');
+  const label = document.getElementById('mode-label');
+  const normalized = (mode || 'CASUAL').toLowerCase();
+  chip.className = 'mode-chip mode-' + normalized;
+  label.textContent = normalized === 'casual'     ? 'Casual hiring'
+                    : normalized === 'urgent'     ? 'Urgent — fast track'
+                    : normalized === 'not_hiring' ? 'Not hiring'
+                    : mode;
+}
+
+function renderStats(data) {
+  if (!data) return;
+  document.getElementById('stat-active').textContent = data.stats?.active ?? 0;
+  document.getElementById('stat-holding').textContent = data.stats?.holding ?? 0;
+  if (data.next_candidate_id) {
+    document.getElementById('stat-next-id').textContent = data.next_candidate_id;
+  }
+}
+
+/* Profile drawer */
+function openProfile(id) {
+  const card = LATEST_CARDS[id];
+  if (!card) return;
+  const body = document.getElementById('drawer-body');
+  const title = document.getElementById('drawer-title');
+  title.textContent = `${card.candidate_id} — ${card.full_name || 'Unknown'}`;
+
+  const fields = [
+    ['Status', card.status],
+    ['Score', card.score_display || '—'],
+    ['Stage entered', card.stage_entered_at ? new Date(card.stage_entered_at).toLocaleString() : '—'],
+    ['Days in stage', card.days_in_stage == null ? '—' : card.days_in_stage],
+    ['Next action', card.next_action || '—'],
+    ['Needs approval', card.needs_approval ? 'Yes' : 'No'],
+    ['Flags', card.flag_count],
+    ['Record type', card.kind]
+  ];
+
+  body.innerHTML = `
+    <h3>Summary</h3>
+    ${fields.map(([l, v]) => `
+      <div class="drawer-field">
+        <div class="drawer-field-label">${escapeHtml(l)}</div>
+        <div class="drawer-field-value">${escapeHtml(String(v == null ? '—' : v))}</div>
+      </div>
+    `).join('')}
+    <h3>Notes</h3>
+    <div class="drawer-field-value" style="font-size:12.5px; color: var(--text-secondary)">
+      Full profile view (per-dimension scores, communication log, email thread, transcripts) is Phase 1 task #22. Currently showing summary only.
+    </div>
+  `;
+
+  document.getElementById('drawer-backdrop').classList.add('is-open');
+  document.getElementById('drawer').classList.add('is-open');
+}
+
+function closeProfile() {
+  document.getElementById('drawer-backdrop').classList.remove('is-open');
+  document.getElementById('drawer').classList.remove('is-open');
 }
 
 /* Legacy: fetch CANDIDATE_INDEX.md and parse ranked list */
@@ -634,7 +925,6 @@ function escapeHtml(s) {
   );
 }
 
-/* Fetch hiring data (Aria-managed candidates) — endpoint not yet built */
 async function fetchHiringData() {
   try {
     const res = await fetch('/api/hiring-data');
@@ -645,24 +935,29 @@ async function fetchHiringData() {
   }
 }
 
+async function refresh() {
+  const data = await fetchHiringData();
+  if (!data || !data.ok) {
+    renderKanban(null);
+    renderHolding(null);
+    renderRedAlertBanner(null);
+    return;
+  }
+  LATEST_DATA = data;
+  renderMode(data.mode);
+  renderStats(data);
+  renderKanban(data.kanban);
+  renderHolding(data.holding);
+  renderRedAlertBanner(data.red_alerts);
+}
+
 /* Boot */
 (async function boot() {
-  renderKanban();
-  renderHolding();
+  renderKanban(null);
+  renderHolding(null);
   renderLegacy();
-
-  const data = await fetchHiringData();
-  if (data && data.mode) {
-    const chip = document.getElementById('mode-chip');
-    chip.className = 'mode-chip mode-' + data.mode.toLowerCase();
-    document.getElementById('mode-label').textContent =
-      data.mode === 'CASUAL' ? 'Casual hiring'
-      : data.mode === 'URGENT' ? 'Urgent — fast track'
-      : 'Not hiring';
-  }
-  if (data && typeof data.nextCandidateId === 'string') {
-    document.getElementById('stat-next-id').textContent = data.nextCandidateId;
-  }
+  await refresh();
+  setInterval(refresh, 30000);
 })();
 </script>
 </body>
