@@ -1,8 +1,8 @@
 // One-shot schema initialization for AriaRecruit Phase 1.
 //
-// Idempotent: only writes keys that are missing. Safe to call more than once.
-// Protected by INTERNAL_SECRET — POST with header `x-internal-secret: <value>`
-// or JSON body `{ secret: "..." }`.
+// Idempotent by default: only writes keys that are missing. Safe to call more
+// than once. Protected by INTERNAL_SECRET — POST with header
+// `x-internal-secret: <value>` or JSON body `{ secret: "..." }`.
 //
 // Initializes, per v1.3 §2.3 and kickoff item 4:
 //   recruit:settings:hiring_mode          = "CASUAL"
@@ -10,6 +10,11 @@
 //   recruit:settings:autonomy_level       = phase-1 stub; refined in Phase 5
 //   recruit:counter:candidate_id          = 15 (#015 Justine Davis was the last assigned)
 // Then calls createPlaceholder for Sharyn McKay #016, which advances counter to 16.
+//
+// Recovery mode: pass `{ reset_counter: <N> }` in the body to explicitly SET the
+// counter to N, regardless of existing value. Also removes any existing Sharyn
+// placeholder so the seed path fires cleanly. Use when prior state was
+// corrupted (e.g. a bogus INCR happened before init ran).
 
 import { Redis } from '@upstash/redis';
 import { createPlaceholder, findPlaceholderByName, formatId } from './_lib/createPlaceholder.js';
@@ -66,8 +71,13 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  const resetCounterValue = (req.body && typeof req.body === 'object' && typeof req.body.reset_counter === 'number')
+    ? req.body.reset_counter
+    : null;
+
   const written = [];
   const skipped = [];
+  const forced  = [];
 
   async function ensure(key, value) {
     const current = await redis.get(key);
@@ -83,12 +93,28 @@ export default async function handler(req, res) {
   await ensure('recruit:settings:summary_times', ['07:00', '11:00', '15:00']);
   await ensure('recruit:settings:autonomy_level', DEFAULT_AUTONOMY);
 
-  const existingCounter = await redis.get('recruit:counter:candidate_id');
-  if (existingCounter == null) {
-    await redis.set('recruit:counter:candidate_id', 15);
-    written.push('recruit:counter:candidate_id');
+  // Counter: normally ensure-style; recovery mode SETs it unconditionally.
+  if (resetCounterValue != null) {
+    await redis.set('recruit:counter:candidate_id', resetCounterValue);
+    forced.push(`recruit:counter:candidate_id=${resetCounterValue}`);
+
+    // Wipe any existing Sharyn placeholder so the seed path fires fresh. The
+    // old placeholder (if any) pointed to a stale ID that no longer aligns
+    // with the reset counter.
+    const existingSharyn = await findPlaceholderByName(SHARYN_SEED.name);
+    if (existingSharyn) {
+      await redis.del(`recruit:placeholder:${existingSharyn.candidate_id}`);
+      await redis.zrem('recruit:holding:expected', existingSharyn.candidate_id);
+      forced.push(`deleted_placeholder:${existingSharyn.candidate_id}`);
+    }
   } else {
-    skipped.push('recruit:counter:candidate_id');
+    const existingCounter = await redis.get('recruit:counter:candidate_id');
+    if (existingCounter == null) {
+      await redis.set('recruit:counter:candidate_id', 15);
+      written.push('recruit:counter:candidate_id');
+    } else {
+      skipped.push('recruit:counter:candidate_id');
+    }
   }
 
   let sharynResult;
@@ -100,7 +126,7 @@ export default async function handler(req, res) {
     if (counterBefore !== 15) {
       sharynResult = {
         status: 'skipped',
-        reason: `Counter is at ${counterBefore}, expected 15 before Sharyn seed. Manual reconciliation needed.`
+        reason: `Counter is at ${counterBefore}, expected 15 before Sharyn seed. Pass { reset_counter: 15 } to recover.`
       };
     } else {
       const created = await createPlaceholder(SHARYN_SEED);
@@ -114,6 +140,7 @@ export default async function handler(req, res) {
     ok: true,
     written,
     skipped,
+    forced,
     sharyn: sharynResult,
     counter_now: finalCounter,
     next_candidate_id: formatId(finalCounter + 1)
