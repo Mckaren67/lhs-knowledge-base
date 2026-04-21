@@ -1,0 +1,115 @@
+{
+  "candidate_id": "#119",
+  "full_name": "unknown",
+  "phone": null,
+  "phone_confirmed": false,
+  "email": "careers@lifestylehomeservice.com",
+  "location_postal_code": null,
+  "location_city": null,
+  "source": "direct",
+  "score_value": 40,
+  "score_denominator": 100,
+  "rubric_type": "prescreen_triage",
+  "per_dimension_scores": [
+    {
+      "dimension_name": "trainable_baseline",
+      "score": 50,
+      "denominator": 50,
+      "description": "LHS hires trainable people; this is the default floor."
+    },
+    {
+      "dimension_name": "prior_cleaning_experience",
+      "score": 0,
+      "denominator": 20,
+      "description": "No prior cleaning experience — trainable baseline still applies."
+    },
+    {
+      "dimension_name": "transferable_signals",
+      "score": 0,
+      "denominator": 15,
+      "description": "No strong transferable signals detected."
+    },
+    {
+      "dimension_name": "communication_quality",
+      "score": -10,
+      "denominator": 10,
+      "description": "Rated 1/5 — weak"
+    },
+    {
+      "dimension_name": "transportation",
+      "score": 0,
+      "denominator": 10,
+      "description": "Transportation unclear"
+    },
+    {
+      "dimension_name": "proximity",
+      "score": 0,
+      "denominator": 5,
+      "description": "Distance unknown"
+    },
+    {
+      "dimension_name": "red_flags",
+      "score": 0,
+      "denominator": 0,
+      "description": "None detected"
+    },
+    {
+      "dimension_name": "experience_keyword_match",
+      "score": 0,
+      "denominator": 5,
+      "description": "No domain-keyword match in experience."
+    },
+    {
+      "dimension_name": "years_experience_bonus",
+      "score": 0,
+      "denominator": 3,
+      "description": "Years of experience not reported."
+    },
+    {
+      "dimension_name": "travel_willingness",
+      "score": 0,
+      "denominator": 5,
+      "description": "Travel willingness not reported."
+    }
+  ],
+  "interviewer_name": "Aria (automated)",
+  "interviewer_phone": null,
+  "interview_date": null,
+  "interview_time": null,
+  "interview_duration_minutes": null,
+  "outcome": "PENDING",
+  "key_findings": [],
+  "communication_log": [],
+  "flags": [],
+  "next_action": "Auto-declined (outside service area).",
+  "status": "hard_hold",
+  "stage_entered_at": "2026-04-21T02:27:01.242Z",
+  "availability_horizon": "unknown",
+  "availability_details": null,
+  "earliest_start_date": null,
+  "depends_on": [],
+  "has_cleaning_experience": false,
+  "cleaning_experience_years": null,
+  "cleaning_experience_types": [],
+  "certifications": [],
+  "has_vehicle": false,
+  "has_vehicle_confirmed": false,
+  "years_experience": null,
+  "interview_availability": null,
+  "location_in_chilliwack_claim": null,
+  "travel_willingness_pct": null,
+  "in_service_area": false,
+  "location_inconsistency_flag": false,
+  "needs_approval": true,
+  "aria_meta": {
+    "autonomy_lane": "hold",
+    "summary": "No candidate information available — this appears to be an auto-generated confirmation email from LHS Careers itself rather than an applicant submission. No resume or application data to extract.",
+    "concerns": [
+      "No candidate data present in email",
+      "Email is from LHS Careers system, not an applicant"
+    ],
+    "holding_reason": "outside service area",
+    "postal_fsa": null
+  },
+  "last_updated": "2026-04-21T02:27:01.242Z"
+}
