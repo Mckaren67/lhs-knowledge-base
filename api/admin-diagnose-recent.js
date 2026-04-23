@@ -75,7 +75,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const minutes = Math.min(60, Math.max(1, Number(req.query?.minutes) || 5));
+  const minutes = Math.min(1440, Math.max(1, Number(req.query?.minutes) || 5));
   const windowMs = minutes * 60 * 1000;
   const nowMs = Date.now();
 
