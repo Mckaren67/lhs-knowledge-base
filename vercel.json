@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/public/$1" }
+    { "source": "/data/(.*)", "destination": "/data/$1" },
+    { "source": "/((?!api/|data/).*)", "destination": "/public/$1" }
   ],
   "crons": [
     { "path": "/api/send-jotform-invite-sweep", "schedule": "*/2 * * * *" }
