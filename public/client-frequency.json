@@ -1,0 +1,4521 @@
+{
+  "$schema": "https://lhs-knowledge-base.vercel.app/schemas/client-frequency-v1.json",
+  "version": "1.0.0",
+  "last_updated": "2026-05-09",
+  "updated_by": "Mike Butterfield",
+  "data_source": {
+    "description": "Frequencies derived from 3 months of HCP job exports (Apr 13 - Jul 6, 2026), 996 jobs across 160 unique customers. Tag values pulled from HCP Customer tags column. Observed values computed from average days between visits.",
+    "observation_window_days": 84,
+    "observation_start": "2026-04-13",
+    "observation_end": "2026-07-06",
+    "total_jobs_analyzed": 996
+  },
+  "classification_rules": {
+    "Weekly": "avg gap \u2264 8 days",
+    "Bi-weekly": "avg gap 9-17 days",
+    "Monthly": "avg gap 18-35 days",
+    "6-weekly": "avg gap 36-75 days",
+    "Quarterly+": "avg gap > 75 days",
+    "Commercial": "has \"Commercial\" in HCP tags (overrides gap-based classification)",
+    "Unknown (1 visit)": "only 1 visit in observation window \u2014 could be new, one-off, or paused"
+  },
+  "global_notes": "For all scheduling continuity decisions, prefer keeping the same primary cleaner across visits. Weekly and Bi-weekly clients have the highest disruption cost. Mismatches between tagged and observed frequency should be reviewed with Karen and resolved in HCP.",
+  "clients": {
+    "christy-kirsten": {
+      "name": "Christy Kirsten",
+      "address": "325 Spruce St, Cultus Lake, BC V2R 4Y7",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 2
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "vip"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Recurring, VIP"
+    },
+    "sandra-veenstra": {
+      "name": "Sandra Veenstra",
+      "address": "46110 Thomas Road, #17, Chilliwack, BC V2R 3X1",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 2
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": null,
+      "hcp_tags_raw": "e-Transfer, Monthly"
+    },
+    "kathy-brown": {
+      "name": "Kathy Brown",
+      "address": "46110 Thomas Rd, #72, Chilliwack, BC V2R 2R4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [
+        "new_client"
+      ],
+      "payment_method": "etransfer",
+      "source": "referral",
+      "hcp_tags_raw": "New Client, e-Transfer, Bi-weekly, Residential, From a Friend"
+    },
+    "ruth-bisson": {
+      "name": "Ruth Bisson",
+      "address": "7764 Patterson Road, Chilliwack, BC V4Z 1J6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "trevor-brien": {
+      "name": "Trevor Brien",
+      "address": "46477 Woodland Ave, Chilliwack, BC V2P 3N8",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.3,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "no_review"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "No review"
+    },
+    "mark-wilkinson": {
+      "name": "Mark Wilkinson",
+      "address": "10200 Gray Rd, #1, Rosedale, BC V0X 1X1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.2,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 2
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 2
+        }
+      ],
+      "flags": [
+        "no_review"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Bi-weekly, No review"
+    },
+    "lorraine-jones": {
+      "name": "Lorraine Jones",
+      "address": "44755 Cumberland Ave, Chilliwack, BC V2R 3B9",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "vector-geomatics": {
+      "name": "Vector Geomatics",
+      "address": "7965 Venture Pl, #6, Chilliwack, BC V2R 0K2",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Cathy W",
+          "visit_count": 12
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2.5"
+    },
+    "independent-respiratory-services": {
+      "name": "Independent Respiratory Services",
+      "address": "45389 Luckakuck Way, #101, Chilliwack, BC V2R3V1",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 3.4,
+        "visits_in_window": 24,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Kelly K",
+          "visit_count": 24
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 1.5"
+    },
+    "john-mayne": {
+      "name": "John Mayne",
+      "address": "46170 Thomas Rd, #203, Chilliwack, BC V2R 6C7",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 6
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "sylvia-fane": {
+      "name": "Sylvia Fane",
+      "address": "1859 Carol Rd, Lindell Beach, BC V2R 4W9",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 18.7,
+        "visits_in_window": 4,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 2
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 2
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "aj-pumps": {
+      "name": "AJ Pumps",
+      "address": "46170 Airport Rd, Chilliwack, BC V2P 1A5",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Terrie B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 3"
+    },
+    "sandra-pharand": {
+      "name": "Sandra Pharand",
+      "address": "10618 Ponderay St, Chilliwack, BC V2P 6L7",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 13.2,
+        "visits_in_window": 7,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.4,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 6
+        },
+        {
+          "name": "April W",
+          "visit_count": 1
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "new_client"
+      ],
+      "payment_method": "etransfer",
+      "source": null,
+      "hcp_tags_raw": "New Client, e-Transfer, Bi-weekly, Residential, Regular Clean | Residential, e-Transfer, New Client, Regular Clean, Bi-weekly"
+    },
+    "george-baur": {
+      "name": "George Baur",
+      "address": "46000 Thomas Rd, #189, Chilliwack, BC V2R 5W6",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 26.5,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "william-maclean": {
+      "name": "William MacLean",
+      "address": "8725 Elm Dr, #106, Chilliwack, BC V2P 4Y3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.2,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "john-mulder-heating": {
+      "name": "John Mulder Heating",
+      "address": "46064 Airport Rd, Chilliwack, BC V2P 1A5",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 4.5,
+        "visits_in_window": 18,
+        "gap_consistent": false,
+        "mismatch": {
+          "tagged": "Bi-weekly",
+          "observed": "Weekly"
+        }
+      },
+      "avg_duration_hours": 3.1,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 13
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 6
+        },
+        {
+          "name": "Rebecca D",
+          "visit_count": 5
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "biweekly"
+    },
+    "vandenberg-landscapes": {
+      "name": "Vandenberg Landscapes",
+      "address": "6130 Chadsey Rd, #2A, Chilliwack, BC V2R 4P2",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 8,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Terrie B",
+          "visit_count": 8
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2"
+    },
+    "billy-wells": {
+      "name": "Billy Wells",
+      "address": "45745 Watson Road, #107B, Chilliwack, BC V2R 6K3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "vincent-courtemanche": {
+      "name": "Vincent Courtemanche",
+      "address": "5478 Peach Rd, Chilliwack, BC V2R 0X7",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.2,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 3
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "carly-beamin": {
+      "name": "Carly Beamin",
+      "address": "44510 Monte Vista Dr, Chilliwack, BC V2R 5T2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "biweekly, Credit Card"
+    },
+    "tess-macfadyen": {
+      "name": "Tess MacFadyen",
+      "address": "47572 Mountain Park Dr, Chilliwack, BC V2P 7P6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search | e-Transfer, Google Search, Bi-weekly"
+    },
+    "harry-mertin": {
+      "name": "Harry Mertin",
+      "address": "5384 Tyee Ln, #401, Chilliwack, BC",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": null,
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 12
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 12
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "rita-mcgregor": {
+      "name": "Rita McGregor",
+      "address": "46511 Chilliwack Lake Rd, #26, Chilliwack, BC V2R 3S2",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": null,
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 9
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 3
+        }
+      ],
+      "flags": [
+        "blind_must_call",
+        "must_call"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Blind, Must call"
+    },
+    "amanda-molyneux": {
+      "name": "Amanda Molyneux",
+      "address": "43575 Chilliwack Mountain Rd, #18, Chilliwack, BC V2R 4A1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Weekly",
+        "avg_gap_days": 11.0,
+        "visits_in_window": 8,
+        "gap_consistent": false,
+        "mismatch": {
+          "tagged": "Weekly",
+          "observed": "Bi-weekly"
+        }
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 7
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": "google_search",
+      "hcp_tags_raw": "Weekly, Credit Card, Residential, Google Search | Residential, Google Search, Weekly, Credit Card"
+    },
+    "karena-conrad": {
+      "name": "Karena Conrad",
+      "address": "9801 Angus Dr, Chilliwack, BC V2P 6A8",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 5,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.7,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 4
+        },
+        {
+          "name": "Nicole D",
+          "visit_count": 1
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "new_client"
+      ],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "New Client, Credit Card, Bi-weekly, Residential | New Client, Residential, Credit Card, Bi-weekly"
+    },
+    "adrienne-joiner": {
+      "name": "Adrienne Joiner",
+      "address": "41803 Majuba Hill Rd, Chilliwack, BC V2R 5G8",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.8,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search | e-Transfer, Google Search, Bi-weekly"
+    },
+    "nicole-koehn": {
+      "name": "Nicole Koehn",
+      "address": "4290 Eckert St, Yarrow, BC V2R 5J5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search, Yarrow | e-Transfer, Google Search, Bi-weekly, Yarrow"
+    },
+    "strata-plan-nw-2891-mountainview-estates": {
+      "name": "Strata Plan NW 2891 Mountainview Estates",
+      "address": "46966 Yale Rd, Chilliwack, BC V2P 2S7",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Terrie B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2.5, Strata | Commercial, Strata, 2.5"
+    },
+    "h\u00e9l\u00e8ne-brassard": {
+      "name": "H\u00e9l\u00e8ne Brassard",
+      "address": "9344 Woodbine St, #111, Chilliwack, BC V2P 5S7",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 2
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "referral",
+      "hcp_tags_raw": "e-Transfer, Residential, Monthly, From a Friend | e-Transfer, From a Friend, Residential, Monthly"
+    },
+    "bill-murray": {
+      "name": "Bill Murray",
+      "address": "46211 Promontory Rd, #48, Chilliwack, BC V2R 6E5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 15,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 15
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Bi-weekly | Recurring, Bi-weekly"
+    },
+    "jacques-gratton": {
+      "name": "Jacques Gratton",
+      "address": "46517 Armstrong Pl, Chilliwack, BC V2R 5W4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "facebook",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Facebook"
+    },
+    "rob-and-tara-friesen": {
+      "name": "Rob & Tara Friesen",
+      "address": "44766 Monte Vista Drive, Chilliwack, BC V2R 3E1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "monthly_billing",
+      "source": null,
+      "hcp_tags_raw": "Monthly billing, Prepay, Recurring, 2"
+    },
+    "strohmaier-excavating-2019-ltd": {
+      "name": "Strohmaier Excavating 2019 Ltd.",
+      "address": "44667 Yale Rd, #4, Chilliwack, BC V2R 4H3",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Terrie B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2"
+    },
+    "lisa-frede": {
+      "name": "Lisa Frede",
+      "address": "42335 Knox Ave, Yarrow, BC V2R 5E1",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Vanessa A",
+          "visit_count": 2
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "cathy-kolmansberger": {
+      "name": "Cathy Kolmansberger",
+      "address": "45757 Watson Rd, #108, Chilliwack, BC V2R 6H1",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "kerkhoff-technologies-inc": {
+      "name": "Kerkhoff Technologies Inc.",
+      "address": "6640 Vedder Rd, #220B, Chilliwack, BC V2R 0J2",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Terrie B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2 | 2, Commercial"
+    },
+    "paul-orr": {
+      "name": "Paul Orr",
+      "address": "8809 Tilston St, Chilliwack, BC V2P 7R6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": null,
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Residential"
+    },
+    "jeff-schulz": {
+      "name": "Jeff Schulz",
+      "address": "4787 Southside Road, Chilliwack, BC V2R 4T6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.5,
+        "visits_in_window": 5,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 5
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Bi-Wkly"
+    },
+    "jenna-braich-mcrae": {
+      "name": "Jenna Braich McRae",
+      "address": "45500 Campus Dr, #21, Chilliwack, BC V2R 6E9",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.9,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search"
+    },
+    "ryan-brown": {
+      "name": "Ryan Brown",
+      "address": "46211 Promontory Rd, #136, Chilliwack, BC V2R 0M2",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 5,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.7,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 5
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "marjorie-brown": {
+      "name": "Marjorie Brown",
+      "address": "4665 Wilson Rd, Chilliwack, BC V2R 5C4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 4
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search | Google Search, Bi-weekly, e-Transfer"
+    },
+    "valley-toyota": {
+      "name": "Valley Toyota",
+      "address": "8750 Young Rd, Chilliwack, BC V2P 4P4",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 1.2,
+        "visits_in_window": 74,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Kelly K",
+          "visit_count": 31
+        },
+        {
+          "name": "Amber J",
+          "visit_count": 28
+        },
+        {
+          "name": "Nikki S",
+          "visit_count": 8
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 4"
+    },
+    "michael-lloyd-hayes": {
+      "name": "Michael Lloyd-Hayes",
+      "address": "9458 Ashwell Rd, Chilliwack, BC V2P 1V8",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": null,
+        "avg_gap_days": 7.0,
+        "visits_in_window": 14,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.9,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 11
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        },
+        {
+          "name": "Vanessa A",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "hank-janzen": {
+      "name": "Hank Janzen",
+      "address": "45824 Victoria Ave, #102, Chilliwack, BC V2P 2T3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 4
+        },
+        {
+          "name": "Vanessa A",
+          "visit_count": 2
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": "google_search",
+      "hcp_tags_raw": "Credit Card, Bi-weekly, Residential, Google Search, Amanda Vandyck | Credit Card, Google Search, Bi-weekly, Residential, Amanda Vandyck"
+    },
+    "dawn-percher": {
+      "name": "Dawn Percher",
+      "address": "46622 Chilliwack Central Rd, Chilliwack, BC V2P 8C5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [
+        "new_client"
+      ],
+      "payment_method": "credit_card",
+      "source": "google_search",
+      "hcp_tags_raw": "New Client, Credit Card, Bi-weekly, Google Search | New Client, Credit Card, Google Search, Bi-weekly"
+    },
+    "tracy-francis": {
+      "name": "Tracy Francis",
+      "address": "6577 Southdowne Pl, #24, Chilliwack, BC V2R 0H4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 4
+        },
+        {
+          "name": "April W",
+          "visit_count": 1
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "no_review",
+        "am_only"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "No review, AM only"
+    },
+    "megan-stromdahl": {
+      "name": "Megan Stromdahl",
+      "address": "10166 Williams Rd, #1, Chilliwack, BC V2P 5H4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 4
+        },
+        {
+          "name": "Nicole D",
+          "visit_count": 2
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "3, Credit Card | Credit Card, 3"
+    },
+    "jacquie-hickin": {
+      "name": "Jacquie Hickin",
+      "address": "43046 Old Orchard Rd, Chilliwack, BC V2R 3X2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Vanessa A",
+          "visit_count": 6
+        }
+      ],
+      "flags": [
+        "new_client",
+        "deep_clean"
+      ],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "New Client, Deep Clean, e-Transfer, Google Search"
+    },
+    "marlon-recreational-products-ltd": {
+      "name": "Marlon Recreational Products Ltd.",
+      "address": "7801 Industrial Way, Agassiz, BC V0M 1A2",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 6.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Amber J",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 6"
+    },
+    "jason-woodand": {
+      "name": "Jason Woodand",
+      "address": "10175 Caryks Rd, Rosedale, BC V0X 1X1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.8,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search"
+    },
+    "tbeau-laser-and-skin-rejuvenation-centre": {
+      "name": "Tbeau Laser And Skin Rejuvenation Centre",
+      "address": "6640 Vedder Rd, #230A, Chilliwack, BC V2R 0J2",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nikki S",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2, Credit Card | Commercial, Credit Card, 2"
+    },
+    "sheila-kheleh": {
+      "name": "Sheila Kheleh",
+      "address": "46171 Daniel Dr, Chilliwack, BC V2R 5R5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.1,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": "google_search",
+      "hcp_tags_raw": "Bi-weekly, Google Search, ICBC | ICBC, Bi-weekly, Google Search"
+    },
+    "robert-caljouw": {
+      "name": "Robert Caljouw",
+      "address": "45539 Wells Rd, Chilliwack, BC V2R 1G6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.2,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": "google_search",
+      "hcp_tags_raw": "Credit Card, Bi-weekly, Google Search"
+    },
+    "tannis": {
+      "name": "Tannis",
+      "address": "50276 Kensington Dr, Chilliwack, BC V4Z 1L3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": {
+          "tagged": "Weekly",
+          "observed": "Bi-weekly"
+        }
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        }
+      ],
+      "flags": [
+        "no_review"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Weekly, Recurring, No review"
+    },
+    "bc-bolting": {
+      "name": "BC Bolting",
+      "address": "48033 Briteside Rd, Chilliwack, BC V4Z 1H2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 6
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 3
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "jill-mclaughlin": {
+      "name": "Jill McLaughlin",
+      "address": "10404 Woodrose Pl, Rosedale, BC V0X 1X1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "elderly"
+      ],
+      "payment_method": "credit_card",
+      "source": "referral",
+      "hcp_tags_raw": "Credit Card, Bi-weekly, From a Friend (Jason Woodland), Elderly, Hannah | From a Friend (Jason Woodland), Credit Card, Bi-weekly, Elderly, Hannah"
+    },
+    "dolly-and-joe-rosen": {
+      "name": "Dolly and Joe Rosen",
+      "address": "7319 Morrow Rd, #9, Agassiz, BC V0M 1A2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.7,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 3
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "picky_client",
+        "no_emails",
+        "call_only"
+      ],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "Credit Card, Bi-weekly, pickyclient, no emails, call only, Agassiz"
+    },
+    "alex-burrows": {
+      "name": "Alex Burrows",
+      "address": "43998 Chilliwack Mountain Rd, #19, Chilliwack, BC V2R 6J2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "justin-vandermeulen": {
+      "name": "Justin Vandermeulen",
+      "address": "10525 McGrath Rd, Chilliwack, BC V0X1H2",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": "Weekly",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.9,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Karen M",
+          "visit_count": 7
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 3
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Weekly, Recurring, Ladda Bouttavong"
+    },
+    "jessica-steiner-law-corporation": {
+      "name": "Jessica Steiner Law Corporation",
+      "address": "7491 Vedder Rd , #108, Chilliwack, BC V2R 6E7",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Amber J",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 1.5"
+    },
+    "alia-abdulhakeem": {
+      "name": "Alia Abdulhakeem",
+      "address": "45956 Thomas Rd, Chilliwack, BC",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 6
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 5
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "marolyn-pringle": {
+      "name": "Marolyn Pringle",
+      "address": "43595 Bracken Dr, Chilliwack, BC V2R 4A3",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 26.5,
+        "visits_in_window": 3,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.3,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 3
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "mark-blythe": {
+      "name": "Mark Blythe",
+      "address": "10132 Bonavista St, Chilliwack, BC V2P 5B9",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": "Weekly",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 8
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 4
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "Weekly, e-Transfer, Google Search"
+    },
+    "brent-rossington": {
+      "name": "Brent Rossington",
+      "address": "46110 Thomas Rd, #81, Chilliwack, BC V2R 2R4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": "google_search",
+      "hcp_tags_raw": "Credit Card, Bi-weekly, Google Search"
+    },
+    "ethel-inglis": {
+      "name": "Ethel Inglis",
+      "address": "10093 Fairbanks Crescent, Chilliwack, BC V2P 5M4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.7,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 5
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 2
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "ken-yendall": {
+      "name": "Ken Yendall",
+      "address": "6976 Wiltshire St, Chilliwack, BC V2R 2S9",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "biweekly, Credit Card"
+    },
+    "william-west": {
+      "name": "William West",
+      "address": "45545 Tamihi Way, #43, Chilliwack, BC V2R 0G2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 5
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "michelle-fischer": {
+      "name": "Michelle Fischer",
+      "address": "45652 Rachael Pl, Cultus Lake, BC V2R 5R3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search"
+    },
+    "cathy-slee": {
+      "name": "Cathy Slee",
+      "address": "6211 Chilliwack River Rd, #92, Chilliwack, BC V2R 0M2",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 1
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        },
+        {
+          "name": "Nicole D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "no_price_increase"
+      ],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Monthly, Google Search, no price increase | e-Transfer, Google Search, no price increase, Monthly"
+    },
+    "david-stelmack": {
+      "name": "David Stelmack",
+      "address": "8725 Elm Dr, #110, Chilliwack, BC V2P 4Y3",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 17.5,
+        "visits_in_window": 5,
+        "gap_consistent": false,
+        "mismatch": {
+          "tagged": "Bi-weekly",
+          "observed": "Monthly"
+        }
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 5
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": "referral",
+      "hcp_tags_raw": "Credit Card, From a Friend, Angela Baker's Referral, Biwkly | Credit Card, Angela Baker's Referral, From a Friend, Biwkly"
+    },
+    "kelly-erickson": {
+      "name": "Kelly Erickson",
+      "address": "35819 Graystone Dr, Abbotsford, BC V3G 1K7",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 4
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "beverly-lehmann": {
+      "name": "Beverly Lehmann",
+      "address": "46000 Thomas Rd, #85, Chilliwack, BC V2R 5W6",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.7,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 3
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [
+        "no_review"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly, No review"
+    },
+    "eecol-electric": {
+      "name": "Eecol Electric",
+      "address": "46090 Airport Rd, Chilliwack, BC V2P 1A5",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Amber J",
+          "visit_count": 12
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 1.5"
+    },
+    "barbara-steele": {
+      "name": "Barbara Steele",
+      "address": "46213 Hakweles Rd, #92, Chilliwack, BC V4Z 1A2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 11.7,
+        "visits_in_window": 7,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.9,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 6
+        },
+        {
+          "name": "Kristen K",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": "google_search",
+      "hcp_tags_raw": "Credit Card, Bi-weekly, Google Search | Google Search, Credit Card, Bi-weekly"
+    },
+    "clint-ellis": {
+      "name": "Clint Ellis",
+      "address": "5100 Chittenden Rd, Chilliwack, BC V2R 0K7",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 5,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 4
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "goodwins-greenhouses-ltd": {
+      "name": "Goodwins Greenhouses Ltd.",
+      "address": "6305 Ryder Lake Rd, Chilliwack, BC V4Z 1E2",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "kara-lefurgy": {
+      "name": "Kara Lefurgy",
+      "address": "46060 Camrose Ave, Chilliwack, BC V2P 3R2",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": null,
+        "avg_gap_days": 7.0,
+        "visits_in_window": 14,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.9,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 13
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 2
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "jeni-fowler": {
+      "name": "Jeni Fowler",
+      "address": "11475 Edmondson Rd, Chilliwack, BC V4Z 0G1",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": "Weekly",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 12
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 8
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 3
+        }
+      ],
+      "flags": [
+        "deep_clean"
+      ],
+      "payment_method": null,
+      "source": "google_search",
+      "hcp_tags_raw": "Weekly, Deep Clean, Google Search | Google Search, Deep Clean, Weekly"
+    },
+    "chelsea-kingma": {
+      "name": "Chelsea Kingma",
+      "address": "44473 Bayshore Ave, Chilliwack, BC V2R 0A5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": null,
+      "hcp_tags_raw": "e-Transfer, Bi-weekly"
+    },
+    "jan-armstrong": {
+      "name": "Jan Armstrong",
+      "address": "45905 Higginson Rd, Chilliwack, BC V2R 2C7",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 4
+        },
+        {
+          "name": "April W",
+          "visit_count": 2
+        }
+      ],
+      "flags": [
+        "no_review"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "No review, Jess Van de beek"
+    },
+    "brenda-markerth": {
+      "name": "Brenda Markerth",
+      "address": "8590 Sunrise Dr, #81, Chilliwack, BC V2R 3H9",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": {
+          "tagged": "Bi-weekly",
+          "observed": "Monthly"
+        }
+      },
+      "avg_duration_hours": 3.2,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 3
+        }
+      ],
+      "flags": [
+        "vip",
+        "key_with_cleaner",
+        "no_reschedule_if_sick"
+      ],
+      "payment_method": "etransfer",
+      "source": null,
+      "hcp_tags_raw": "Bi-Wkly, e-Transfer, key with cleaner Brandi, no reschedule if cleaner is sick, VIP"
+    },
+    "colleen-sliman": {
+      "name": "Colleen Sliman",
+      "address": "47664 Forester Rd, Chilliwack, BC V2R 4M6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 13.8,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 3
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 2
+        },
+        {
+          "name": "Rebecca D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "gerhard-bosch": {
+      "name": "Gerhard Bosch",
+      "address": "7541 Gibson Rd, Chilliwack, BC V4Z 1C8",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "Bi-Wkly, Credit Card"
+    },
+    "nita-pelletier": {
+      "name": "Nita Pelletier",
+      "address": "46384 First Ave, Chilliwack, BC V2P 6Z1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search"
+    },
+    "trudi-kloepper": {
+      "name": "Trudi Kloepper",
+      "address": "5578 camden drive, Chilliwack, BC",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 5
+        },
+        {
+          "name": "Rebecca D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Bi-Wkly, Recurring"
+    },
+    "imw-industries-dba-clean-energy-compression": {
+      "name": "IMW Industries dba Clean Energy Compression",
+      "address": "44688 S Sumas Rd, #610, Chilliwack, BC V2R 5M3",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Cathy W",
+          "visit_count": 12
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 4"
+    },
+    "aimee-mcallister": {
+      "name": "Aimee McAllister",
+      "address": "4944 Bergman Rd, Chilliwack, BC V2R 4R6",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 5.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "annie-smith": {
+      "name": "Annie Smith",
+      "address": "44594 McLaren Dr, Chilliwack, BC V2R 0A4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.8,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 3
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 2
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "biweekly"
+    },
+    "julie-bjorndal": {
+      "name": "Julie Bjorndal",
+      "address": "6919 Gleneden St, Chilliwack, BC V2R 2T2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "david-williams": {
+      "name": "David Williams",
+      "address": "43685 Chilliwack Mountain Rd, #2, Chilliwack, BC V2R 0X5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Vanessa A",
+          "visit_count": 6
+        }
+      ],
+      "flags": [
+        "notify_via_text"
+      ],
+      "payment_method": "etransfer",
+      "source": null,
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Notify through text"
+    },
+    "amanda-molloy": {
+      "name": "Amanda Molloy",
+      "address": "8491 Piper Crescent, #5, Chilliwack, BC V2P 7M1",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 17.5,
+        "visits_in_window": 5,
+        "gap_consistent": false,
+        "mismatch": {
+          "tagged": "Bi-weekly",
+          "observed": "Monthly"
+        }
+      },
+      "avg_duration_hours": 3.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 5
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "biweekly, 3"
+    },
+    "anabel-immega": {
+      "name": "Anabel Immega",
+      "address": "5623 Teskey Way, #3, Chilliwack, BC V2R 0K9",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.2,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [
+        "no_review"
+      ],
+      "payment_method": "etransfer",
+      "source": "google_search",
+      "hcp_tags_raw": "e-Transfer, Bi-weekly, Google Search, No review"
+    },
+    "hearinglife-canada-ltd": {
+      "name": "HearingLife Canada Ltd.",
+      "address": "45966 Yale Rd East, #13, Chilliwack, BC V2P 2M3",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Amber J",
+          "visit_count": 12
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2"
+    },
+    "elmwood-terrace": {
+      "name": "Elmwood Terrace",
+      "address": "8725 Elm Dr, Chilliwack, BC V2P 4Y3",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 14,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Terrie B",
+          "visit_count": 14
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 2.5, Elmwood | Commercial, Elmwood, 2.5"
+    },
+    "karen-brewer": {
+      "name": "karen Brewer",
+      "address": "4070 Boundary Rd, Chilliwack, BC V2R 5J4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.5,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "brenda-parisian": {
+      "name": "Brenda Parisian",
+      "address": "5565 Thom Creek Dr, Chilliwack, BC V2R 5Z6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "erwin-mostert": {
+      "name": "Erwin Mostert",
+      "address": "8812 Copper Ridge Dr, Chilliwack, BC V2R 5V2",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": {
+          "tagged": "Bi-weekly",
+          "observed": "Monthly"
+        }
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 2
+        },
+        {
+          "name": "Genevieve O",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": "google_search",
+      "hcp_tags_raw": "biweekly, Google Search, ICBC"
+    },
+    "maggie-reimer": {
+      "name": "Maggie Reimer",
+      "address": "47086 Thornton Rd, Chilliwack, BC V2R 4S9",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.6,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 6
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "larissa-van-woudenberg": {
+      "name": "Larissa Van Woudenberg",
+      "address": "49705 Yale Rd, Chilliwack, BC V4Z 0B3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.8,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "bc-first-nations-justice-council": {
+      "name": "BC FIRST NATIONS JUSTICE COUNCIL",
+      "address": "9235 Sasquatch Alley, #201, Chilliwack, BC V2P 0J6",
+      "frequency": {
+        "observed": "Commercial",
+        "tagged": "Commercial",
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Cathy W",
+          "visit_count": 12
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Commercial, 3"
+    },
+    "iris-falk": {
+      "name": "Iris Falk",
+      "address": "42940 Lumsden Road, Chilliwack, BC V2R 4R5",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 3
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Recurring, Monthly"
+    },
+    "jean-weidenbruch": {
+      "name": "Jean Weidenbruch",
+      "address": "5951 Cobblestone St, Chilliwack, BC V2R 0E4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Monthly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": {
+          "tagged": "Monthly",
+          "observed": "Bi-weekly"
+        }
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 3
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 2
+        },
+        {
+          "name": "Genevieve O",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "josh-van-woudenberg": {
+      "name": "Josh Van Woudenberg",
+      "address": "7465 Laurel Pl, Agassiz, BC V0M 1A2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "allison-kooyman": {
+      "name": "Allison Kooyman",
+      "address": "5366 Tolmie Rd, Abbotsford, BC V3G 2V5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "margaret-logie": {
+      "name": "Margaret Logie",
+      "address": "9057 Prest Rd, Chilliwack, BC V2P 8E1",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 23.3,
+        "visits_in_window": 4,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 4
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 4
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "carlin-robinson": {
+      "name": "Carlin Robinson",
+      "address": "47676 Forester Road, Chilliwack, BC, V2ar4M6, Chilliwack",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 2
+        },
+        {
+          "name": "Cathy W",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "brent-nelson": {
+      "name": "Brent Nelson",
+      "address": "7611 Sq'ewilem Rd, Chilliwack, BC V4Z 0E2",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.6,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 6
+        },
+        {
+          "name": "Vanessa A",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "sheila-falk": {
+      "name": "Sheila Falk",
+      "address": "42928 Lumsden Road, Chilliwack, BC V2R 4R5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 4
+        },
+        {
+          "name": "Rebecca D",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": null,
+      "hcp_tags_raw": "Bi-Wkly, e-Transfer"
+    },
+    "ken-brookes": {
+      "name": "Ken Brookes",
+      "address": "47580 Mountain Park Dr, Chilliwack, BC V2P 7P6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 4
+        },
+        {
+          "name": "Rebecca D",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "lori-jackson": {
+      "name": "Lori Jackson",
+      "address": "5765 Montesina Place, Chilliwack, BC V2R 3E1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": null,
+      "hcp_tags_raw": "Bi-Wkly, Credit Card, Customer self-pays | Credit Card, Bi-Wkly, Customer self-pays"
+    },
+    "lona-peacock": {
+      "name": "Lona Peacock",
+      "address": "7380 Leary Crescent , Chilliwack , BC, V2R 1K3, Chilliwack",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 8,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Karen C",
+          "visit_count": 6
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 1
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "nicky-serfontein": {
+      "name": "Nicky Serfontein",
+      "address": "43685 Chilliwack Mountain Rd, #1, Chilliwack, BC V2R 0X5",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 5.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "madelyn-penner": {
+      "name": "Madelyn Penner",
+      "address": "5063 Boundary Rd, Abbotsford, BC V3G 2N4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 4
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "tatiana-konevitchenko": {
+      "name": "Tatiana Konevitchenko",
+      "address": "46330 Mullins Rd, #13, Chilliwack, BC V2R 5N3",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 2
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 2
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "shirley-fales": {
+      "name": "Shirley Fales",
+      "address": "43540 Alameda Dr, #18, Chilliwack, BC V2R 0J9",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "colette-mcdiarmid": {
+      "name": "Colette McDiarmid",
+      "address": "10124 Parkwood Dr, Rosedale, BC V0X 1X1",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.3,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Karen C",
+          "visit_count": 3
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "nicola-lamarre": {
+      "name": "Nicola Lamarre",
+      "address": "46213 Hakweles Rd, #147, Chilliwack, BC V4Z 0E6",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 4
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "brian-kravac": {
+      "name": "Brian Kravac",
+      "address": "45316 Tamihi Way, Chilliwack, BC V2R 0M1",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Vanessa A",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "amanda-morgan": {
+      "name": "Amanda Morgan",
+      "address": "46019 Clarke Drive, Chilliwack, BC, V2P 3N5, Chilliwack",
+      "frequency": {
+        "observed": "Weekly",
+        "tagged": null,
+        "avg_gap_days": 7.0,
+        "visits_in_window": 12,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.3,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 9
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 8
+        },
+        {
+          "name": "Nicole D",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "nellie-epp": {
+      "name": "Nellie Epp",
+      "address": "47982 Yale Rd, Chilliwack, BC V4Z 0A8",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 35.0,
+        "visits_in_window": 3,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 3
+        },
+        {
+          "name": "Rebecca D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "eunice-bolton": {
+      "name": "Eunice Bolton",
+      "address": "45900 S Sumas Rd, #168, Chilliwack, BC V2R 5Z3",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 29.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 2
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "maggie-egresits": {
+      "name": "Maggie Egresits",
+      "address": "45760 Safflower Cresent, for:  Maggie 604.309.5990 , chilliwack, bc, v2r 0h6, chilliwack",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "beryl-rowe": {
+      "name": "Beryl Rowe",
+      "address": "9985 kenswood dr, chilliwack, bc, v2p7n5, chilliwack",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 5
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "illona-fillinger": {
+      "name": "Illona Fillinger",
+      "address": "8719 Pearson St, Chilliwack, BC V2P 5R9",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 2
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "ali-van-klei": {
+      "name": "Ali Van Klei",
+      "address": "11368 Edmondson Rd, Chilliwack, BC V4Z 0G1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 11.7,
+        "visits_in_window": 7,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "prokey-living": {
+      "name": "Prokey Living",
+      "address": "8500 Maplewood Rd, Chilliwack, BC V2R 6H5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 8.9,
+        "visits_in_window": 17,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.9,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Karen M",
+          "visit_count": 7
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 5
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "alexis-milton": {
+      "name": "Alexis Milton",
+      "address": "11460 Edmondson Rd, Chilliwack , NC , V4Z0G1 , Chilliwack",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "hans-claus": {
+      "name": "Hans Claus",
+      "address": "45567 Wellington Ave, Chilliwack, BC V2P 2E8",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Danielle B",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "anna-gentry": {
+      "name": "Anna Gentry",
+      "address": "48262 Ryder Lake Road , Chilliwack , BC V4Z 1E3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 3
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 1
+        },
+        {
+          "name": "April W",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "heidi-hass": {
+      "name": "Heidi Hass",
+      "address": "6338 Vedder Rd, #28, Chilliwack, BC V2R 1C6",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Paula A",
+          "visit_count": 2
+        },
+        {
+          "name": "Vanessa A",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "rosemary-sciberras": {
+      "name": "Rosemary Sciberras",
+      "address": "44498 Sherry Dr, Chilliwack , BC, V2R 0R6, Chilliwack",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 17.5,
+        "visits_in_window": 5,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 5
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "peter-kmyta": {
+      "name": "Peter Kmyta",
+      "address": "10174 Royalwood Blvd, Rosedale, BC V0X 1X1",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 20.7,
+        "visits_in_window": 4,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.2,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 4
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "sam-lapierre": {
+      "name": "Sam Lapierre",
+      "address": "47072 Sylvan Dr, Chilliwack, BC V2R 0P3",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 6
+        },
+        {
+          "name": "Vanessa A",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "davies-lyndon": {
+      "name": "Davies Lyndon",
+      "address": "6001 Promontory Rd, #137, Chilliwack, BC V2R 3E3",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 27.3,
+        "visits_in_window": 5,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 4
+        },
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "franklin-lenz": {
+      "name": "Franklin Lenz",
+      "address": "42465 Peters Rd, Chilliwack, BC V2R 4K3",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 3
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 2
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "nel-and-cor-saelman": {
+      "name": "Nel and Cor Saelman",
+      "address": "45374 Tamihi Way, #1, Chilliwack, BC V2R 0G9",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "lynne-alsberg": {
+      "name": "Lynne Alsberg",
+      "address": "45918 Knight Rd, #30, Chilliwack, BC V2R 3X4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 13.8,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 6
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 6
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "ken-hendsbee": {
+      "name": "Ken Hendsbee",
+      "address": "5 Lakeshore Dr, Cultus Lake, BC V2R 4Z9",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.5,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Kristen K",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "evelyn-bakker": {
+      "name": "Evelyn Bakker",
+      "address": "10125 Fairbanks Crescent, Chilliwack, BC V2P 5M4",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 7,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 7
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 7
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "charlie-and-sue-coltart": {
+      "name": "Charlie and Sue Coltart",
+      "address": "1904 Lindell Ave, Lindell Beach, BC V2R 4W6",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 3
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "judy-smith": {
+      "name": "Judy Smith",
+      "address": "46221 Greenwood Dr, Chilliwack, BC V2R 4C8",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 27.5,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 2
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 2
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "shane-rutley": {
+      "name": "Shane Rutley",
+      "address": "50992 Sophie Cres, #B, Chilliwack, BC V4Z 0Z1",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "kenn-smith": {
+      "name": "Kenn Smith",
+      "address": "143, 46000 Thomas Road, CHILLIWACK, British Columbia, V2R 5W6, CHILLIWACK",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 8,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 8
+        }
+      ],
+      "flags": [
+        "no_review"
+      ],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "No review"
+    },
+    "michelle-bowman": {
+      "name": "Michelle Bowman",
+      "address": "10301 Parkwood Dr, Rosedale, BC V0X 1X1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 6,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.7,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Nicole D",
+          "visit_count": 6
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 1
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "kirsti-king": {
+      "name": "Kirsti King",
+      "address": "43610 Cotton Tail Xing, Lindell Beach, BC V2R 0E1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.5,
+        "visits_in_window": 3,
+        "gap_consistent": false,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.3,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Alissa D",
+          "visit_count": 2
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 2
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "victoria-mcqueen": {
+      "name": "Victoria McQueen",
+      "address": "7415 Shaw Ave, #201, Chilliwack, BC V2R 3C1",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Rebecca D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "ron-romeyn": {
+      "name": "Ron Romeyn",
+      "address": "7451 Shaw Ave, #201, Chilliwack, BC V2R 3C1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 8,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.9,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Karen C",
+          "visit_count": 6
+        },
+        {
+          "name": "Paula A",
+          "visit_count": 1
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "tess-haney-macfadyen": {
+      "name": "Tess Haney MacFadyen",
+      "address": "10026 Falcon Crescent, Chilliwack, British Columbia, V2P 7R3, Chilliwack",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 7.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 1
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 1
+        },
+        {
+          "name": "Danielle B",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "jaimy-hutton": {
+      "name": "Jaimy Hutton",
+      "address": "47270 Skyline Drive , Upper entrance, bsmt is a tenant , Chilliwack , BC, V2R0R4, Chilliwack",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        },
+        {
+          "name": "Nicole D",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "myriad-technologies": {
+      "name": "Myriad Technologies",
+      "address": "8364 Young Rd, #202, Chilliwack, BC V2P 4N9",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 14.0,
+        "visits_in_window": 5,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 5
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "josephine-macleod": {
+      "name": "Josephine MacLeod",
+      "address": "46472 Stoney Crk Dr, Chilliwack, BC V2R 4M4",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 2,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.8,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Karen M",
+          "visit_count": 2
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 2
+        },
+        {
+          "name": "Karen C",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "alison-van-de-loosdrecht": {
+      "name": "Alison Van de Loosdrecht",
+      "address": "5523 Teskey Pl, Chilliwack, BC V2R 5N1",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": null,
+        "avg_gap_days": 9.0,
+        "visits_in_window": 2,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        },
+        {
+          "name": "Alissa D",
+          "visit_count": 1
+        },
+        {
+          "name": "Brandi M",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "gerhard-preibisch": {
+      "name": "Gerhard Preibisch",
+      "address": "6770 Lorne Drive , Chilliwack , Bc, V2R2G3 , Chilliwack",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Holly D",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "donna-redekop": {
+      "name": "Donna Redekop",
+      "address": "46110 Thomas Rd, #13, Chilliwack, BC V2R 2R4",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": null,
+        "avg_gap_days": 28.0,
+        "visits_in_window": 3,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 3
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "dawna-braun": {
+      "name": "Dawna Braun",
+      "address": "10542 Bell Rd, #2, Chilliwack, BC V2P 8E5",
+      "frequency": {
+        "observed": "Bi-weekly",
+        "tagged": "Monthly",
+        "avg_gap_days": 14.0,
+        "visits_in_window": 4,
+        "gap_consistent": true,
+        "mismatch": {
+          "tagged": "Monthly",
+          "observed": "Bi-weekly"
+        }
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "Brandi M",
+          "visit_count": 4
+        },
+        {
+          "name": "Holly D",
+          "visit_count": 4
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "sherry-van-gool": {
+      "name": "Sherry Van Gool",
+      "address": "47556 Swallow Crescent, Chilliwack, BC V2P 7R4",
+      "frequency": {
+        "observed": "Monthly",
+        "tagged": "Monthly",
+        "avg_gap_days": 28.0,
+        "visits_in_window": 2,
+        "gap_consistent": true,
+        "mismatch": null
+      },
+      "avg_duration_hours": 2.0,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 2
+        },
+        {
+          "name": "Karen M",
+          "visit_count": 2
+        }
+      ],
+      "flags": [],
+      "payment_method": "etransfer",
+      "source": "referral",
+      "hcp_tags_raw": "e-Transfer, Monthly, From a Friend"
+    },
+    "siva-nadesan": {
+      "name": "Siva Nadesan",
+      "address": "5756 Promontory Rd, #18, Chilliwack, BC V2R 0V8",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": "Monthly",
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Anna F",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    },
+    "dave-parker-real-estate-corporation": {
+      "name": "Dave Parker Real Estate Corporation",
+      "address": "44534 McLaren Dr, Chilliwack, BC V2R 0A4",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": "Bi-weekly",
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 3.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "Genevieve O",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": "credit_card",
+      "source": "referral",
+      "hcp_tags_raw": "Credit Card, From a Friend, Bi-weekly"
+    },
+    "linda-stromberg": {
+      "name": "Linda Stromberg",
+      "address": "53732 Berston Rd, Rosedale, BC V0X 1X1",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": null,
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 4.0,
+      "typically_paired": false,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": null
+    },
+    "val-zacharias": {
+      "name": "Val Zacharias",
+      "address": "46581 Stoney creek drive, Chilliwack, V2R 0E4",
+      "frequency": {
+        "observed": "Unknown (1 visit)",
+        "tagged": "Monthly",
+        "avg_gap_days": null,
+        "visits_in_window": 1,
+        "gap_consistent": null,
+        "mismatch": null
+      },
+      "avg_duration_hours": 1.5,
+      "typically_paired": true,
+      "primary_cleaners": [
+        {
+          "name": "April W",
+          "visit_count": 1
+        },
+        {
+          "name": "Margret W",
+          "visit_count": 1
+        }
+      ],
+      "flags": [],
+      "payment_method": null,
+      "source": null,
+      "hcp_tags_raw": "Monthly"
+    }
+  }
+}
