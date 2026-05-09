@@ -1,0 +1,161 @@
+{
+  "$schema": "https://lhs-knowledge-base.vercel.app/schemas/cleaner-availability-v1.json",
+  "version": "1.0.0",
+  "last_updated": "2026-05-09",
+  "updated_by": "Mike Butterfield",
+  "notes": "Canonical source of truth for cleaner and candidate availability. Read by scratchpad scheduler, Aria, and Bridge dashboard. Edits should go through the Bridge UI once built; manual edits to this file are temporary.",
+
+  "global_rules": {
+    "travel_buffer_minutes": 30,
+    "travel_buffer_note": "Minimum 30 minutes must exist between any two jobs assigned to the same cleaner. Applies across all cleaners, candidates, and trainees. Hard constraint — scheduler must reject any assignment that violates this.",
+    "day_job_window": { "start": "09:00", "end": "16:30", "days": ["Mon","Tue","Wed","Thu","Fri"] },
+    "day_job_window_note": "Standard day-job hours. Last job must finish by 16:30. Evening and weekend jobs are tracked separately and follow different rules."
+  },
+
+  "cleaners": {
+    "vanessa-a": {
+      "name": "Vanessa A",
+      "status": "active",
+      "recurring_blocks": [
+        { "weekday": "Thu", "reason": "not available" },
+        { "weekday": "Fri", "reason": "not available" }
+      ],
+      "date_blocks": [
+        { "date": "2026-08-04", "reason": "off" }
+      ],
+      "conditional_rules": [
+        {
+          "months": [7, 8],
+          "year": 2026,
+          "weekdays": ["Mon","Tue","Wed"],
+          "must_finish_by": "14:00",
+          "exceptions": [
+            { "date": "2026-07-08", "note": "bi-weekly rotation — can run as scheduled" }
+          ]
+        }
+      ]
+    },
+
+    "brandi-m": {
+      "name": "Brandi M",
+      "status": "active",
+      "recurring_blocks": [
+        { "weekday": "Fri", "reason": "does not work Fridays" }
+      ],
+      "must_finish_by_default": "14:30",
+      "must_finish_by_note": "Mon-Thu jobs must end by 2:30pm",
+      "date_block_ranges": [
+        { "start": "2026-07-28", "end": "2026-08-04", "reason": "vacation (inclusive)" },
+        { "start": "2026-09-13", "end": "2026-10-04", "reason": "vacation (inclusive)" }
+      ]
+    },
+
+    "anna-f": {
+      "name": "Anna F",
+      "status": "active",
+      "recurring_blocks": [],
+      "date_block_ranges": [
+        { "start": "2026-06-17", "end": "2026-06-19", "reason": "off (inclusive)" }
+      ]
+    },
+
+    "rebecca-d": {
+      "name": "Rebecca D",
+      "status": "active",
+      "recurring_blocks": [],
+      "date_block_ranges": [
+        { "start": "2026-05-12", "end": "2026-05-20", "reason": "off (inclusive)" },
+        { "start": "2026-06-29", "end": "2026-07-03", "reason": "off (inclusive)" },
+        { "start": "2026-07-17", "end": "2026-07-24", "reason": "off (inclusive)" }
+      ]
+    },
+
+    "holly-d": {
+      "name": "Holly D",
+      "status": "active",
+      "date_blocks": [
+        { "date": "2026-05-20", "reason": "off" },
+        { "date": "2026-05-21", "reason": "off" },
+        { "date": "2026-06-12", "reason": "off" }
+      ],
+      "monthly_availability": [
+        {
+          "month": 5,
+          "year": 2026,
+          "available_weekdays": ["Mon","Wed","Thu","Fri"],
+          "blocked_weekdays": ["Tue","Sat","Sun"],
+          "hours": { "start": "09:00", "end": "14:00" }
+        },
+        {
+          "month": 6,
+          "year": 2026,
+          "available_weekday_hours": [
+            { "weekdays": ["Mon","Wed"], "hours": { "start": "09:00", "end": "16:30" } },
+            { "weekdays": ["Fri"], "hours": { "start": "09:00", "end": "12:00" } }
+          ],
+          "blocked_weekdays": ["Tue","Thu","Sat","Sun"]
+        }
+      ]
+    }
+  },
+
+  "candidates": {
+    "rytham": {
+      "name": "Rytham",
+      "status": "try-out",
+      "age": 18,
+      "verified_experience": false,
+      "self_reported": "wants full-time, claims to have led other cleaners",
+      "scheduler_constraints": {
+        "available_days": ["Mon","Tue","Wed","Thu","Fri"],
+        "available_windows": ["day", "evening"],
+        "do_not_solo_commercial": true,
+        "do_not_lead_paired_jobs": true,
+        "preferred_pairing": "with experienced cleaner during try-out",
+        "rationale": "Self-reported leadership not verified at LHS. Treat as junior cleaner until proven. Solo residential jobs OK; commercial and lead roles require verification first."
+      },
+      "target_hours_per_week": "full-time (~35-40)"
+    },
+
+    "heidi": {
+      "name": "Heidi",
+      "status": "try-out",
+      "verified_experience": false,
+      "self_reported": "wants 3-4 days/wk, ~20 hrs/wk total",
+      "scheduler_constraints": {
+        "days_per_week": { "min": 3, "max": 4 },
+        "hours_per_day": { "min": 4, "max": 5 },
+        "preferred_window_note": "Earlier stated 9am-1pm; actual window flexible 4-5 hrs/day. Confirm preferred start time before scheduling.",
+        "preferred_window_to_confirm": true
+      },
+      "target_hours_per_week": "~20"
+    },
+
+    "maddi": {
+      "name": "Maddi",
+      "status": "try-out",
+      "verified_experience": false,
+      "scheduler_constraints": {
+        "days_per_week": 3,
+        "consecutive_days_required": true,
+        "allowed_3_day_blocks": [
+          ["Tue","Wed","Thu"],
+          ["Wed","Thu","Fri"]
+        ],
+        "consecutive_note": "MUST be 3 consecutive days — only Tue-Wed-Thu or Wed-Thu-Fri allowed. Mon-Tue-Wed and other splits NOT acceptable.",
+        "hours": { "start": "09:30", "end": "16:30" },
+        "hours_per_day": 7
+      },
+      "target_hours_per_week": "~21"
+    }
+  },
+
+  "open_questions": [
+    "Heidi's preferred 4-5 hr daily window: 9-1, 9-2, 8:30-1:30, etc. — confirm before scheduling.",
+    "Maddi's preferred 3-day block: Tue-Wed-Thu OR Wed-Thu-Fri — confirm before scheduling.",
+    "Rytham verification: define what 'verified experience' looks like (paired observation period, lead trial after X jobs, supervisor sign-off, etc.) so we can promote her out of try-out constraints.",
+    "Karen M (owner) removal from cleaning schedule: 15 jobs (3 solo + 12 paired) need plan — see scheduling-decisions.json (TBD).",
+    "May 18 Victoria Day stat policy: 16 jobs currently scheduled — cancel/reschedule/run-as-is per LHS policy?",
+    "Holly D May conflicts: 8 of 13 currently scheduled jobs fall outside her stated availability — bug or informal exception?"
+  ]
+}
