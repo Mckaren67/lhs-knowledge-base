@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LHS Scratchpad – Week of May 11, 2026</title>
+<style>
+:root {
+  --bg: #0f1419; --panel: #1a2129; --panel-2: #232c36; --border: #2f3a47;
+  --text: #e8eef5; --text-dim: #94a3b8; --accent: #d4a574; --accent-2: #7ba7c9;
+  --reassigned: #c97064; --trainee: #84cc16; --critical: #dc2626;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 20px; font-size: 14px; }
+.app { max-width: 1700px; margin: 0 auto; }
+header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 16px; }
+.title { font-family: Georgia, serif; font-size: 26px; font-weight: 400; }
+.title .accent { color: var(--accent); }
+.subtitle { color: var(--text-dim); font-size: 13px; margin-top: 4px; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-dim); flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+.toolbar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; }
+.toolbar-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.toolbar-row + .toolbar-row { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); }
+.toolbar-label { color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 8px; min-width: 70px; }
+.btn { background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px; font-family: inherit; transition: all 0.12s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { background: #2d3845; }
+.btn.active { background: var(--accent); color: #1a1a1a; border-color: var(--accent); font-weight: 600; }
+.btn-cleaner { border-left: 4px solid var(--c, transparent); }
+.btn-cleaner.active { background: var(--c); color: #0a0e13; border-color: var(--c); font-weight: 600; }
+.btn-cleaner.trainee-btn::after { content: "★"; color: var(--trainee); font-size: 10px; margin-left: 2px; }
+.btn-cleaner.trainee-btn.active::after { color: #0a0e13; }
+.btn-day { font-variant-numeric: tabular-nums; font-size: 11px; }
+.btn-day .day-label { font-weight: 600; }
+.btn-day .day-num { background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+.btn-day.active .day-num { background: rgba(0,0,0,0.18); }
+
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 16px; }
+.stat { background: var(--panel); border: 1px solid var(--border); border-radius: 7px; padding: 12px 14px; }
+.stat-label { color: var(--text-dim); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+.stat-value { font-size: 20px; font-weight: 600; margin-top: 3px; font-family: Georgia, serif; }
+.stat-value .small { font-size: 12px; color: var(--text-dim); font-family: inherit; font-weight: 400; }
+
+.calendar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; display: grid; overflow: hidden; }
+.calendar.week { grid-template-columns: 60px repeat(7, 1fr); }
+.calendar.day-view { grid-template-columns: 60px 1fr; }
+.cal-header { background: var(--panel-2); padding: 10px 6px; text-align: center; font-size: 11px; font-weight: 600; color: var(--text-dim); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.05em; }
+.cal-header:last-child { border-right: none; }
+.cal-header .date-num { display: block; font-family: Georgia, serif; font-size: 18px; color: var(--text); margin-top: 2px; text-transform: none; letter-spacing: 0; font-weight: 400; }
+.cal-header.weekend .date-num { color: var(--text-dim); }
+.time-col { background: var(--panel-2); border-right: 1px solid var(--border); position: relative; }
+.time-label { position: absolute; right: 4px; font-size: 9px; color: var(--text-dim); transform: translateY(-5px); }
+.day-col { border-right: 1px solid var(--border); position: relative; min-height: 800px; }
+.day-col:last-child { border-right: none; }
+.day-col.weekend { background: rgba(0,0,0,0.15); }
+.hour-line { position: absolute; left: 0; right: 0; height: 0.5px; background: var(--border); opacity: 0.6; }
+.half-line { position: absolute; left: 0; right: 0; height: 0.5px; background: var(--border); opacity: 0.18; }
+.job { position: absolute; background: var(--c, #5a6b7d); border-radius: 4px; padding: 4px 6px; font-size: 11px; line-height: 1.25; color: #fff; overflow: hidden; cursor: pointer; transition: all 0.12s; border-left: 3px solid rgba(255,255,255,0.4); z-index: 3; text-shadow: 0 0.5px 0.5px rgba(0,0,0,0.4); }
+.job:hover { z-index: 20; transform: scale(1.02); box-shadow: 0 4px 14px rgba(0,0,0,0.5); filter: brightness(1.15); }
+.job.trainee { box-shadow: inset 0 0 0 2px var(--trainee); }
+.job-time { font-weight: 600; font-size: 10px; opacity: 0.95; font-variant-numeric: tabular-nums; }
+.job-customer { font-weight: 500; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.job-crew { font-size: 9px; opacity: 0.85; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tooltip { position: fixed; background: #0a0e13; border: 1px solid var(--accent); border-radius: 6px; padding: 10px 12px; font-size: 12px; pointer-events: none; z-index: 1000; max-width: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); display: none; line-height: 1.5; }
+.tooltip strong { color: var(--accent); }
+.tooltip .tt-label { color: var(--text-dim); font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.banner { background: rgba(132,204,22,0.1); border: 1px solid rgba(132,204,22,0.3); border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: var(--text); }
+.banner strong { color: var(--trainee); }
+.refresh-info { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 11px; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; }
+.refresh-info code { background: #0a0e13; padding: 1px 5px; border-radius: 3px; font-family: 'Monaco', monospace; font-size: 10px; }
+@media (max-width: 900px) {
+  .calendar.week { grid-template-columns: 50px repeat(7, minmax(80px, 1fr)); overflow-x: auto; }
+  body { padding: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <div class="title">LHS Scratchpad <span class="accent">·</span> Week of May 11–17, 2026</div>
+      <div class="subtitle">Pulled live from HCP · Karen M jobs translated to real workers via job tags · For Karen + Mike's review</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="border:2px solid #84cc16; background:transparent"></span>Trainee paired</div>
+      <div class="legend-item">★ Trainee/Contractor</div>
+    </div>
+  </header>
+
+  <div class="banner">
+    <strong>✓ HCP truth as of Mon May 11 morning.</strong> 
+    Trainee placeholders auto-translated: "Heidi DeGrow" tag → Heidi · "Rhythm Sidhu" tag → Rytham · "Ladda Bouttavong" tag → Lada (off-books contractor).
+  </div>
+  
+  <div class="refresh-info">
+    <span>To refresh with latest HCP data, run in Terminal:</span>
+    <code>curl -s "https://lhs-scheduler-proxy.vercel.app/api/proxy?endpoint=jobs%3F..." > hcp.json</code>
+  </div>
+
+  <div class="summary" id="summary"></div>
+
+  <div class="toolbar">
+    <div class="toolbar-row">
+      <span class="toolbar-label">View</span>
+      <button class="btn btn-range active" data-range="WEEK">Full Week</button>
+      <span style="color: var(--text-dim); font-size: 11px;">·</span>
+      <span class="toolbar-label" style="min-width:auto;margin-right:4px">Day</span>
+      <span id="day-buttons"></span>
+    </div>
+    <div class="toolbar-row">
+      <span class="toolbar-label">Cleaner</span>
+      <button class="btn btn-cleaner active" data-cleaner="ALL">All</button>
+      <span id="cleaner-buttons"></span>
+    </div>
+  </div>
+
+  <div id="cal-container"></div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const JOBS = [{"id": "job_b46f2ee636d04505bd3b4d2e42a7a758", "customer": "Prokey Living", "address": "8071 Foxfern Rd, Chilliwack, BC, V2R 6M7", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T17:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 1020, "crew": ["Danielle B", "Genevieve O"], "hcp_crew": ["Danielle B", "Genevieve O"], "tags": "", "is_trainee_pair": false}, {"id": "job_85dcc1a2a80041389078621d9736b0be", "customer": "Prokey Living", "address": "7467 Oakstone Rd, #12, Chilliwack, BC, V2P", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T16:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 960, "crew": ["Anna F", "Karen M"], "hcp_crew": ["Anna F", "Karen M"], "tags": "", "is_trainee_pair": false}, {"id": "job_9abb000bfd7e461fa3d350196ee0d158", "customer": "Evelyn Bakker", "address": "10125 Fairbanks Crescent, Chilliwack, BC, V2P 5M4", "start": "2026-05-11T12:30:00-07:00", "end": "2026-05-11T15:30:00-07:00", "date": "2026-05-11", "startMin": 750, "endMin": 930, "crew": ["Rytham", "Alissa D"], "hcp_crew": ["Karen M", "Alissa D"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_89bb01f2df8743f4be47f5afbe4d8591", "customer": "Alison Van de Loosdrecht", "address": "5523 Teskey Pl, Chilliwack, BC, V2R 5N1", "start": "2026-05-13T09:00:00-07:00", "end": "2026-05-13T13:00:00-07:00", "date": "2026-05-13", "startMin": 540, "endMin": 780, "crew": ["Brandi M", "Holly D"], "hcp_crew": ["Brandi M", "Holly D"], "tags": "", "is_trainee_pair": false}, {"id": "job_def7d1906a8b471ca9e65e8c0ffebbb5", "customer": "Prokey Living", "address": "43635 Parkstone Wy, #201, Chilliwack Mountain, BC, V2P", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T16:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 960, "crew": ["Lada"], "hcp_crew": ["Karen M"], "tags": "Ladda Bouttavong", "is_trainee_pair": true}, {"id": "job_38de11fe05554256bd832f646679b6f3", "customer": "Kirsti King", "address": "43610 Cotton Tail Xing, Lindell Beach, BC, V2R 0E1", "start": "2026-05-12T14:00:00-07:00", "end": "2026-05-12T16:30:00-07:00", "date": "2026-05-12", "startMin": 840, "endMin": 990, "crew": ["Rytham", "Alissa D"], "hcp_crew": ["Karen M", "Alissa D"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_b3d88dffd98b498bae93b1e5825a3eb0", "customer": "Sylvia Fane", "address": "1859 Carol Rd, Lindell Beach, BC, V2R 4W9", "start": "2026-05-11T12:30:00-07:00", "end": "2026-05-11T14:30:00-07:00", "date": "2026-05-11", "startMin": 750, "endMin": 870, "crew": ["April W", "Margret W"], "hcp_crew": ["April W", "Margret W"], "tags": "", "is_trainee_pair": false}, {"id": "job_93fa4a76b3a54684ab39ce8bd9e96018", "customer": "Ron Romeyn", "address": "7451 Shaw Ave, #201, Chilliwack, BC, V2R 3C1", "start": "2026-05-11T11:30:00-07:00", "end": "2026-05-11T13:30:00-07:00", "date": "2026-05-11", "startMin": 690, "endMin": 810, "crew": ["Karen C"], "hcp_crew": ["Karen C"], "tags": "", "is_trainee_pair": false}, {"id": "job_1496159f406045218417c7da03fb5c8f", "customer": "Kenn Smith", "address": "143, 46000 Thomas Road, CHILLIWACK, British Columbia, V2R 5W6, CHILLIWACK", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T12:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 720, "crew": ["Brandi M"], "hcp_crew": ["Brandi M"], "tags": "", "is_trainee_pair": false}, {"id": "job_426ed844547544928a1ecd6c644f4b4f", "customer": "Ken Hendsbee", "address": "5 Lakeshore Dr, Cultus Lake, BC, V2R 4Z9", "start": "2026-05-16T09:00:00-07:00", "end": "2026-05-16T12:30:00-07:00", "date": "2026-05-16", "startMin": 540, "endMin": 750, "crew": ["Kristen K"], "hcp_crew": ["Kristen K"], "tags": "", "is_trainee_pair": false}, {"id": "job_56d0687558964336ae198877ab1a142c", "customer": "Davies Lyndon", "address": "6001 Promontory Rd, #137, Chilliwack, BC, V2R 3E3", "start": "2026-05-11T14:00:00-07:00", "end": "2026-05-11T15:30:00-07:00", "date": "2026-05-11", "startMin": 840, "endMin": 930, "crew": ["Rytham", "Nicole D"], "hcp_crew": ["Karen M", "Nicole D"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_f8b2d16308894ef0be4ee0a46f51add6", "customer": "Rosemary Sciberras", "address": "44498 Sherry Dr, Chilliwack , BC, V2R 0R6, Chilliwack", "start": "2026-05-12T09:00:00-07:00", "end": "2026-05-12T13:00:00-07:00", "date": "2026-05-12", "startMin": 540, "endMin": 780, "crew": ["Brandi M"], "hcp_crew": ["Brandi M"], "tags": "", "is_trainee_pair": false}, {"id": "job_2fe737e1baee48cd84023b58fd13fd67", "customer": "Heidi Hass", "address": "6338 Vedder Rd, #28, Chilliwack, BC, V2R 1C6", "start": "2026-05-12T09:00:00-07:00", "end": "2026-05-12T10:00:00-07:00", "date": "2026-05-12", "startMin": 540, "endMin": 600, "crew": ["Rytham", "Alissa D"], "hcp_crew": ["Karen M", "Alissa D"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_0f5fb3d69ee34910a3ba360bbaafdeca", "customer": "Anna Gentry", "address": "48262 Ryder Lake Road , Chilliwack , BC, V4Z 1E3", "start": "2026-05-15T09:00:00-07:00", "end": "2026-05-15T12:00:00-07:00", "date": "2026-05-15", "startMin": 540, "endMin": 720, "crew": ["Danielle B"], "hcp_crew": ["Danielle B"], "tags": "", "is_trainee_pair": false}, {"id": "job_02ecd1ff1deb488e8e2b9224f0e90b63", "customer": "Amanda Morgan", "address": "46019 Clarke Drive, Chilliwack, BC, V2P 3N5, Chilliwack", "start": "2026-05-14T11:30:00-07:00", "end": "2026-05-14T15:30:00-07:00", "date": "2026-05-14", "startMin": 690, "endMin": 930, "crew": ["Brandi M", "Anna F"], "hcp_crew": ["Brandi M", "Anna F"], "tags": "", "is_trainee_pair": false}, {"id": "job_267abc59c4c04ca4acfd31614aacf2c2", "customer": "Lona Peacock", "address": "7380 Leary Crescent , Chilliwack , BC, V2R 1K3, Chilliwack", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T11:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 660, "crew": ["Karen C"], "hcp_crew": ["Karen C"], "tags": "", "is_trainee_pair": false}, {"id": "job_40f0da2606a74cedb0f594f72620c999", "customer": "Nicola Lamarre", "address": "46213 Hakweles Rd, #147, Chilliwack, BC, V4Z 0E6", "start": "2026-05-12T09:00:00-07:00", "end": "2026-05-12T11:30:00-07:00", "date": "2026-05-12", "startMin": 540, "endMin": 690, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "", "is_trainee_pair": false}, {"id": "job_ffaa1845602640e7a73ffc30b286de8d", "customer": "Madelyn Penner", "address": "5063 Boundary Rd, Abbotsford, BC, V3G 2N4", "start": "2026-05-13T09:00:00-07:00", "end": "2026-05-13T11:00:00-07:00", "date": "2026-05-13", "startMin": 540, "endMin": 660, "crew": ["Danielle B"], "hcp_crew": ["Danielle B"], "tags": "", "is_trainee_pair": false}, {"id": "job_4a0827c939c44a6985c95b20a817c885", "customer": "Lori Jackson", "address": "5765 Montesina Place, Chilliwack, BC, V2R 3E1", "start": "2026-05-12T09:00:00-07:00", "end": "2026-05-12T13:00:00-07:00", "date": "2026-05-12", "startMin": 540, "endMin": 780, "crew": ["April W"], "hcp_crew": ["April W"], "tags": "4", "is_trainee_pair": false}, {"id": "job_aff49c560e724f80a1db855baf3fab13", "customer": "Ken Brookes", "address": "47580 Mountain Park Dr, Chilliwack, BC, V2P 7P6", "start": "2026-05-12T12:00:00-07:00", "end": "2026-05-12T15:00:00-07:00", "date": "2026-05-12", "startMin": 720, "endMin": 900, "crew": ["Karen C"], "hcp_crew": ["Karen C"], "tags": "", "is_trainee_pair": false}, {"id": "job_6b9a52f33b24446291e56e01b8bc36c1", "customer": "Jean Weidenbruch", "address": "5951 Cobblestone St, Chilliwack, BC, V2R 0E4", "start": "2026-05-13T14:00:00-07:00", "end": "2026-05-13T16:00:00-07:00", "date": "2026-05-13", "startMin": 840, "endMin": 960, "crew": ["Danielle B"], "hcp_crew": ["Danielle B"], "tags": "", "is_trainee_pair": false}, {"id": "job_836c1eb088b1408d9a5847897204eb63", "customer": "Brent Nelson", "address": "7611 Sq'ewilem Rd, Chilliwack, BC, V4Z 0E2", "start": "2026-05-12T10:30:00-07:00", "end": "2026-05-12T13:30:00-07:00", "date": "2026-05-12", "startMin": 630, "endMin": 810, "crew": ["Alissa D", "Rytham"], "hcp_crew": ["Alissa D", "Karen M"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_8394d90b19674461962a9ab805bcb503", "customer": "Carlin Robinson", "address": "47676 Forester Road, Chilliwack, BC, V2ar4M6, Chilliwack", "start": "2026-05-14T09:00:00-07:00", "end": "2026-05-14T12:00:00-07:00", "date": "2026-05-14", "startMin": 540, "endMin": 720, "crew": ["Alissa D", "Karen M"], "hcp_crew": ["Alissa D", "Karen M"], "tags": "", "is_trainee_pair": false}, {"id": "job_445dc2d46c8f4bfda0ca098ef5141181", "customer": "Allison Kooyman", "address": "5366 Tolmie Rd, Abbotsford, BC, V3G 2V5", "start": "2026-05-15T12:30:00-07:00", "end": "2026-05-15T15:30:00-07:00", "date": "2026-05-15", "startMin": 750, "endMin": 930, "crew": ["Danielle B"], "hcp_crew": ["Danielle B"], "tags": "", "is_trainee_pair": false}, {"id": "job_d0babf4112f749ec804780e3608e2330", "customer": "Josh Van Woudenberg", "address": "7465 Laurel Pl, Agassiz, BC, V0M 1A2", "start": "2026-05-15T11:00:00-07:00", "end": "2026-05-15T13:30:00-07:00", "date": "2026-05-15", "startMin": 660, "endMin": 810, "crew": ["Nicole D"], "hcp_crew": ["Nicole D"], "tags": "", "is_trainee_pair": false}, {"id": "job_41cf13a5035f4769b0b101977c41a2e9", "customer": "Justin Vandermeulen", "address": "10525 McGrath Rd, Chilliwack, BC, V0X1H2", "start": "2026-05-13T15:00:00-07:00", "end": "2026-05-13T17:00:00-07:00", "date": "2026-05-13", "startMin": 900, "endMin": 1020, "crew": ["Karen M"], "hcp_crew": ["Karen M"], "tags": "", "is_trainee_pair": false}, {"id": "job_9a07cc29f08344b48ba47b2d11cf9b83", "customer": "Karena Conrad", "address": "9801 Angus Dr, Chilliwack, BC, V2P 6A8", "start": "2026-05-15T09:00:00-07:00", "end": "2026-05-15T10:30:00-07:00", "date": "2026-05-15", "startMin": 540, "endMin": 630, "crew": ["Nicole D", "Holly D"], "hcp_crew": ["Nicole D", "Holly D"], "tags": "3", "is_trainee_pair": false}, {"id": "job_f3d6aa7fa8e54536a21c6214d55201c9", "customer": "Jill Langille", "address": "46064 Airport Rd, Chilliwack, BC, V2P 1A5", "start": "2026-05-14T09:00:00-07:00", "end": "2026-05-14T12:00:00-07:00", "date": "2026-05-14", "startMin": 540, "endMin": 720, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "3", "is_trainee_pair": false}, {"id": "job_bd5cd698dbb845e8b561d5f59fc28790", "customer": "Barbara Friesen", "address": "8750 Young Rd, Chilliwack, BC, V2P 4P4", "start": "2026-05-13T19:00:00-07:00", "end": "2026-05-13T23:00:00-07:00", "date": "2026-05-13", "startMin": 1140, "endMin": 1380, "crew": ["Nikki S"], "hcp_crew": ["Nikki S"], "tags": "4", "is_trainee_pair": false}, {"id": "job_ae38f66fe1b64da0ba0fe323a75258d9", "customer": "Barbara Friesen", "address": "8750 Young Rd, Chilliwack, BC, V2P 4P4", "start": "2026-05-11T18:00:00-07:00", "end": "2026-05-11T22:00:00-07:00", "date": "2026-05-11", "startMin": 1080, "endMin": 1320, "crew": ["Kelly K"], "hcp_crew": ["Kelly K"], "tags": "4", "is_trainee_pair": false}, {"id": "job_8b0fb94e33704bceab33c4772ee899a2", "customer": "Barbara Friesen", "address": "8750 Young Rd, Chilliwack, BC, V2P 4P4", "start": "2026-05-15T19:00:00-07:00", "end": "2026-05-15T23:00:00-07:00", "date": "2026-05-15", "startMin": 1140, "endMin": 1380, "crew": ["Amber J"], "hcp_crew": ["Amber J"], "tags": "4", "is_trainee_pair": false}, {"id": "job_ea1c0389427f4f1b92eb04569da044e5", "customer": "Amanda Molyneux", "address": "43575 Chilliwack Mountain Rd, #18, Chilliwack, BC, V2R 4A1", "start": "2026-05-15T11:00:00-07:00", "end": "2026-05-15T13:30:00-07:00", "date": "2026-05-15", "startMin": 660, "endMin": 810, "crew": ["Holly D"], "hcp_crew": ["Holly D"], "tags": "2.5", "is_trainee_pair": false}, {"id": "job_1edd8422b9d944ffaf24b65b52fa9c9d", "customer": "Colleen Sliman", "address": "47664 Forester Rd, Chilliwack, BC, V2R 4M6", "start": "2026-05-13T12:30:00-07:00", "end": "2026-05-13T15:30:00-07:00", "date": "2026-05-13", "startMin": 750, "endMin": 930, "crew": ["Rytham", "Alissa D"], "hcp_crew": ["Karen M", "Alissa D"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_dab49157186d4be3a557a1b3d01c0442", "customer": "Colm Murphy", "address": "44688 S Sumas Rd, #610, Chilliwack, BC, V2R 5M3", "start": "2026-05-17T15:00:00-07:00", "end": "2026-05-17T19:00:00-07:00", "date": "2026-05-17", "startMin": 900, "endMin": 1140, "crew": ["Cathy W"], "hcp_crew": ["Cathy W"], "tags": "4", "is_trainee_pair": false}, {"id": "job_8b3adcdc0cd644b088758980256332de", "customer": "Vector Geomatics", "address": "7965 Venture Pl, #6, Chilliwack, BC, V2R 0K2", "start": "2026-05-16T13:00:00-07:00", "end": "2026-05-16T15:30:00-07:00", "date": "2026-05-16", "startMin": 780, "endMin": 930, "crew": ["Cathy W"], "hcp_crew": ["Cathy W"], "tags": "2.5", "is_trainee_pair": false}, {"id": "job_d8b9e390586b4a50b6c6673007ec37f5", "customer": "Warren Duke", "address": "9235 Sasquatch Alley, #201, Chilliwack, BC, V2P 0J6", "start": "2026-05-16T09:30:00-07:00", "end": "2026-05-16T12:30:00-07:00", "date": "2026-05-16", "startMin": 570, "endMin": 750, "crew": ["Cathy W"], "hcp_crew": ["Cathy W"], "tags": "3", "is_trainee_pair": false}, {"id": "job_d4547521e31e4ccbb18d7367267ee01e", "customer": "Ken Yendall", "address": "6976 Wiltshire St, Chilliwack, BC, V2R 2S9", "start": "2026-05-15T12:30:00-07:00", "end": "2026-05-15T15:30:00-07:00", "date": "2026-05-15", "startMin": 750, "endMin": 930, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "", "is_trainee_pair": false}, {"id": "job_2a08df38413147bab984f8a747f4bb64", "customer": "Alex Burrows", "address": "43998 Chilliwack Mountain Rd, #19, Chilliwack, BC, V2R 6J2", "start": "2026-05-14T12:30:00-07:00", "end": "2026-05-14T15:00:00-07:00", "date": "2026-05-14", "startMin": 750, "endMin": 900, "crew": ["Genevieve O"], "hcp_crew": ["Genevieve O"], "tags": "", "is_trainee_pair": false}, {"id": "job_1e4b4692f2e648b7a765796722ea7514", "customer": "Megan Stromdahl", "address": "10166 Williams Rd, #1, Chilliwack, BC, V2P 5H4", "start": "2026-05-14T09:00:00-07:00", "end": "2026-05-14T11:00:00-07:00", "date": "2026-05-14", "startMin": 540, "endMin": 660, "crew": ["Karen M", "Nicole D"], "hcp_crew": ["Karen M", "Nicole D"], "tags": "", "is_trainee_pair": false}, {"id": "job_648cedb141d24f98a9077cdfa96fb092", "customer": "Tracy Francis", "address": "6577 Southdowne Pl, #24, Chilliwack, BC, V2R 0H4", "start": "2026-05-13T09:00:00-07:00", "end": "2026-05-13T12:00:00-07:00", "date": "2026-05-13", "startMin": 540, "endMin": 720, "crew": ["Alissa D", "Rytham"], "hcp_crew": ["Alissa D", "Karen M"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_9417adbb187a4f8d82985de22d313b55", "customer": "Chelsea Meyer", "address": "6640 Vedder Rd, #220B, Chilliwack, BC, V2R 0J2", "start": "2026-05-12T17:00:00-07:00", "end": "2026-05-12T19:00:00-07:00", "date": "2026-05-12", "startMin": 1020, "endMin": 1140, "crew": ["Terrie B"], "hcp_crew": ["Terrie B"], "tags": "", "is_trainee_pair": false}, {"id": "job_1caed3d77ae84ce29bf4155918d5eb24", "customer": "Jennifer Mackillican", "address": "6130 Chadsey Rd, #2A, Chilliwack, BC, V2R 4P2", "start": "2026-05-11T18:00:00-07:00", "end": "2026-05-11T20:00:00-07:00", "date": "2026-05-11", "startMin": 1080, "endMin": 1200, "crew": ["Terrie B"], "hcp_crew": ["Terrie B"], "tags": "", "is_trainee_pair": false}, {"id": "job_67d438f8219c49fdb31fdf80654bd8af", "customer": "Dawn Percher", "address": "46622 Chilliwack Central Rd, Chilliwack, BC, V2P 8C5", "start": "2026-05-12T13:30:00-07:00", "end": "2026-05-12T17:00:00-07:00", "date": "2026-05-12", "startMin": 810, "endMin": 1020, "crew": ["April W"], "hcp_crew": ["April W"], "tags": "3.5", "is_trainee_pair": false}, {"id": "job_d744df6cb908403889bc2cf2f2a36897", "customer": "Hank Janzen", "address": "45824 Victoria Ave, #102, Chilliwack, BC, V2P 2T3", "start": "2026-05-12T15:00:00-07:00", "end": "2026-05-12T16:00:00-07:00", "date": "2026-05-12", "startMin": 900, "endMin": 960, "crew": ["Nicole D", "Heidi"], "hcp_crew": ["Nicole D", "Karen M"], "tags": "Heidi DeGrow", "is_trainee_pair": true}, {"id": "job_b49eb4970ae04c2a89dbaca2b0b7825f", "customer": "Jason Woodand", "address": "10175 Caryks Rd, Rosedale, BC, V0X 1X1", "start": "2026-05-12T12:00:00-07:00", "end": "2026-05-12T14:30:00-07:00", "date": "2026-05-12", "startMin": 720, "endMin": 870, "crew": ["Nicole D", "Heidi"], "hcp_crew": ["Nicole D", "Karen M"], "tags": "Heidi DeGrow", "is_trainee_pair": true}, {"id": "job_386c74713f3f49459f28eef156e58d01", "customer": "Tammy Bailey", "address": "44667 Yale Rd, #4, Chilliwack, BC, V2R 4H3", "start": "2026-05-12T19:30:00-07:00", "end": "2026-05-12T21:30:00-07:00", "date": "2026-05-12", "startMin": 1170, "endMin": 1290, "crew": ["Terrie B"], "hcp_crew": ["Terrie B"], "tags": "3", "is_trainee_pair": false}, {"id": "job_aed9f2fc33b54d0faf68f857c4b80cbc", "customer": "Moira Stewart", "address": "8725 Elm Dr, Chilliwack, BC, V2P 4Y3", "start": "2026-05-11T15:00:00-07:00", "end": "2026-05-11T17:30:00-07:00", "date": "2026-05-11", "startMin": 900, "endMin": 1050, "crew": ["Terrie B"], "hcp_crew": ["Terrie B"], "tags": "2.5", "is_trainee_pair": false}, {"id": "job_f984b4ea04784d6e80558fc7b53d0ad3", "customer": "Barbara Friesen", "address": "8750 Young Rd, Chilliwack, BC, V2P 4P4", "start": "2026-05-17T07:00:00-07:00", "end": "2026-05-17T11:00:00-07:00", "date": "2026-05-17", "startMin": 420, "endMin": 660, "crew": ["Amber J"], "hcp_crew": ["Amber J"], "tags": "4", "is_trainee_pair": false}, {"id": "job_f120cdb9eb0842f3a3a022417ad8cc1b", "customer": "Gary Kang", "address": "45966 Yale Rd East, #13, Chilliwack, BC, V2P 2M3", "start": "2026-05-16T09:00:00-07:00", "end": "2026-05-16T11:00:00-07:00", "date": "2026-05-16", "startMin": 540, "endMin": 660, "crew": ["Amber J"], "hcp_crew": ["Amber J"], "tags": "1.5", "is_trainee_pair": false}, {"id": "job_529e3a76303e4d97b1effd576afe418c", "customer": "Anabel Immega", "address": "5623 Teskey Way, #3, Chilliwack, BC, V2R 0K9", "start": "2026-05-14T14:00:00-07:00", "end": "2026-05-14T15:15:00-07:00", "date": "2026-05-14", "startMin": 840, "endMin": 915, "crew": ["April W", "Margret W"], "hcp_crew": ["April W", "Margret W"], "tags": "3", "is_trainee_pair": false}, {"id": "job_94f888d353d445b88a13323690523e07", "customer": "David Williams", "address": "43685 Chilliwack Mountain Rd, #2, Chilliwack, BC, V2R 0X5", "start": "2026-05-13T13:30:00-07:00", "end": "2026-05-13T15:30:00-07:00", "date": "2026-05-13", "startMin": 810, "endMin": 930, "crew": ["Vanessa A"], "hcp_crew": ["Vanessa A"], "tags": "", "is_trainee_pair": false}, {"id": "job_3273597f7d604f62b77f95da0ef1452b", "customer": "Julie Bjorndal", "address": "6919 Gleneden St, Chilliwack, BC, V2R 2T2", "start": "2026-05-13T09:00:00-07:00", "end": "2026-05-13T12:00:00-07:00", "date": "2026-05-13", "startMin": 540, "endMin": 720, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "", "is_trainee_pair": false}, {"id": "job_e16634c681714d2d94b47d632555bf6d", "customer": "Nita Pelletier", "address": "46384 First Ave, Chilliwack, BC, V2P 6Z1", "start": "2026-05-15T09:00:00-07:00", "end": "2026-05-15T12:00:00-07:00", "date": "2026-05-15", "startMin": 540, "endMin": 720, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "3", "is_trainee_pair": false}, {"id": "job_9071f6b9cd0d46998ea7a6a6f099696a", "customer": "Jeni Fowler", "address": "11475 Edmondson Rd, Chilliwack, BC, V4Z 0G1", "start": "2026-05-12T08:30:00-07:00", "end": "2026-05-12T11:30:00-07:00", "date": "2026-05-12", "startMin": 510, "endMin": 690, "crew": ["Nicole D", "Karen C", "Heidi"], "hcp_crew": ["Nicole D", "Karen C", "Karen M"], "tags": "Heidi DeGrow", "is_trainee_pair": true}, {"id": "job_24191eceddb24577be18afb23885d95c", "customer": "Kara Lefurgy", "address": "46060 Camrose Ave, Chilliwack, BC, V2P 3R2", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T11:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 660, "crew": ["Nicole D", "Heidi"], "hcp_crew": ["Nicole D", "Karen M"], "tags": "Heidi DeGrow", "is_trainee_pair": true}, {"id": "job_a3cba1223c664545a82ee807b778bae9", "customer": "Barbara Friesen", "address": "8750 Young Rd, Chilliwack, BC, V2P 4P4", "start": "2026-05-14T18:00:00-07:00", "end": "2026-05-14T22:00:00-07:00", "date": "2026-05-14", "startMin": 1080, "endMin": 1320, "crew": ["Kelly K"], "hcp_crew": ["Kelly K"], "tags": "4", "is_trainee_pair": false}, {"id": "job_acf3fcb60b374a4ca71fba5d3eb313bb", "customer": "Clint Ellis", "address": "5100 Chittenden Rd, Chilliwack, BC, V2R 0K7", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T12:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 720, "crew": ["Alissa D", "Rytham"], "hcp_crew": ["Alissa D", "Karen M"], "tags": "Rhythm Sidhu", "is_trainee_pair": true}, {"id": "job_d20cdf26fb354aba90788ef868305d52", "customer": "Eecol Electric", "address": "46090 Airport Rd, Chilliwack, BC, V2P 1A5", "start": "2026-05-16T11:30:00-07:00", "end": "2026-05-16T13:00:00-07:00", "date": "2026-05-16", "startMin": 690, "endMin": 780, "crew": ["Amber J"], "hcp_crew": ["Amber J"], "tags": "", "is_trainee_pair": false}, {"id": "job_bbd115cb1ecd40859f9681c4ceefcf84", "customer": "Ethel Inglis", "address": "10093 Fairbanks Crescent, Chilliwack, BC, V2P 5M4", "start": "2026-05-14T13:30:00-07:00", "end": "2026-05-14T14:30:00-07:00", "date": "2026-05-14", "startMin": 810, "endMin": 870, "crew": ["Alissa D", "Karen M"], "hcp_crew": ["Alissa D", "Karen M"], "tags": "Customer Portal", "is_trainee_pair": false}, {"id": "job_485cb9c664e045789db56c9c8ac127f7", "customer": "Brent Rossington", "address": "46110 Thomas Rd, #81, Chilliwack, BC, V2R 2R4", "start": "2026-05-12T12:00:00-07:00", "end": "2026-05-12T15:00:00-07:00", "date": "2026-05-12", "startMin": 720, "endMin": 900, "crew": ["Danielle B"], "hcp_crew": ["Danielle B"], "tags": "", "is_trainee_pair": false}, {"id": "job_26b0963ea82845c4858500cb6a280cc9", "customer": "Barbara Friesen", "address": "8750 Young Rd, Chilliwack, BC, V2P 4P4", "start": "2026-05-12T18:00:00-07:00", "end": "2026-05-12T22:00:00-07:00", "date": "2026-05-12", "startMin": 1080, "endMin": 1320, "crew": ["Kelly K"], "hcp_crew": ["Kelly K"], "tags": "4", "is_trainee_pair": false}, {"id": "job_ef4de0b80cc248fdba86d86561254770", "customer": "Mark Blythe", "address": "10132 Bonavista St, Chilliwack, BC, V2P 5B9", "start": "2026-05-12T12:00:00-07:00", "end": "2026-05-12T14:30:00-07:00", "date": "2026-05-12", "startMin": 720, "endMin": 870, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "josie cawston", "is_trainee_pair": false}, {"id": "job_1963493869304e85b6c8005f32fd634b", "customer": "Jessica Steiner Law Corporation", "address": "7491 Vedder Rd , #108, Chilliwack, BC, V2R 6E7", "start": "2026-05-15T16:30:00-07:00", "end": "2026-05-15T18:00:00-07:00", "date": "2026-05-15", "startMin": 990, "endMin": 1080, "crew": ["Amber J"], "hcp_crew": ["Amber J"], "tags": "1.5", "is_trainee_pair": false}, {"id": "job_f05daab7521f410ebfbc4d24c5d07588", "customer": "Dolly and Joe Rosen", "address": "7319 Morrow Rd, #9, Agassiz, BC, V0M 1A2", "start": "2026-05-13T11:30:00-07:00", "end": "2026-05-13T14:30:00-07:00", "date": "2026-05-13", "startMin": 690, "endMin": 870, "crew": ["Nicole D"], "hcp_crew": ["Nicole D"], "tags": "", "is_trainee_pair": false}, {"id": "job_dfa084784b4144f5bc65e08bab70e9ad", "customer": "Jill McLaughlin", "address": "10404 Woodrose Pl, Rosedale, BC, V0X 1X1", "start": "2026-05-13T09:00:00-07:00", "end": "2026-05-13T11:00:00-07:00", "date": "2026-05-13", "startMin": 540, "endMin": 660, "crew": ["Nicole D"], "hcp_crew": ["Nicole D"], "tags": "2", "is_trainee_pair": false}, {"id": "job_d5bae851f8f54685853895cddd790b99", "customer": "Curt Kehler - House 2", "address": "48033 Briteside Rd, Chilliwack, BC, V4Z 1H2", "start": "2026-05-14T09:00:00-07:00", "end": "2026-05-14T12:00:00-07:00", "date": "2026-05-14", "startMin": 540, "endMin": 720, "crew": ["Genevieve O", "Brandi M"], "hcp_crew": ["Genevieve O", "Brandi M"], "tags": "", "is_trainee_pair": false}, {"id": "job_2765b1a32074456aad63b8f25d4a5ae4", "customer": "Jacquie Hickin", "address": "43046 Old Orchard Rd, Chilliwack, BC, V2R 3X2", "start": "2026-05-13T09:00:00-07:00", "end": "2026-05-13T13:00:00-07:00", "date": "2026-05-13", "startMin": 540, "endMin": 780, "crew": ["Vanessa A"], "hcp_crew": ["Vanessa A"], "tags": "", "is_trainee_pair": false}, {"id": "job_a9f0e599596f487d99a8f02762b47333", "customer": "Michael Lloyd-Hayes", "address": "9458 Ashwell Rd, Chilliwack, BC, V2P 1V8", "start": "2026-05-11T11:30:00-07:00", "end": "2026-05-11T13:30:00-07:00", "date": "2026-05-11", "startMin": 690, "endMin": 810, "crew": ["Nicole D", "Heidi"], "hcp_crew": ["Nicole D", "Karen M"], "tags": "Heidi DeGrow", "is_trainee_pair": true}, {"id": "job_320ae99bb767454abfe23d0fa492253c", "customer": "Marjorie Brown", "address": "4665 Wilson Rd, Chilliwack, BC, V2R 5C4", "start": "2026-05-13T12:30:00-07:00", "end": "2026-05-13T15:30:00-07:00", "date": "2026-05-13", "startMin": 750, "endMin": 930, "crew": ["Karen C"], "hcp_crew": ["Karen C"], "tags": "", "is_trainee_pair": false}, {"id": "job_484c4efdec56441ea08d9c54966d4087", "customer": "Ryan Brown", "address": "46211 Promontory Rd, #136, Chilliwack, BC, V2R 0M2", "start": "2026-05-11T09:00:00-07:00", "end": "2026-05-11T12:00:00-07:00", "date": "2026-05-11", "startMin": 540, "endMin": 720, "crew": ["April W", "Margret W"], "hcp_crew": ["April W", "Margret W"], "tags": "", "is_trainee_pair": false}, {"id": "job_b19e3a20fc9546b99646532598d989d4", "customer": "Jenna Braich McRae", "address": "45500 Campus Dr, #21, Chilliwack, BC, V2R 6E9", "start": "2026-05-12T09:00:00-07:00", "end": "2026-05-12T13:00:00-07:00", "date": "2026-05-12", "startMin": 540, "endMin": 780, "crew": ["Genevieve O"], "hcp_crew": ["Genevieve O"], "tags": "", "is_trainee_pair": false}, {"id": "job_ba023e5ed93c41829882382d45bcbc1e", "customer": "Jeff Schulz", "address": "4787 Southside Road, Chilliwack, BC, V2R 4T6", "start": "2026-05-13T12:30:00-07:00", "end": "2026-05-13T15:30:00-07:00", "date": "2026-05-13", "startMin": 750, "endMin": 930, "crew": ["Genevieve O"], "hcp_crew": ["Genevieve O"], "tags": "3", "is_trainee_pair": false}, {"id": "job_ce9706ac91bb413f97c5e8c7bf3bf818", "customer": "Paul Orr", "address": "8809 Tilston St, Chilliwack, BC, V2P 7R6", "start": "2026-05-12T13:30:00-07:00", "end": "2026-05-12T15:30:00-07:00", "date": "2026-05-12", "startMin": 810, "endMin": 930, "crew": ["Genevieve O"], "hcp_crew": ["Genevieve O"], "tags": "", "is_trainee_pair": false}, {"id": "job_91a5f4cebe0e4968ad2e8d806cde09b8", "customer": "Dawna Braun", "address": "10542 Bell Rd, #2, Chilliwack, BC, V2P 8E5", "start": "2026-05-14T12:30:00-07:00", "end": "2026-05-14T14:30:00-07:00", "date": "2026-05-14", "startMin": 750, "endMin": 870, "crew": ["Brandi M", "Holly D"], "hcp_crew": ["Brandi M", "Holly D"], "tags": "", "is_trainee_pair": false}, {"id": "job_8ea22037d46740f79d0f24f8a307c66f", "customer": "H\u00e9l\u00e8ne Brassard", "address": "9344 Woodbine St, #111, Chilliwack, BC, V2P 5S7", "start": "2026-05-13T12:30:00-07:00", "end": "2026-05-13T15:30:00-07:00", "date": "2026-05-13", "startMin": 750, "endMin": 930, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "Gail MacAskill", "is_trainee_pair": false}, {"id": "job_7bfda38c6d8943ef8b5d1979e225259b", "customer": "Strata Plan NW 2891 Mountainview Estates", "address": "46966 Yale Rd, Chilliwack, BC, V2P 2S7", "start": "2026-05-14T15:00:00-07:00", "end": "2026-05-14T17:30:00-07:00", "date": "2026-05-14", "startMin": 900, "endMin": 1050, "crew": ["Terrie B"], "hcp_crew": ["Terrie B"], "tags": "2.5", "is_trainee_pair": false}, {"id": "job_269541f96efe4c1ba9c9beca01ff7ec3", "customer": "Nicole Koehn", "address": "4290 Eckert St, Yarrow, BC, V2R 5J5", "start": "2026-05-13T12:30:00-07:00", "end": "2026-05-13T15:30:00-07:00", "date": "2026-05-13", "startMin": 750, "endMin": 930, "crew": ["April W"], "hcp_crew": ["April W"], "tags": "3", "is_trainee_pair": false}, {"id": "job_3ca78f2b5bd94b32802713d088fc9633", "customer": "Adrienne Joiner", "address": "41803 Majuba Hill Rd, Chilliwack, BC, V2R 5G8", "start": "2026-05-13T09:00:00-07:00", "end": "2026-05-13T12:00:00-07:00", "date": "2026-05-13", "startMin": 540, "endMin": 720, "crew": ["April W"], "hcp_crew": ["April W"], "tags": "3", "is_trainee_pair": false}, {"id": "job_dc4d4baa70904d4baa97b2d33afb4863", "customer": "Rita McGregor", "address": "46511 Chilliwack Lake Rd, #26, Chilliwack, BC, V2R 3S2", "start": "2026-05-15T09:00:00-07:00", "end": "2026-05-15T12:00:00-07:00", "date": "2026-05-15", "startMin": 540, "endMin": 720, "crew": ["April W"], "hcp_crew": ["April W"], "tags": "", "is_trainee_pair": false}, {"id": "job_bfc0b9ef5b95406b8a39890564482e52", "customer": "Harry Mertin", "address": "5384 Tyee Ln, #401, Chilliwack, BC", "start": "2026-05-14T11:45:00-07:00", "end": "2026-05-14T13:45:00-07:00", "date": "2026-05-14", "startMin": 705, "endMin": 825, "crew": ["April W", "Margret W"], "hcp_crew": ["April W", "Margret W"], "tags": "2.5 April, Margaret", "is_trainee_pair": false}, {"id": "job_34e366751a1b4ca2a50b8f0c467056b5", "customer": "Tess MacFadyen", "address": "47572 Mountain Park Dr, Chilliwack, BC, V2P 7P6", "start": "2026-05-14T08:45:00-07:00", "end": "2026-05-14T11:15:00-07:00", "date": "2026-05-14", "startMin": 525, "endMin": 675, "crew": ["April W", "Margret W"], "hcp_crew": ["April W", "Margret W"], "tags": "4.5", "is_trainee_pair": false}, {"id": "job_f4fe8da0ce6b490da15bb62d66da53d9", "customer": "Billy Wells", "address": "45745 Watson Road, #107B, Chilliwack, BC, V2R 6K3", "start": "2026-05-14T12:30:00-07:00", "end": "2026-05-14T15:30:00-07:00", "date": "2026-05-14", "startMin": 750, "endMin": 930, "crew": ["Anna F"], "hcp_crew": ["Anna F"], "tags": "", "is_trainee_pair": false}, {"id": "job_495dbe9089524db49e2d0d4748819d66", "customer": "William MacLean", "address": "8725 Elm Dr, #106, Chilliwack, BC, V2P 4Y3", "start": "2026-05-13T11:30:00-07:00", "end": "2026-05-13T13:30:00-07:00", "date": "2026-05-13", "startMin": 690, "endMin": 810, "crew": ["Danielle B"], "hcp_crew": ["Danielle B"], "tags": "", "is_trainee_pair": false}, {"id": "job_d50dfe5b68e2498abb0661bed8a057b0", "customer": "ruby and angelica phind/ koziok", "address": "45389 Luckakuck Way, #101, Chilliwack, BC, V2R3V1", "start": "2026-05-14T17:30:00-07:00", "end": "2026-05-14T19:00:00-07:00", "date": "2026-05-14", "startMin": 1050, "endMin": 1140, "crew": ["Kelly K"], "hcp_crew": ["Kelly K"], "tags": "1", "is_trainee_pair": false}, {"id": "job_160bccf641ec4b0082ab99ab192021d0", "customer": "ruby and angelica phind/ koziok", "address": "45389 Luckakuck Way, #101, Chilliwack, BC, V2R3V1", "start": "2026-05-12T17:30:00-07:00", "end": "2026-05-12T19:00:00-07:00", "date": "2026-05-12", "startMin": 1050, "endMin": 1140, "crew": ["Kelly K"], "hcp_crew": ["Kelly K"], "tags": "1", "is_trainee_pair": false}, {"id": "job_01d641040a6840778411130c0ad88e55", "customer": "Kathy Brown", "address": "46110 Thomas Rd, #72, Chilliwack, BC, V2R 2R4", "start": "2026-05-12T09:00:00-07:00", "end": "2026-05-12T11:30:00-07:00", "date": "2026-05-12", "startMin": 540, "endMin": 690, "crew": ["Danielle B"], "hcp_crew": ["Danielle B"], "tags": "lisa Fergusen", "is_trainee_pair": false}];
+const CLEANERS = ["Alissa D", "Amber J", "Anna F", "April W", "Brandi M", "Cathy W", "Danielle B", "Genevieve O", "Heidi", "Holly D", "Karen C", "Karen M", "Kelly K", "Kristen K", "Lada", "Margret W", "Nicole D", "Nikki S", "Rytham", "Terrie B", "Vanessa A"];
+const COLORS = {"Alissa D": "#e85d75", "Amber J": "#f0a830", "Anna F": "#7ed957", "April W": "#8b5cf6", "Brandi M": "#06b6d4", "Cathy W": "#f97316", "Danielle B": "#ec4899", "Genevieve O": "#14b8a6", "Heidi": "#84cc16", "Holly D": "#a78bfa", "Karen C": "#f59e0b", "Karen M": "#3b82f6", "Kelly K": "#ef4444", "Kristen K": "#a3a3a3", "Lada": "#fbbf24", "Margret W": "#c084fc", "Nicole D": "#22d3ee", "Nikki S": "#fb923c", "Rebecca D": "#10b981", "Rytham": "#65a30d", "Terrie B": "#dc2626", "Vanessa A": "#d946ef"};
+const TRAINEES = ['Rytham','Heidi','Lada'];
+
+const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAY_START_MIN = 8 * 60;
+const DAY_END_MIN = 22 * 60;
+const PX_PER_MIN = 1.0;
+
+let cleanerFilter = 'ALL';
+let rangeFilter = 'WEEK';
+
+function fmtTime(min) {
+  let h = Math.floor(min / 60), m = min % 60;
+  const am = h < 12;
+  if (h === 0) h = 12; else if (h > 12) h -= 12;
+  return h + (m ? ':' + m.toString().padStart(2,'0') : '') + (am ? 'a' : 'p');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
+
+function getColor(crewArr) {
+  if (!crewArr || crewArr.length === 0) return '#5a6b7d';
+  const lead = crewArr.find(c => !TRAINEES.includes(c)) || crewArr[0];
+  return COLORS[lead] || '#5a6b7d';
+}
+
+function buildSummary() {
+  const rytham = JOBS.filter(j => j.crew.includes('Rytham')).length;
+  const heidi = JOBS.filter(j => j.crew.includes('Heidi')).length;
+  const lada = JOBS.filter(j => j.crew.includes('Lada')).length;
+  const trainees = JOBS.filter(j => j.is_trainee_pair).length;
+  document.getElementById('summary').innerHTML = `
+    <div class="stat"><div class="stat-label">Total Jobs</div><div class="stat-value">${JOBS.length}<span class="small"> this week</span></div></div>
+    <div class="stat"><div class="stat-label">Trainee Pairs</div><div class="stat-value" style="color:var(--trainee)">${trainees}<span class="small"> jobs</span></div></div>
+    <div class="stat"><div class="stat-label">Rytham</div><div class="stat-value" style="color:${COLORS['Rytham']}">${rytham}<span class="small"> jobs</span></div></div>
+    <div class="stat"><div class="stat-label">Heidi</div><div class="stat-value" style="color:${COLORS['Heidi']}">${heidi}<span class="small"> jobs</span></div></div>
+    <div class="stat"><div class="stat-label">Lada</div><div class="stat-value" style="color:${COLORS['Lada']}">${lada}<span class="small"> jobs</span></div></div>
+  `;
+}
+
+function buildCleanerButtons() {
+  const ordered = [...TRAINEES.filter(c => CLEANERS.includes(c)), ...CLEANERS.filter(c => !TRAINEES.includes(c))];
+  document.getElementById('cleaner-buttons').innerHTML = ordered.map(c => {
+    const traineeCls = TRAINEES.includes(c) ? ' trainee-btn' : '';
+    const color = COLORS[c] || '#7ba7c9';
+    return `<button class="btn btn-cleaner${traineeCls}" data-cleaner="${c}" style="--c:${color}">${c}</button>`;
+  }).join('');
+  document.querySelectorAll('.btn[data-cleaner]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      cleanerFilter = btn.dataset.cleaner;
+      document.querySelectorAll('.btn[data-cleaner]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
+  });
+}
+
+function buildDayButtons() {
+  const days = [];
+  const start = new Date('2026-05-11T00:00:00');
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start); d.setDate(d.getDate() + i); days.push(d);
+  }
+  document.getElementById('day-buttons').innerHTML = days.map(d => {
+    const dateStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const dayName = DAY_NAMES[d.getDay()];
+    return `<button class="btn btn-day btn-range" data-range="${dateStr}"><span class="day-label">${dayName}</span><span class="day-num">${d.getDate()}</span></button>`;
+  }).join('');
+  document.querySelectorAll('.btn[data-range]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      rangeFilter = btn.dataset.range;
+      document.querySelectorAll('.btn[data-range]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
+  });
+}
+
+function buildDayColumn(date, dayJobs) {
+  const totalMin = DAY_END_MIN - DAY_START_MIN;
+  const totalH = totalMin * PX_PER_MIN;
+  const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+  
+  let html = `<div class="day-col ${isWeekend ? 'weekend' : ''}" style="height:${totalH}px">`;
+  for (let h = DAY_START_MIN; h <= DAY_END_MIN; h += 30) {
+    const top = (h - DAY_START_MIN) * PX_PER_MIN;
+    html += `<div class="${h % 60 === 0 ? 'hour-line' : 'half-line'}" style="top:${top}px"></div>`;
+  }
+  
+  const sorted = [...dayJobs].sort((a,b) => a.startMin - b.startMin);
+  const positioned = sorted.map(j => ({...j, _col: 0, _cols: 1}));
+  for (let i = 0; i < positioned.length; i++) {
+    for (let k = 0; k < i; k++) {
+      if (positioned[k].endMin > positioned[i].startMin && positioned[k].startMin < positioned[i].endMin) {
+        positioned[i]._col = positioned[k]._col + 1;
+        positioned[i]._cols = Math.max(positioned[i]._cols, positioned[i]._col + 1);
+        for (let m = 0; m <= k; m++) {
+          if (positioned[m].endMin > positioned[i].startMin) {
+            positioned[m]._cols = Math.max(positioned[m]._cols, positioned[i]._col + 1);
+          }
+        }
+      }
+    }
+  }
+  
+  positioned.forEach(j => {
+    const top = (j.startMin - DAY_START_MIN) * PX_PER_MIN;
+    const height = (j.endMin - j.startMin) * PX_PER_MIN - 2;
+    const widthPct = 100 / j._cols;
+    const leftPct = j._col * widthPct;
+    const color = getColor(j.crew);
+    const cls = 'job' + (j.is_trainee_pair ? ' trainee' : '');
+    const crewStr = j.crew.join(', ');
+    
+    html += `<div class="${cls}" style="--c:${color};top:${top}px;height:${height}px;left:calc(${leftPct}% + 3px);width:calc(${widthPct}% - 6px)" 
+      data-tooltip='${escapeHtml(JSON.stringify({
+        customer: j.customer, time: fmtTime(j.startMin) + ' – ' + fmtTime(j.endMin),
+        crew: crewStr, hcp_crew: j.hcp_crew.join(', '), tags: j.tags, address: j.address,
+        is_trainee_pair: j.is_trainee_pair
+      }))}'>
+      <div class="job-time">${fmtTime(j.startMin)}–${fmtTime(j.endMin)}</div>
+      <div class="job-customer">${escapeHtml(j.customer)}</div>
+      <div class="job-crew">${escapeHtml(crewStr)}</div>
+    </div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function buildWeekHeader(days) {
+  let html = '<div class="cal-header">&nbsp;</div>';
+  days.forEach(d => {
+    const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+    const dayName = DAY_NAMES[d.getDay()];
+    html += `<div class="cal-header${isWeekend ? ' weekend' : ''}">${dayName}<span class="date-num">${d.getDate()}</span></div>`;
+  });
+  return html;
+}
+
+function buildTimeColumn() {
+  const totalH = (DAY_END_MIN - DAY_START_MIN) * PX_PER_MIN;
+  let html = `<div class="time-col" style="height:${totalH}px">`;
+  for (let h = DAY_START_MIN; h <= DAY_END_MIN; h += 60) {
+    html += `<div class="time-label" style="top:${(h - DAY_START_MIN) * PX_PER_MIN}px">${fmtTime(h)}</div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function filterJobsByCleaner(jobs) {
+  if (cleanerFilter === 'ALL') return jobs;
+  return jobs.filter(j => j.crew.includes(cleanerFilter));
+}
+
+function render() {
+  const container = document.getElementById('cal-container');
+  const filtered = filterJobsByCleaner(JOBS);
+  
+  if (rangeFilter && rangeFilter.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    const date = new Date(rangeFilter + 'T00:00:00');
+    const dayJobs = filtered.filter(j => j.date === rangeFilter);
+    const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    let html = `<div style="margin-bottom:8px;color:var(--accent-2);font-family:Georgia,serif;font-size:15px;">
+      ${dateStr} · ${dayJobs.length} job${dayJobs.length === 1 ? '' : 's'}${cleanerFilter !== 'ALL' ? ' · ' + cleanerFilter : ''}
+    </div>
+    <div class="calendar day-view">${buildWeekHeader([date])}${buildTimeColumn()}${buildDayColumn(date, dayJobs)}</div>`;
+    container.innerHTML = html;
+    attachTooltips();
+    return;
+  }
+  
+  const startDate = new Date('2026-05-11T00:00:00');
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(startDate); d.setDate(d.getDate() + i); days.push(d);
+  }
+  const stats = cleanerFilter !== 'ALL' ? `${cleanerFilter} · ${filtered.length} job${filtered.length === 1 ? '' : 's'}` : `${filtered.length} jobs total`;
+  let html = `<div style="margin-bottom:8px;color:var(--accent-2);font-family:Georgia,serif;font-size:15px;display:flex;justify-content:space-between;">
+    <span>Full Week</span><span style="font-size:12px;color:var(--text-dim);font-family:Inter;">${stats}</span>
+  </div>
+  <div class="calendar week">${buildWeekHeader(days)}${buildTimeColumn()}`;
+  days.forEach(d => {
+    const dateStr = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    const dayJobs = filtered.filter(j => j.date === dateStr);
+    html += buildDayColumn(d, dayJobs);
+  });
+  html += `</div>`;
+  container.innerHTML = html;
+  attachTooltips();
+}
+
+function attachTooltips() {
+  const tooltip = document.getElementById('tooltip');
+  document.querySelectorAll('.job').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      const data = JSON.parse(el.dataset.tooltip);
+      const traineeFlag = data.is_trainee_pair ? '<span style="background:#84cc16;color:#0a0e13;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600">TRAINEE/CONTRACTOR</span><br>' : '';
+      const hcpRow = data.hcp_crew !== data.crew ? `<div class="tt-label" style="margin-top:6px">HCP shows:</div>${escapeHtml(data.hcp_crew)}<br>` : '';
+      const tagRow = data.tags ? `<div class="tt-label" style="margin-top:6px">HCP tag:</div>${escapeHtml(data.tags)}<br>` : '';
+      tooltip.innerHTML = `${traineeFlag}<strong>${escapeHtml(data.customer)}</strong><br>
+        <div class="tt-label" style="margin-top:4px">Time:</div>${escapeHtml(data.time)}<br>
+        <div class="tt-label" style="margin-top:6px">Real crew:</div>${escapeHtml(data.crew)}<br>
+        ${hcpRow}${tagRow}
+        <div class="tt-label" style="margin-top:6px">Address:</div>${escapeHtml(data.address || '(none)')}`;
+      tooltip.style.display = 'block';
+    });
+    el.addEventListener('mousemove', (e) => {
+      const r = tooltip.getBoundingClientRect();
+      let x = e.clientX + 12, y = e.clientY + 12;
+      if (x + r.width > window.innerWidth) x = e.clientX - r.width - 12;
+      if (y + r.height > window.innerHeight) y = e.clientY - r.height - 12;
+      tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+    });
+    el.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+  });
+}
+
+buildSummary();
+buildCleanerButtons();
+buildDayButtons();
+render();
+</script>
+</body>
+</html>
