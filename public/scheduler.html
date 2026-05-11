@@ -184,6 +184,24 @@ function getJobColor(crew) {
   return CLEANER_COLORS[lead] || '#5a6b7d';
 }
 
+// Ensure a job has the fields the UI expects. Loaded scenarios or partial HCP records
+// might have nulls; normalize defensively so renders don't blow up.
+function normalizeJob(j) {
+  return {
+    id: j.id || `job_${Math.random().toString(36).slice(2)}`,
+    customer: j.customer || '(unknown customer)',
+    address: j.address || '',
+    notes: j.notes || '',
+    invoiceNumber: j.invoiceNumber || '',
+    start: j.start || null,
+    end: j.end || null,
+    hcpCrew: Array.isArray(j.hcpCrew) ? j.hcpCrew : [],
+    crew: Array.isArray(j.crew) ? j.crew : [],
+    tags: j.tags || '',
+    isTraineePair: !!j.isTraineePair,
+  };
+}
+
 function detectConflicts(jobs) {
   // For each cleaner, find overlapping jobs on the same day
   const conflicts = [];
@@ -300,7 +318,7 @@ function App() {
       endDate.setDate(endDate.getDate() + 6);
       const end = isoDate(endDate);
       const data = await fetchHcpData(start, end);
-      setJobs(data.jobs);
+      setJobs((data.jobs || []).map(normalizeJob));
       setPulledAt(data.pulled_at);
       setCurrentScenarioName(null);
     } catch (e) {
@@ -375,7 +393,7 @@ function App() {
   const handleLoadScenario = async (name) => {
     try {
       const data = await loadScenario(name);
-      setJobs(data.jobs || []);
+      setJobs((data.jobs || []).map(normalizeJob));
       setWeekStart(data.weekStart || weekStart);
       setCurrentScenarioName(name);
       setPulledAt(data.savedAt);
@@ -630,8 +648,8 @@ function CalendarView({ jobs, days, conflictJobIds, onJobClick, dayFilter }) {
         onClick: () => onJobClick(j),
       },
         h('div', { className: 'job-time' }, fmtTime(j.startMin), '-', fmtTime(j.endMin)),
-        h('div', { className: 'job-customer' }, j.customer),
-        h('div', { className: 'job-crew' }, j.crew.join(', '))
+        h('div', { className: 'job-customer' }, j.customer || '(no name)'),
+        h('div', { className: 'job-crew' }, Array.isArray(j.crew) ? j.crew.join(', ') : '')
       );
     });
 
@@ -661,7 +679,10 @@ function CalendarView({ jobs, days, conflictJobIds, onJobClick, dayFilter }) {
 }
 
 function JobModal({ job, onClose, onUpdate, allCleaners }) {
-  const [editedCrew, setEditedCrew] = useState(job.crew.join(', '));
+  // Defensive: jobs may have missing fields. Normalize before render.
+  const safeCrew = Array.isArray(job.crew) ? job.crew : [];
+  const safeHcpCrew = Array.isArray(job.hcpCrew) ? job.hcpCrew : [];
+  const [editedCrew, setEditedCrew] = useState(safeCrew.join(', '));
 
   const handleSave = () => {
     const newCrew = editedCrew.split(',').map(s => s.trim()).filter(Boolean);
@@ -670,10 +691,10 @@ function JobModal({ job, onClose, onUpdate, allCleaners }) {
 
   return h('div', { className: 'modal-backdrop', onClick: onClose },
     h('div', { className: 'modal', onClick: (e) => e.stopPropagation() },
-      h('div', { className: 'modal-title' }, job.customer),
+      h('div', { className: 'modal-title' }, job.customer || '(no customer name)'),
       h('div', { className: 'modal-row' },
         h('span', { className: 'label' }, 'Time'),
-        h('span', { className: 'value' }, job.start && new Date(job.start).toLocaleString())
+        h('span', { className: 'value' }, job.start ? new Date(job.start).toLocaleString() : '—')
       ),
       h('div', { className: 'modal-row' },
         h('span', { className: 'label' }, 'Address'),
@@ -681,7 +702,7 @@ function JobModal({ job, onClose, onUpdate, allCleaners }) {
       ),
       h('div', { className: 'modal-row' },
         h('span', { className: 'label' }, 'HCP crew'),
-        h('span', { className: 'value' }, job.hcpCrew.join(', ') || '—')
+        h('span', { className: 'value' }, safeHcpCrew.length ? safeHcpCrew.join(', ') : '—')
       ),
       job.tags && h('div', { className: 'modal-row' },
         h('span', { className: 'label' }, 'HCP tag'),
