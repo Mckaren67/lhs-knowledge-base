@@ -283,6 +283,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [cleanerFilter, setCleanerFilter] = useState('ALL');
+  const [dayFilter, setDayFilter] = useState('WEEK');
   const [selectedJob, setSelectedJob] = useState(null);
   const [scenarios, setScenarios] = useState([]);
   const [currentScenarioName, setCurrentScenarioName] = useState(null);
@@ -465,6 +466,26 @@ function App() {
         }, '✓ Approve for Aria'),
       ),
       h('div', { className: 'toolbar-row' },
+        h('span', { className: 'toolbar-label' }, 'View'),
+        h('button', {
+          className: 'btn' + (dayFilter === 'WEEK' ? ' active' : ''),
+          onClick: () => setDayFilter('WEEK')
+        }, 'Full Week'),
+        h('span', { className: 'spacer' }, '·'),
+        h('span', { className: 'toolbar-label' }, 'Day'),
+        ...days.map((d, idx) => {
+          const dateStr = isoDate(d);
+          const dayName = DAY_NAMES[d.getDay()];
+          const isActive = dayFilter === dateStr;
+          return h('button', {
+            key: dateStr,
+            className: 'btn' + (isActive ? ' active' : ''),
+            onClick: () => setDayFilter(dateStr),
+            style: { fontVariantNumeric: 'tabular-nums', minWidth: '52px' }
+          }, h('span', { style: { fontWeight: 600 } }, dayName), ' ', d.getDate());
+        })
+      ),
+      h('div', { className: 'toolbar-row' },
         h('span', { className: 'toolbar-label' }, 'Filter'),
         h('button', {
           className: 'btn' + (cleanerFilter === 'ALL' ? ' active' : ''),
@@ -495,7 +516,7 @@ function App() {
 
     // Calendar
     h(CalendarView, {
-      jobs: visibleJobs, days, conflictJobIds, onJobClick: setSelectedJob
+      jobs: visibleJobs, days, conflictJobIds, onJobClick: setSelectedJob, dayFilter
     }),
 
     // Job detail modal
@@ -527,7 +548,15 @@ function App() {
   );
 }
 
-function CalendarView({ jobs, days, conflictJobIds, onJobClick }) {
+function CalendarView({ jobs, days, conflictJobIds, onJobClick, dayFilter }) {
+  // If dayFilter is a specific date, narrow days to just that one
+  const visibleDays = useMemo(() => {
+    if (dayFilter && dayFilter !== 'WEEK') {
+      return days.filter(d => isoDate(d) === dayFilter);
+    }
+    return days;
+  }, [days, dayFilter]);
+
   const totalMin = DAY_END_MIN - DAY_START_MIN;
   const totalH = totalMin * PX_PER_MIN;
 
@@ -544,7 +573,7 @@ function CalendarView({ jobs, days, conflictJobIds, onJobClick }) {
   );
 
   // Day columns
-  const dayCols = days.map((d, idx) => {
+  const dayCols = visibleDays.map((d, idx) => {
     const dateStr = isoDate(d);
     const isWeekend = d.getDay() === 0 || d.getDay() === 6;
     const dayJobs = jobs.filter(j => {
@@ -615,7 +644,7 @@ function CalendarView({ jobs, days, conflictJobIds, onJobClick }) {
 
   // Headers
   const headers = [h('div', { key: 'h0', className: 'cal-header' }, ' ')];
-  days.forEach((d, i) => {
+  visibleDays.forEach((d, i) => {
     const isWeekend = d.getDay() === 0 || d.getDay() === 6;
     headers.push(h('div', {
       key: 'h' + i,
@@ -623,7 +652,12 @@ function CalendarView({ jobs, days, conflictJobIds, onJobClick }) {
     }, DAY_NAMES[d.getDay()], h('span', { className: 'date-num' }, d.getDate())));
   });
 
-  return h('div', { className: 'calendar' }, ...headers, timeCol, ...dayCols);
+  // Adjust grid template based on visible day count
+  const gridStyle = {
+    gridTemplateColumns: `50px repeat(${visibleDays.length}, 1fr)`,
+  };
+
+  return h('div', { className: 'calendar', style: gridStyle }, ...headers, timeCol, ...dayCols);
 }
 
 function JobModal({ job, onClose, onUpdate, allCleaners }) {
